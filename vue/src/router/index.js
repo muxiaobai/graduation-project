@@ -30,6 +30,9 @@ export default new Router({
       path: '/goodslist',
       name: 'goodslist',
       component: GoodsList
+    },
+    {
+      path: '/services/api/'  
     }
   ]
 })

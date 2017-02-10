@@ -18,7 +18,18 @@ export default {
   },
    methods: {
     handleClick: function() {
-      this.$toast('Hello world!')
+      this.$toast('Hello world!');
+      this.$http.get('/services/db/init.json').then((response) => {
+          alert(1);
+          alert(response.body);
+      }, (response) => {
+          // error callback
+      });
+      this.$http.jsonp('http://jsfiddle.net/echo/jsonp/').then(response => {
+        console.log(response.body);
+      }, response => {
+        alert("error");
+      });
     }
   }
 }
