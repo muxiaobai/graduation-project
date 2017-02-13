@@ -5,10 +5,10 @@
   </el-row>
   <el-row class="main-center">
     <el-col :span="4">
-      <Menu></Menu>
+      <Menu ></Menu>
     </el-col>
     <el-col :span="20">
-      <Center></Center>
+      <Center :bind="menupath"></Center>
     </el-col>
   </el-row>
 </div>

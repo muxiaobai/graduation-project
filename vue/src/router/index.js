@@ -5,7 +5,7 @@ import Main from 'components/Main'
 import Goods from 'components/showgoods/Goods'
 import GoodsList from 'components/showgoods/GoodsList'
 import Login from 'components/login/Login'
-
+import GoodsEdit from 'components/showgoods/GoodsEdit'
 Vue.use(Router)
 
 export default new Router({
@@ -13,33 +13,55 @@ export default new Router({
     {
       path: '/',
       name: 'Hello',
-      component: Hello
+      component: Hello,
+      hidden: true
     },
     {
       path: '/main',
       name: 'main',
-      component: Main
+      component: Main,
+      hidden: true
     },
     {
       path: '/showgoods/:id',
       name: 'goods',
-      component: Goods
-    
+      component: Goods,
+      hidden: true
     },
     {
-      path: '/goodslist',
-      name: 'goodslist',
-      component: GoodsList
+      path: '/',
+      name: '商品管理',
+      component: GoodsList,
+      icon: "el-icon-menu",
+      children: [
+        {path:'/hello',name: 'Hello',component:Hello},
+        {path:'/hello',name: 'Hello2',component:Hello},
+        {path:'/loginchild',name: 'loginchild',component:Login},
+        
+        ]
+    },
+    {
+      path: '/',
+      name: '其他管理',
+      component: GoodsList,
+      icon: "el-icon-menu",
+      children: [
+        {path:'/hello',name: 'Hello',component:Hello},
+        {path:'/hello',name: 'Hello2',component:Hello},
+        {path:'/loginchild',name: 'loginchild',component:Login},
+        
+        ] 
     },
     {
       path: '/login',
       name: 'login',
-      component:Login
+      component:Login,
+      hidden:true
     },
     {
       path: '/services/api/',
       name: '',
-      
+      hidden:true
     }
   ]
 })
