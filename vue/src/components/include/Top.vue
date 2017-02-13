@@ -48,7 +48,7 @@ export default {
 </script>
 <style scoped>
 	.logout {
-		background: url(../../assets/img/logout_36.png);
+		background: url(/assets/img/logout_36.png);
 		background-size: contain;
 		width: 20px;
 		height: 20px;
@@ -73,6 +73,22 @@ export default {
 		border-radius: 20px;
 		margin: 10px 0px 10px 10px;
 		float: right;
+	}
+	
+	.logo {
+		width: 40px;
+		float: left;
+		margin: 10px 10px 10px 18px;
+	}
+	
+	.tip-logout {
+		float: right;
+		margin-right: 20px;
+		padding-top: 5px;
+	}
+	
+	.tip-logout i {
+		cursor: pointer;
 	}
 		
 </style>

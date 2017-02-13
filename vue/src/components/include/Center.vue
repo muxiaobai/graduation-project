@@ -1,7 +1,7 @@
 <template>
 
 
-<section class="panel-c-c">
+<section class="center">
 	<div class="grid-content bg-purple-light">
 		<el-col :span="24" style="margin-bottom:15px;">
 			<strong style="width:200px;float:left;color: #475669;">{{$route.name}}</strong>
@@ -20,3 +20,17 @@
 </section>
 
 </template>
+
+
+<style>
+.center {
+	background: #f1f2f7;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	left: 230px;
+	overflow-y: scroll;
+	padding: 20px;
+}
+</style>

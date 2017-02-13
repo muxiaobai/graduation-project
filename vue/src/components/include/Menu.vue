@@ -1,7 +1,7 @@
 <template>
 
-
 <aside style="width:230px;">
+	    <h1 style="background-color:#fff"></h1>
 	<el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
 		theme="dark" unique-opened router>
 		<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
@@ -13,5 +13,27 @@
 		</template>
 	</el-menu>
 </aside>
-
 </template>
+<script>
+export default {
+
+		methods: {
+			onSubmit() {
+				console.log('submit!');
+			},
+			handleopen() {
+				console.log('handleopen');
+			},
+			handleclose() {
+				console.log('handleclose');
+			},
+			handleselect: function (a, b) {
+			}
+		}
+}
+
+</script>
+
+<style>
+
+</style>
