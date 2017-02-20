@@ -6,6 +6,7 @@ import Goods from 'components/showgoods/Goods'
 import GoodsList from 'components/showgoods/GoodsList'
 import Login from 'components/login/Login'
 import GoodsEdit from 'components/showgoods/GoodsEdit'
+import Test from 'components/Test'
 Vue.use(Router)
 
 export default new Router({
@@ -32,19 +33,19 @@ export default new Router({
       path: '/',
       name: '商品管理',
       component: GoodsList,
-      icon: "el-icon-menu",
+      iconCls: "el-icon-menu",
       children: [
         {path:'/hello',name: 'Hello',component:Hello},
         {path:'/hello',name: 'Hello2',component:Hello},
         {path:'/loginchild',name: 'loginchild',component:Login},
-        
+        {path:'/test',name:'测试',component:Test}
         ]
     },
     {
       path: '/',
       name: '其他管理',
       component: GoodsList,
-      icon: "el-icon-menu",
+      iconCls: "el-icon-message",
       children: [
         {path:'/hello',name: 'Hello',component:Hello},
         {path:'/hello',name: 'Hello2',component:Hello},

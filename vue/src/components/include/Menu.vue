@@ -26,6 +26,11 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            routesub:'11'
+        }
+    },
     methods: {
     	onSubmit() {
     		console.log('submit!');
@@ -37,7 +42,10 @@ export default {
     		console.log('handleclose');
     	},
     	handleselect: function (a, b) {
-    	    console.log(a);
+    	 //   console.log(a);
+    	    this.routesub = a;
+    	    this.$emit('routeData',this.a);
+    	    console.log(this.$emit('routeData'));
     	}
     }
 }

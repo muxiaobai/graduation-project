@@ -5,11 +5,15 @@
   </el-row>
   <el-row class="main-center">
     <el-col :span="4">
-      <Menu ></Menu>
+      <Menu @routeData = 'handleselect'></Menu>
     </el-col>
     <el-col :span="20">
-      <Center :bind="menupath"></Center>
+      <Center :routeData="msg"></Center>
+     
     </el-col>
+  </el-row>
+   <el-row>
+     {{msg}}
   </el-row>
 </div>
 
@@ -29,7 +33,14 @@ export default {
   },
   data: function() {  
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+    }
+  },
+  props: ['routeData'],
+  methods: {
+    handleselect(sub) {
+      this.msg = sub;
+      console.log(this.msg);
     }
   }
 }

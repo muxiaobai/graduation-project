@@ -3,7 +3,7 @@
   <el-row>
     	<el-col :span="20" class="top-left">
   			<el-col :span="20" style="font-size:26px;">
-  				<img src="../../assets/img/logo4.png" class="logo"> <span>AD<i style="color:#20a0ff">MIN</i>
+  				<router-link :to="{ name: 'main' }"><img src="../../assets/img/logo4.png" class="logo"> <span>AD<i style="color:#20a0ff">MIN</i></router-link>
   </span>
   			</el-col>
   			<el-col :span="4" class="top-right">
