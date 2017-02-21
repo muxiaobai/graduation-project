@@ -9,12 +9,11 @@
     </el-col>
     <el-col :span="20">
       <Center :routeData="msg"></Center>
-     
     </el-col>
   </el-row>
    <el-row>
-     {{msg}}
-  </el-row>
+    footer
+   </el-row>
 </div>
 
 </template>
@@ -33,11 +32,11 @@ export default {
   },
   data: function() {  
     return {
-      msg: 'Welcome to Your Vue.js App',
+      msg: 'Main App',
     }
   },
   props: ['routeData'],
-  methods: {
+  methods: {  
     handleselect(sub) {
       this.msg = sub;
       console.log(this.msg);
