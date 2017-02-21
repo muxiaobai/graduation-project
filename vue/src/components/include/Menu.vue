@@ -1,5 +1,5 @@
 <template>
-<aside >
+
     <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" theme="dark" unique-opened router>
         <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
             <el-submenu :index="index+''" v-if="!item.leaf">
@@ -21,7 +21,7 @@
             </el-menu-item>
         </template>
     </el-menu>
-</aside>
+
 </template>
 <script>
 export default {

@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from 'components/Hello'
 import Main from 'components/Main'
-import Goods from 'components/showgoods/Goods'
-import GoodsList from 'components/showgoods/GoodsList'
+import OrderList from 'components/center/OrderList'
+import GoodsList from 'components/center/GoodsList'
+import UserList from 'components/center/UserList'
 import Login from 'components/login/Login'
-import GoodsEdit from 'components/showgoods/GoodsEdit'
 import Test from 'components/Test'
 import Temp from 'components/Temp'
 
@@ -28,18 +28,18 @@ export default new Router({
     {
       path: '/showgoods/:id',
       name: 'goods',
-      component: Goods,
+      component: GoodsList,
       hidden: true
     },
     {
       path: '/',
-      name: '商品管理',
+      name: '管理',
       component: Main,
       iconCls: "el-icon-menu",
       children: [
-        {path:'goodslist',name:'商品列表',component:GoodsList},
-        {path:'hello',name: 'Hello',component:Hello},
-        {path:'temp',name: '模板',component:Temp}
+        {path:'goodslist',name:'商品管理',component:GoodsList},
+        {path:'orderlist',name: '订单管理',component:OrderList},
+        {path:'userlist',name: '用户管理',component:UserList}
         ]
     },
      {

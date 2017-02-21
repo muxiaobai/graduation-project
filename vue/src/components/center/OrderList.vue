@@ -53,7 +53,40 @@
 </el-col>
 
 
+<!--编辑界面-->
+<el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
+	<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+		<el-form-item label="姓名" prop="name">
+			<el-input v-model="editForm.name" auto-complete="off"></el-input>
+		</el-form-item>
+		<el-form-item label="性别">
+			<!--<el-select v-model="editForm.sex" placeholder="请选择性别">
+						<el-option label="男" :value="1"></el-option>
+						<el-option label="女" :value="0"></el-option>
+					</el-select>-->
+			<el-radio-group v-model="editForm.sex">
+				<el-radio class="radio" :label="1">男</el-radio>
+				<el-radio class="radio" :label="0">女</el-radio>
+			</el-radio-group>
+		</el-form-item>
+		<el-form-item label="年龄">
+			<el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
+		</el-form-item>
+		<el-form-item label="生日">
+			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
+		</el-form-item>
+		<el-form-item label="地址">
+			<el-input type="textarea" v-model="editForm.addr"></el-input>
+		</el-form-item>
+	</el-form>
+	<div slot="footer" class="dialog-footer">
+		<el-button @click.native="editFormVisible = false">取 消</el-button>
+		<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{btnEditText}}</el-button>
+	</div>
+</el-dialog>
+
 </section>
+
 </template>
 
 <script>
@@ -102,6 +135,7 @@ export default {
     formatSex: function(row,column) {
       	return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
     },
+    //CRUD
     getUsers:function() {
       console.log("user"+this.filters.name);
       let para = {
@@ -117,21 +151,42 @@ export default {
       return 
     },
     handleAdd : function() {
-      console.log("add")
-    },
-    handleEdit: function(row) {
-        console.log(row+"edit")
+      this.editFormVisible= true;
+      this.editFormTtile = '新增';
+    	this.editForm.id = 0;//重置参数
+			this.editForm.name = '';
+			this.editForm.sex = 1;
+			this.editForm.age = 0;
+			this.editForm.birth = '';
+			this.editForm.addr = '';
     },
     handleDel: function(row) {
       console.log(row+"del")
     },
+    handleEdit: function(row) {
+        this.editFormVisible= true;
+        this.editFormTtile = '编辑';
+				this.editForm.id = row.id;
+				this.editForm.name = row.name;
+				this.editForm.sex = row.sex;
+				this.editForm.age = row.age;
+				this.editForm.birth = row.birth;
+				this.editForm.addr = row.addr;
+    },
+    editSubmit: function(){
+      
+    },
+    
     //分页有关的两个方法
     handleCurrentChange: function(val){
       console.log(val);
     },
     handleSizeChange: function(val) {
       console.log(val);
-    }
+    },
+    mounted: function() {
+			this.getUsers();
+		}
     
   }
 }
