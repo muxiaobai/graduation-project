@@ -5,10 +5,10 @@
   </el-row>
   <el-row class="main-center">
     <el-col :span="4">
-      <Menu @routeData = 'handleselect'></Menu>
+      <VueMenu ></VueMenu>
     </el-col>
     <el-col :span="20">
-      <Center :routeData="msg"></Center>
+      <Center :routeData ="msg"></Center>
     </el-col>
   </el-row>
    <el-row>
@@ -20,14 +20,14 @@
 
 <script>
 import Top from './include/Top'
-import Menu from './include/Menu'
+import VueMenu from './include/Menu'
 import Center from './include/Center'
 
 export default {
   name: 'hello',
   components: {
      Top,
-     Menu,
+     VueMenu,
      Center
   },
   data: function() {  
@@ -38,7 +38,6 @@ export default {
   props: ['routeData'],
   methods: {  
     handleselect(sub) {
-      this.msg = sub;
       console.log(this.msg);
     }
   }

@@ -37,11 +37,19 @@ export default new Router({
       component: Main,
       iconCls: "el-icon-menu",
       children: [
+        {path:'goodslist',name:'商品列表',component:GoodsList},
         {path:'hello',name: 'Hello',component:Hello},
-        {path:'temp',name: '模板',component:Temp},
-        {path:'loginchild',name: '登录',component:Login},
-        {path:'test',name:'测试',component:Test},
-        {path:'goodslist',name:'商品列表',component:GoodsList}
+        {path:'temp',name: '模板',component:Temp}
+        ]
+    },
+     {
+      path: '/',
+      name: '订单管理',
+      component: Main,
+      iconCls: "el-icon-menu",
+      children: [
+        {path:'orderlist',name: '订单列表',component:Hello},
+        {path:'orderedit',name:'商品列表',component:GoodsList}
         ]
     },
     {
@@ -55,12 +63,6 @@ export default new Router({
         {path:'/loginchild',name: 'loginchild',component:Login},
         
         ] 
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component:Login,
-      hidden:true
     },
     {
       path: '/services/api/',

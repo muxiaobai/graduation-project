@@ -1,6 +1,5 @@
 <template>
-<aside style="width:230px;">
-    <h1 style="background-color:#fff"></h1>
+<aside >
     <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" theme="dark" unique-opened router>
         <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
             <el-submenu :index="index+''" v-if="!item.leaf">
@@ -28,7 +27,7 @@
 export default {
     data() {
         return {
-            routesub:'11'
+            routesub:''
         }
     },
     methods: {
@@ -43,8 +42,8 @@ export default {
     	},
     	handleselect: function (a, b) {
     	 //   console.log(a);
-    	    this.routesub = a;
-    	    this.$emit('routeData',this.a);
+    	  //  this.routesub = a;
+    	  //  this.$emit('routeData',this.a);
     	    console.log(this.$emit('routeData'));
     	}
     }
