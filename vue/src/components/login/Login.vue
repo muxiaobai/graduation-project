@@ -8,6 +8,7 @@
       <el-input type="password" v-model="this.ruleForm.password" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
     <el-checkbox  checked style="margin:0px 0px 35px 0px;">记住密码</el-checkbox>
+    <el-checkbox   style="margin:0px 0px 35px 0px;">管理员</el-checkbox>
     <el-form-item style="width:100%;">
         <el-button type="primary" style="width:100%;" @click=handleSubmit >登录</el-button>
         <!--<el-button >重置</el-button>-->

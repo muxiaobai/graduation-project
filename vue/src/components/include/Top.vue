@@ -3,13 +3,16 @@
   <el-row>
     	<el-col :span="20" class="top-left">
   			<el-col :span="20" style="font-size:26px;">
-  				<router-link :to="{ name: 'main' }"><img src="../../assets/img/logo4.png" class="logo"> <span>AD<i style="color:#20a0ff">MIN</i></router-link>
-  </span>
+  				<router-link :to="{ name: 'main' }">
+				  <img src="../../assets/img/logo4.png" class="logo"> 
+				  <span>AD<i style="color:#20a0ff">MIN</i></span>
+				  </router-link>
   			</el-col>
+  			
   			<el-col :span="4" class="top-right">
   				<el-dropdown trigger="click">
-  					<span class="el-dropdown-link" style="color:#c0ccda;cursor: pointer;"><img :src="this.sysUserAvatar" class="head"> {{sysUserName}}
-  </span>
+  					<span class="el-dropdown-link" style="color:#c0ccda;cursor: pointer;">
+  					<img :src="this.sysUserAvatar" class="head"> {{sysUserName}} </span>
   					<el-dropdown-menu slot="dropdown">
   						<el-dropdown-item>我的消息</el-dropdown-item>
   						<el-dropdown-item>设置</el-dropdown-item>
@@ -18,15 +21,18 @@
   				</el-dropdown>
   			</el-col>
   		</el-col>
-  
-  
   </el-row>
 </div>
 </template>
 
 <script>
 export default {
-
+  data: function() {
+    return {
+      sysUserAvatar: '../../assets/img/user.png',
+      sysUserName: ''
+    }
+  },
   methods: {
 		//退出登录
 		logout: function () {

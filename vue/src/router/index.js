@@ -19,6 +19,7 @@ export default new Router({
       component: Login,
       hidden: true
     },
+    //后台
     {
       path: '/main',
       name: 'main',
@@ -64,10 +65,15 @@ export default new Router({
         
         ] 
     },
+    //获取 暂时不行，采用axios
     {
       path: '/services/api/',
       name: '',
       hidden:true
+    },
+    //下面的是前台 route
+    {
+      
     }
   ]
 })

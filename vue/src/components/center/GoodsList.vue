@@ -86,7 +86,7 @@
 
 <script>
 import Top from '../include/Top'
-import NProgress from 'nprogress'
+//import NProgress from 'nprogress'
 import {getUserListPage,addUser,removeUser,editUser} from '../../services/api/api'
 export default {
   name: 'goodsdetail',
@@ -158,8 +158,19 @@ export default {
 			this.editForm.addr = '';
     },
     handleDel: function(row) {
-      console.log(row+"del");
-      
+      	var _this = this;
+				this.$confirm('确认删除该记录吗?', '提示', {
+					//type: 'warning'
+				}).then(() => {
+					_this.listLoading = true;
+					let para = { id: row.id };
+					removeUser(para).then((res) => {
+						this.closeEdit(_this,'成功','删除成功','success');
+					});
+					
+				}).catch(() => {
+
+				});
     },
     handleEdit: function(row) {
         this.editFormVisible= true;
@@ -172,15 +183,15 @@ export default {
 				this.editForm.addr = row.addr;
     },
     editSubmit: function(){
-      console.log(this)
       	var _this = this;
+      console.log(this)
+      console.log(_this)
 
 				_this.$refs.editForm.validate((valid) => {
 					if (valid) {
 
 						_this.$confirm('确认提交吗？', '提示', {}).then(() => {
 							_this.editLoading = true;
-							NProgress.start();
 							_this.btnEditText = '提交中';
 
 							if (_this.editForm.id == 0) {
@@ -189,20 +200,11 @@ export default {
 									name: _this.editForm.name,
 									sex: _this.editForm.sex,
 									age: _this.editForm.age,
-									birth: _this.editForm.birth == '' ? '' : util.formatDate.format(new Date(_this.editForm.birth), 'yyyy-MM-dd'),
+									birth: _this.editForm.birth,
 									addr: _this.editForm.addr,
 								};
 								addUser(para).then((res) => {
-									_this.editLoading = false;
-									NProgress.done();
-									_this.btnEditText = '提 交';
-									_this.$notify({
-										title: '成功',
-										message: '提交成功',
-										type: 'success'
-									});
-									_this.editFormVisible = false;
-									_this.getUsers();
+								  this.closeEdit(_this,'成功','提交成功','success');
 								});
 							} else {
 								//编辑
@@ -211,20 +213,11 @@ export default {
 									name: _this.editForm.name,
 									sex: _this.editForm.sex,
 									age: _this.editForm.age,
-									birth: _this.editForm.birth == '' ? '' : util.formatDate.format(new Date(_this.editForm.birth), 'yyyy-MM-dd'),
+									birth: _this.editForm.birth,
 									addr: _this.editForm.addr,
 								};
 								editUser(para).then((res) => {
-									_this.editLoading = false;
-									NProgress.done();
-									_this.btnEditText = '提 交';
-									_this.$notify({
-										title: '成功',
-										message: '提交成功',
-										type: 'success'
-									});
-									_this.editFormVisible = false;
-									_this.getUsers();
+								  this.closeEdit(_this,'成功','提交成功','success');
 								});
 
 							}
@@ -233,9 +226,20 @@ export default {
 
 					}
 				});
-
+      console.log(this.editForm.birth)
+      console.log(_this.editForm.birth)
     },
-    
+    closeEdit: function (para,title,message,type) {
+      	para.editLoading = false;
+				para.btnEditText = '提 交';
+				para.$notify({
+					title: title,
+					message: message,
+					type: type
+				});
+				para.editFormVisible = false;
+				para.getUsers();
+    },
     //分页有关的两个方法,改变当前页，和修改每页的数量
     handleCurrentChange: function(val){
       this.currentPage = val;

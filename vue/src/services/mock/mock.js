@@ -74,7 +74,7 @@ export default {
             total: total,
             users: mockUsers
           }]);
-        }, 500);
+        }, 2000);
       });
     });
 
