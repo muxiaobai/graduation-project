@@ -8,7 +8,7 @@
       <el-input type="password" v-model="this.ruleForm.password" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
     <el-checkbox  checked style="margin:0px 0px 35px 0px;">记住密码</el-checkbox>
-    <el-checkbox   style="margin:0px 0px 35px 0px;">管理员</el-checkbox>
+    <el-checkbox  v-model='capacity' style="margin:0px 0px 35px 0px;">管理员</el-checkbox>
     <el-form-item style="width:100%;">
         <el-button type="primary" style="width:100%;" @click=handleSubmit >登录</el-button>
         <!--<el-button >重置</el-button>-->
@@ -34,7 +34,8 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' },
         ]
       },
-      checked: true
+      checked: true,//记住密码
+      capacity:false //管理员登录到后台，不是登录到前台
     };
   },
   methods: {
@@ -59,7 +60,11 @@ export default {
               });
             } else {
               sessionStorage.setItem('user', JSON.stringify(user));
-              this.$router.push({ path: '/main' });
+              if(this.capacity){
+                  this.$router.push({ path: '/main' });
+              }else{
+                  this.$router.push({ path: '/index' });
+              }
             }
           });
         } else {
@@ -97,4 +102,80 @@ export default {
     width: 350px;
     padding: 35px 35px 15px 35px;
   }
+  
+.bounce-enter-active {
+	animation: bounce-in .5s;
+}
+
+.bounce-leave-active {
+	animation: bounce-out .2s;
+}
+
+@keyframes bounce-in {
+	0% {
+		transform: scale(0);
+	}
+	50% {
+		transform: scale(1.05);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes bounce-out {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(0.95);
+	}
+	100% {
+		transform: scale(0);
+	}
+}
+.fade-enter-active, .fade-leave-active {
+	transition: opacity .5s
+}
+.fade-enter, .fade-leave-active {
+	opacity: 0
+}
+
+body {
+	/*background-color: #324057;*/
+	margin: 0px;
+	padding: 0px;
+	/*background: url(assets/bg1.jpg) center !important;
+	background-size: cover;*/
+
+	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+	/*font-weight: 400;*/
+	font-size:14px;
+	-webkit-font-smoothing: antialiased;
+}
+
+#app {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	width: 100%;
+}
+
+.el-submenu [class^=fa] {
+	vertical-align: baseline;
+	margin-right: 10px;
+}
+
+.el-menu-item [class^=fa] {
+	vertical-align: baseline;
+	margin-right: 10px;
+}
+.toolbar .el-form-item {
+	margin-bottom: 10px;
+}
+
+.toolbar {
+	background: #fff;
+	padding: 10px 10px 0px 10px;
+}
 </style>

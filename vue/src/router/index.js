@@ -1,20 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from 'components/Hello'
+//后台
 import Main from 'components/Main'
 import OrderList from 'components/center/OrderList'
 import GoodsList from 'components/center/GoodsList'
 import UserList from 'components/center/UserList'
-import Login from 'components/login/Login'
-import Test from 'components/Test'
-import Temp from 'components/Temp'
 
+import Login from 'components/login/Login'
+import Temp from 'components/Temp'
+//前台
+import Index from 'components/front/Index'
+//import {OrderList,GoodsList,UserList} from 'components/center'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: Login,
       hidden: true
@@ -73,6 +76,17 @@ export default new Router({
     },
     //下面的是前台 route
     {
+      path: '/',
+      name: 'index',
+      component: Index,
+      hidden: true
+      
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: Index,
+      hidden: true
       
     }
   ]
