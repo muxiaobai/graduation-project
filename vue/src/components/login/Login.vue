@@ -141,35 +141,6 @@ export default {
 	opacity: 0
 }
 
-body {
-	/*background-color: #324057;*/
-	margin: 0px;
-	padding: 0px;
-	/*background: url(assets/bg1.jpg) center !important;
-	background-size: cover;*/
-
-	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
-	/*font-weight: 400;*/
-	font-size:14px;
-	-webkit-font-smoothing: antialiased;
-}
-
-#app {
-	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	width: 100%;
-}
-
-.el-submenu [class^=fa] {
-	vertical-align: baseline;
-	margin-right: 10px;
-}
-
-.el-menu-item [class^=fa] {
-	vertical-align: baseline;
-	margin-right: 10px;
-}
 .toolbar .el-form-item {
 	margin-bottom: 10px;
 }

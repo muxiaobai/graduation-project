@@ -96,6 +96,7 @@ body {
 	/*font-weight: 400;*/
 	font-size:14px;
 	-webkit-font-smoothing: antialiased;
+	color : #bfcbd9;
 }
 .toolbar .el-form-item {
 	margin-bottom: 10px;

@@ -12,15 +12,37 @@ import Temp from 'components/Temp'
 //前台
 import Index from 'components/front/Index'
 //import {OrderList,GoodsList,UserList} from 'components/center'
+import Parent from 'components/ChildParent/Parent'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
+      path: '/childparent',
+      name: '组件之间的数据交换',
+      component: Parent,
+      hidden:true
+    },
+    {
       path: '/login',
       name: 'login',
       component: Login,
       hidden: true
+    },
+     //下面的是前台 route
+    {
+      path: '/',
+      name: 'index',
+      component: Index,
+      hidden: true
+      
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: Index,
+      hidden: true
+      
     },
     //后台
     {
@@ -73,21 +95,7 @@ export default new Router({
       path: '/services/api/',
       name: '',
       hidden:true
-    },
-    //下面的是前台 route
-    {
-      path: '/',
-      name: 'index',
-      component: Index,
-      hidden: true
-      
-    },
-    {
-      path: '/index',
-      name: 'index',
-      component: Index,
-      hidden: true
-      
     }
+   
   ]
 })

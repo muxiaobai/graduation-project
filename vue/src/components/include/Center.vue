@@ -40,4 +40,5 @@ export default {
     overflow-y: scroll;
     padding: 20px;
 }
+
 </style>
