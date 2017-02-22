@@ -4,7 +4,7 @@
   <h1>parent</h1>
   <input type="text" name="" v-model="parMsg"/>
   <p>{{parMsg}}</p>
-  <MyChild :pushMsg='childmsg'></MyChild>
+  <MyChild :pushMsg='parMsg'></MyChild>
   <PushChild @dataToParent="getData"></PushChild>
   <p>getData:{{childmsg}}</p>
   </div>
@@ -31,6 +31,14 @@ export default {
     getData: function(val){
       this.childmsg=val;
     }
+  },
+  watch:{
+    parMsg:function(val,oldVal){
+      console.log(val+":"+oldVal);
+    }
+  },
+  created: function(){
+    console.log(this);
   }
 }
 </script>
