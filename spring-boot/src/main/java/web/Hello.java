@@ -8,10 +8,12 @@
 */
 
 package web;
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
-import org.springframework.stereotype.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+
+import config.RedisProperties;
 /**
  * ClassName:Hello <br/>
  * Function: TODO ADD FUNCTION. <br/>
@@ -21,12 +23,19 @@ import org.springframework.web.bind.annotation.*;
  * @since    JDK 1.6
  * @see 	 
  */
+//@spring-boot-devtools
 @RestController
 public class Hello {
-        
+    @Autowired
+    private  Environment env;
+    @Autowired  
+    private RedisProperties redisProperties;  
+    
     @RequestMapping("/")
     public String hello() {
-        return "hello world";
+        System.out.println(redisProperties.getHost());
+        System.out.println(env.getProperty("applicationConfig"));
+        return "hello wolas村ld";
     }
 }
 

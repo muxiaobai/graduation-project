@@ -25,6 +25,11 @@ targetCompatibility = 1.8
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.1.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.1.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.5.1.RELEASE'
+//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '1.5.1.RELEASE'
+    
     testImplementation 'junit:junit:4.12'
 }
-
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

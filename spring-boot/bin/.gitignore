@@ -1,0 +1,5 @@
+/application.properties
+/redis.properties
+/spring-boot-devtools.properties
+/web/
+/config/
