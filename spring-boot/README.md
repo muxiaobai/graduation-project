@@ -12,7 +12,7 @@ gradle bootRun
 或者编译打包后再运行
 
 ```
-gradle build && java -jar build/libs/spring-boot-example-0.0.1-SNAPSHOT.jar
+gradle build && java -jar ./build/libs/spring-boot-example-0.0.1-SNAPSHOT.jar
 
 ```
 
