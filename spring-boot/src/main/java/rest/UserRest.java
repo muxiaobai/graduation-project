@@ -62,8 +62,7 @@ public class UserRest {
     public Map<String, Object> getUser(@PathParam("id") Integer id) {
         returnValue.clear();
         System.out.println("get:"+id);
-       User user=new User("zzxzc","aswdas"); 
-       userService.getUserById(id);
+       User user= userService.getUserById(id);
        returnValue.put("code", 200);
        returnValue.put("user", user);
         return returnValue;

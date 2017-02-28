@@ -30,7 +30,7 @@ import config.RedisProperties;
  * @since    JDK 1.6
  * @see 	 
  */
-@ComponentScan(basePackages = { "dao","service","rest"})
+@ComponentScan(basePackages = { "dao","service","domain"})
 @SpringBootApplication
 @EnableConfigurationProperties({RedisProperties.class,DatabaseProperties.class})  
 public class Application {

@@ -9,7 +9,8 @@
 
 package domain;
 
-import javax.ws.rs.PathParam;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,9 +33,9 @@ public class User {
         this.username = username;
         this.password = password;
     }
-    @PathParam("username")
+    @FormParam("username")
     private String username;
-    @PathParam("password")
+    @FormParam("password")
     private String password;
     public String getUsername() {
         return username;
