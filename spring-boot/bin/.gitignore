@@ -1,5 +1,9 @@
-/application.properties
-/redis.properties
-/spring-boot-devtools.properties
-/web/
 /config/
+/service/
+/rest/
+/dao/
+/vo/
+/impl/
+/domain/
+/web/
+/util/

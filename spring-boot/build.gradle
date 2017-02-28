@@ -27,6 +27,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.1.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.5.1.RELEASE'
 //    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '1.5.1.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jersey', version: '1.5.1.RELEASE'
     
     testImplementation 'junit:junit:4.12'
 }
