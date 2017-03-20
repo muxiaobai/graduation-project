@@ -1,7 +1,7 @@
 <template>
   
   <div class="index">
-  
+  前台
   </div>
   
 </template>
