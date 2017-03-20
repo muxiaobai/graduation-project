@@ -1,2 +1,3 @@
-/vue/nide_modules/*
+/vue/node_modules/*
 /vuetest/
+/spring-boot/build/
