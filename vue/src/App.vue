@@ -1,12 +1,44 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+ <div id="app" :style="{height: '100%'}">
+    <div class="main" :style="{height: '100%'}">
+      <router-view></router-view>
+    </div>
+     <footer-nav :showNav="showNav"></footer-nav>
   </div>
 </template>
 
 <script>
+import footerNav from './components/include/footerNav'
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      direction: 'forward',
+      showNav: true
+    }
+  },
+  components: {
+    footerNav
+  },
+  watch: {
+     // 如果路由有变化，会执行该方法
+    '$route': function() {
+      this.routeChange()
+    }
+  },
+  methods: {
+    routeChange () {
+      let path = this.$route.path
+      if (path === '/' || path === '/front' || path === '/me') {
+        this.showNav = true
+      } else {
+        this.showNav = false
+      }
+    }
+  },
+  created () {
+    this.routeChange()
+  }
 }
 </script>
 
@@ -17,4 +49,7 @@ export default {
 	bottom: 0px;
 	width: 100%;
 }
+  body {
+    background: #f5f5f5;
+  }
 </style>
