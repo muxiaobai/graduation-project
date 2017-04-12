@@ -5,4 +5,8 @@
 
  git push origin master:spring-boot
  
+ git pull origin vue
+
+ git push origin master:vue
+ 
  因为分为两个项目，需要分别提交，功能完成后，再合并到主分支。
