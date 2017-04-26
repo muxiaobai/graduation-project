@@ -9,11 +9,14 @@
 
 package service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import antlr.collections.List;
 import domain.User;
 
 /**
@@ -29,8 +32,11 @@ import domain.User;
 @Service
 public interface UserService {
 	@Transactional
-    public User getUserById(Integer id);
+    public User getUserById(Long id);
 	@Transactional
     public void saveUserList(List users);
+	@Transactional
+    public Page<User> FindUserList(Pageable pageable);
+	
 }
 

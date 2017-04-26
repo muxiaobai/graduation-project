@@ -34,7 +34,7 @@ import config.RedisProperties;
  */
 @ComponentScan(basePackages = { "dao","service","domain"})
 @EnableJpaRepositories("dao") // JPA扫描该包路径下的Repositorie
-@EntityScan("domain") // 扫描实体类
+@EntityScan(basePackages = { "java.lang.Object","domain"}) // 扫描实体类
 @EnableAutoConfiguration  
 @SpringBootApplication
 @EnableConfigurationProperties({RedisProperties.class,DatabaseProperties.class})  

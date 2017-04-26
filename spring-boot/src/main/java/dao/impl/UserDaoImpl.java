@@ -29,7 +29,7 @@ import domain.User;
  */
 @Repository
 public class UserDaoImpl {
-    public User getUserById(Integer id) {
+    public User getUserById(Long id) {
     	return new User("zhang","password");
     }
 

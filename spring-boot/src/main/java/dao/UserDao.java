@@ -11,6 +11,7 @@ package dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import domain.User;
@@ -26,7 +27,7 @@ import domain.User;
  * @see 	 
  */
 @Repository
-public interface UserDao  extends  CrudRepository<User, Long>,JpaRepository<User, Long>{
-    public User getUserById(Integer id);
+public interface UserDao  extends CrudRepository<User,Long>,JpaRepository<User, Long>,PagingAndSortingRepository<User,Long>{
+    public User getUserById(Long id);
 }
 
