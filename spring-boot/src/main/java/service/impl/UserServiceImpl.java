@@ -9,9 +9,12 @@
 
 package service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import antlr.collections.List;
 import dao.UserDao;
 import domain.User;
 import service.UserService;
@@ -32,8 +35,13 @@ public class UserServiceImpl implements UserService{
     private UserDao userDao;  
     @Override
     public User getUserById(Integer id) {
-        return userDao.getUserById(id);
+         return userDao.getUserById(id);
     }
+	@Override
+	public void saveUserList(List users) {
+		Iterable<User> iterable =(Iterable<User>) ((ArrayList<User>)users).iterator();
+		userDao.save(iterable);
+	}
 
 }
 

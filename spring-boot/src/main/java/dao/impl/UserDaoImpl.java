@@ -9,6 +9,9 @@
 
 package dao.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import dao.UserDao;
@@ -24,12 +27,10 @@ import domain.User;
  * @since    JDK 1.6
  * @see 	 
  */
-@Service
-public class UserDaoImpl implements UserDao {
-
-    @Override
+@Repository
+public class UserDaoImpl {
     public User getUserById(Integer id) {
-        return new User("zhang","password");
+    	return new User("zhang","password");
     }
 
 }

@@ -9,8 +9,11 @@
 
 package service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
+import antlr.collections.List;
 import domain.User;
 
 /**
@@ -23,7 +26,11 @@ import domain.User;
  * @since    JDK 1.6
  * @see 	 
  */
+@Service
 public interface UserService {
+	@Transactional
     public User getUserById(Integer id);
+	@Transactional
+    public void saveUserList(List users);
 }
 
