@@ -1,4 +1,5 @@
-环境在java 1.8,window 7,tomcat 8 中测试.
+环境在java 1.8,window 7,tomcat 8 中测试. 开发
+运行环境 linux java 1.8 HotSpot [Ubuntu linux安装jdk](http://www.cnblogs.com/a2211009/p/4265225.html)
 
 安装gradle 添加环境变量PATH
 
@@ -7,12 +8,12 @@
 ```
 gradle bootRun
 ```
-启动成功后,在浏览器中打开： http://127.0.0.1:8080/rest/users/1 可以看到
+启动成功后,在浏览器中打开： [http://127.0.0.1:8080/rest/users/1](http://127.0.0.1:8080/rest/users/1) 可以看到
 
 或者编译打包后再运行
 
 ```
-gradle build && java -jar ./build/libs/spring-boot-example-0.0.1-SNAPSHOT.jar
+gradle build && java -jar ./build/libs/spring-boot-0.0.1-SNAPSHOT.jar
 
 ```
 
