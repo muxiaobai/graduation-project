@@ -12,6 +12,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+
 jar {
     baseName = 'spring-boot'
     version = '0.0.1-SNAPSHOT'
