@@ -9,7 +9,12 @@
 
 package service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dao.UserDao;
@@ -31,9 +36,20 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;  
     @Override
-    public User getUserById(Integer id) {
-        return userDao.getUserById(id);
+    public User getUserById(Long id) {
+         return userDao.findOne(id);
     }
+	@Override
+	public void saveUserList(List users) {
+		Iterable<User> iterable =(Iterable<User>) ((ArrayList<User>)users).iterator();
+		userDao.save(iterable);
+	}
+	@Override
+	public Page<User> FindUserList(Pageable pageable) {
+		Page<User> page =userDao.findAll(pageable);
+		return page;
+		
+	}
 
 }
 

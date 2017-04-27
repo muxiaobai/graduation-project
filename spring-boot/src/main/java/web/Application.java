@@ -11,11 +11,15 @@ package web;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.glassfish.jersey.servlet.ServletProperties;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 import config.DatabaseProperties;
 import config.JerseyConfig;
 import config.RedisProperties;
@@ -29,6 +33,9 @@ import config.RedisProperties;
  * @see 	 
  */
 @ComponentScan(basePackages = { "dao","service","domain"})
+@EnableJpaRepositories("dao") // JPA扫描该包路径下的Repositorie
+@EntityScan(basePackages = { "java.lang.Object","domain"}) // 扫描实体类
+@EnableAutoConfiguration  
 @SpringBootApplication
 @EnableConfigurationProperties({RedisProperties.class,DatabaseProperties.class})  
 public class Application {
