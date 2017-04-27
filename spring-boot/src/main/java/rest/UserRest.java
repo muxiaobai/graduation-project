@@ -14,10 +14,28 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
+
 import domain.User;
 import service.UserService;
 
@@ -59,7 +77,7 @@ public class UserRest {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getUser(@PathParam("id") Integer id) {
+    public Map<String, Object> getUser(@PathParam("id") Long id) {
         returnValue.clear();
         System.out.println("get:"+id);
        User user= userService.getUserById(id);
@@ -67,18 +85,17 @@ public class UserRest {
        returnValue.put("user", user);
         return returnValue;
     }
- 
+    //http://127.0.0.1:8080/rest/users/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getUserList() {
+    public Map<String, Object> getUserList(@DefaultValue("0")@QueryParam("page") Integer page, @DefaultValue("20")@QueryParam("size") Integer size) {
         returnValue.clear();
-        List<User> users = new ArrayList<User>();
-        users.add(new User("1","1"));
-        users.add(new User("2","1"));
-        users.add(new User("3","1"));
+        Sort sort = new Sort(Direction.DESC, "id");
+        Pageable pageable = new PageRequest(page, size, sort);
+        Page<User> pager =userService.FindUserList(pageable);
         returnValue.put("code", 200);
-        returnValue.put("users", users);
+        returnValue.put("message",pager);
         return returnValue;
     }
  

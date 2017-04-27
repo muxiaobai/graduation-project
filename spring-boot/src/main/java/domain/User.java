@@ -9,6 +9,11 @@
 
 package domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,6 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @since    JDK 1.6
  * @see 	 
  */
+@Entity  
+@Table(name = "user") 
 @XmlRootElement(name="user")
 public class User {
 
@@ -33,6 +40,9 @@ public class User {
         this.username = username;
         this.password = password;
     }
+    @Id  
+    @GeneratedValue(strategy = GenerationType.AUTO)  
+    private Long id;  
     @FormParam("username")
     private String username;
     @FormParam("password")
