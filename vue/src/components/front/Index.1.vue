@@ -2,6 +2,10 @@
   <section style="height: 100%">
     <city></city>
     <header class="home-header border-bottom">
+      <div class="city fl" @click="showCityList">
+        <span class="vm city-name f14">{{ $store.state.city.name }}</span>
+        <span class="city-arrow-icon vm"></span>
+      </div>
       <div class="sel-lists f14 fl pr" @click="moveTab">
         <div hot='sel' :class="{selnav: selnav}">应季蔬菜</div>
         <div :class="{selnav: !selnav}">特卖农产品</div>
@@ -23,18 +27,13 @@
         <span v-show="clickLoadStatus === 'complete'">已经全部显示</span>
       </div>
     </section>
-   <play-video></play-video>
+    <play-video></play-video>
   </section>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import swiper from './swiper'
-import hot from './hot'
-import city from './city'
-import coming from './coming'
-import playVideo from './playVideo'
-
+import { swiper, hot, city, coming, playVideo} from '../components/'
 export default{
   data () {
     return {
