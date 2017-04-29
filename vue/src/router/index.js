@@ -32,7 +32,7 @@ export default new Router({
      //下面的是前台 route
     {
       path: '/',
-      name: 'index',
+      name: 'no',
       component: Index,
       hidden: true
       

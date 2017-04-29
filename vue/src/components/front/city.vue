@@ -80,7 +80,7 @@ export default{
 	},
 	created () {
 		this.$store.dispatch('updateCityAsync', {city: {}})
-		this.requestData('/movie/city', (response) => {
+		this.requestData('http://python-muxiaobai.c9users.io:8080/movie/city', (response) => {
 			// let data = JSON.parse(response.data)
 			let data = response.data
 			let cityObj = data.data.data.returnValue

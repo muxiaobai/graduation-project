@@ -11,7 +11,7 @@
 
 <script>
 import Swiper from '../../assets/js/swiper.min.js'
-export default{
+export default {
 	name: 'swiper',
   data () {
 	  return{

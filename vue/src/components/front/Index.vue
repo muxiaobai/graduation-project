@@ -1,6 +1,6 @@
 <template>
   <section style="height: 100%">
-    <city></city>
+    <!--<city></city>-->
     <header class="home-header border-bottom">
       <div class="sel-lists f14 fl pr" @click="moveTab">
         <div hot='sel' :class="{selnav: selnav}">应季蔬菜</div>
@@ -8,7 +8,7 @@
         <span class="move pa" :style="{left: moveDistance}"></span>
       </div>
     </header>
-    <section  v-show="selnav"  class="content">
+  <!--  <section  v-show="selnav"  class="content">
       <swiper :imgs="imgs"></swiper>
       <hot :hotLists="hotLists"></hot>
     </section>
@@ -24,18 +24,19 @@
       </div>
     </section>
    <play-video></play-video>
+   -->
   </section>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import swiper from './swiper'
 import hot from './hot'
 import city from './city'
 import coming from './coming'
 import playVideo from './playVideo'
+//import swiper from './swiper'
 
-export default{
+export default {
   data () {
     return {
       moveDistance: '5%',
@@ -50,7 +51,6 @@ export default{
     }
   },
   components: {
-    swiper,
     hot,
     city,
     coming,
@@ -87,7 +87,7 @@ export default{
       if (this.clickLoadStatus != 'complete') {
         this.clickLoadStatus = 'loading'
         setTimeout(() => {
-          this.$http.get(`/movie/coming/?limit=${this.limit}&offset=${this.offset}`).then((response) => {
+          this.$http.get(`http://python-muxiaobai.c9users.io:8080/movie/coming/?limit=${this.limit}&offset=${this.offset}`).then((response) => {
             let data = response.data
             let lists = data.data.data.returnValue
             this.loaingLists = this.loaingLists.concat(lists)
@@ -139,12 +139,12 @@ export default{
   },
   created () {
     this.pushComingList({lists: []})
-    this.requestData('/movie/swiper', (response) => {
+    this.requestData('http://python-muxiaobai.c9users.io:8080/movie/swiper', (response) => {
       let data = response.data
       this.imgs = data.data.data.returnValue
     })
 
-    this.requestData(`/movie/coming/?limit=${this.limit}&offset=${this.offset}`, (response) => {
+    this.requestData(`http://python-muxiaobai.c9users.io:8080/movie/coming/?limit=${this.limit}&offset=${this.offset}`, (response) => {
       let data = response.data
       let lists = data.data.data.returnValue
       //模拟索引数据的id号
