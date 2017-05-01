@@ -2,7 +2,10 @@
   <section class="mask video-mask" @click="cancelMask" v-show="showMask">
   	<div class="video-box pa">
   		<div class="v-cover">
+  	<!--
   			<video :src="$store.state.video.url" ref="video" class="v-content" :poster="$store.state.video.cover"></video>
+  	-->
+  	
   		</div>
   		<div class="v-icon pa" @click="videoStar" v-if="showIcon">
   		</div>

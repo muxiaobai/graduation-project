@@ -11,6 +11,7 @@ import Login from 'components/login/Login'
 import Temp from 'components/Temp'
 //前台
 import Index from 'components/front/Index'
+import MovieDetail from 'components/front/MovieDetail'
 //import {OrderList,GoodsList,UserList} from 'components/center'
 import Parent from 'components/ChildParent/Parent'
 Vue.use(Router)
@@ -32,7 +33,7 @@ export default new Router({
      //下面的是前台 route
     {
       path: '/',
-      name: 'no',
+      name: '首页',
       component: Index,
       hidden: true
       
@@ -43,6 +44,11 @@ export default new Router({
       component: Index,
       hidden: true
       
+    },
+    {
+      path : '/movie/detail/:id',
+      name: 'detail',
+      component : MovieDetail
     },
     //后台
     {

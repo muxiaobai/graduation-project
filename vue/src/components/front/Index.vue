@@ -1,15 +1,18 @@
 <template>
   <section style="height: 100%">
-    <!--<city></city>-->
+    <city></city>
     <header class="home-header border-bottom">
+      <div class="city fl" @click="showCityList">
+        <span class="vm city-name f14">{{ $store.state.city.name }}</span>
+        <span class="city-arrow-icon vm"></span>
+      </div>
       <div class="sel-lists f14 fl pr" @click="moveTab">
         <div hot='sel' :class="{selnav: selnav}">应季蔬菜</div>
         <div :class="{selnav: !selnav}">特卖农产品</div>
         <span class="move pa" :style="{left: moveDistance}"></span>
       </div>
     </header>
-  <!--  <section  v-show="selnav"  class="content">
-      <swiper :imgs="imgs"></swiper>
+    <section  v-show="selnav"  class="content">
       <hot :hotLists="hotLists"></hot>
     </section>
     <section  v-show="!selnav"  class="content">
@@ -24,7 +27,7 @@
       </div>
     </section>
    <play-video></play-video>
-   -->
+   
   </section>
 </template>
 
@@ -163,7 +166,6 @@ export default {
 <style>
 .home-header {
   height: 40px;
-  font-size: 0px;
   background-color: #fff;
 }
 .selnav {
@@ -229,5 +231,8 @@ export default {
 }
 .loading-icon span {
   vertical-align: middle;
+}
+.fl {
+  float:left;
 }
 </style>
