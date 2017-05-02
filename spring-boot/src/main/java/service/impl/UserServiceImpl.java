@@ -50,6 +50,19 @@ public class UserServiceImpl implements UserService{
 		return page;
 		
 	}
+	@Override
+	public void saveUser(User user) {
+		userDao.save(user);
+		
+	}
+	@Override
+	public void deleteUser(Long id) {
+		userDao.delete(id);
+	}
+	@Override
+	public User updateUser(User user) {
+		return userDao.save(user);
+	}
 
 }
 

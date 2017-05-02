@@ -47,30 +47,55 @@ public class UserRest {
     private UserService userService;  
     private static Map<Integer,User> users = Collections.synchronizedMap(new HashMap<Integer,User>());
     private Map<String, Object> returnValue= new HashMap<String, Object>();
-   
+   /**
+    * 添加 用户
+    * @param user
+    * @return
+    */
     @POST
-    @Path("")
+    @Path("/addUser")
     @Consumes("application/x-www-form-urlencoded")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String postUser(@BeanParam User user){
+//    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({"application/xml", "application/json"})
+    public Map<String, Object> postUser(@BeanParam User user){
         returnValue.clear();
         System.out.println(user);
-        return " post success";
+        userService.saveUser(user);
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "add user");
+        returnValue.put("data", user);
+        return returnValue;
     }
- 
+    /**
+     * 删除
+     * @param id 根据id删除此用户
+     * @return
+     */
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteUser(@PathParam("id") Integer id) {
+    public Map<String, Object> deleteUser(@PathParam("id") Long id) {
         returnValue.clear();
-        return  "delete success";
+        userService.deleteUser(id);
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "delete user");
+        return  returnValue;
     }
- 
+    /**
+     * 修改
+     * @param id id
+     * @param user 修改的实例bean
+     * @return
+     */
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String putUser(@PathParam("id")  Integer id, @BeanParam User user) {
+    public String putUser(@PathParam("id")Long id, @BeanParam User user) {
         returnValue.clear();
+        user.setId(id);
+        userService.updateUser(user);
         return "put update";
     }
 

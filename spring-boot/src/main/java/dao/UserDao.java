@@ -27,7 +27,7 @@ import domain.User;
  * @see 	 
  */
 @Repository
-public interface UserDao  extends CrudRepository<User,Long>,JpaRepository<User, Long>,PagingAndSortingRepository<User,Long>{
+public interface UserDao  extends JpaRepository<User, Long>{
     public User getUserById(Long id);
 }
 

@@ -37,6 +37,11 @@ public interface UserService {
     public void saveUserList(List users);
 	@Transactional
     public Page<User> FindUserList(Pageable pageable);
-	
+	@Transactional
+	public void saveUser(User user);
+	@Transactional
+	public void deleteUser(Long id);
+	@Transactional
+	public User updateUser(User user);
 }
 
