@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 /**
  * 商品
  * @author 张鹏飞
@@ -20,6 +21,7 @@ public class Goods {
 	private String goodeIntro;//介绍
 	private String avatar;//封面图
 	private Integer goodsType;//1为正常，2为热卖，3为即将卖
+	@OneToOne(targetEntity= Preferential.class)
 	private Preferential preferential;//优惠活动
 	
 }

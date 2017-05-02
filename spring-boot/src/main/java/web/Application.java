@@ -32,7 +32,7 @@ import config.RedisProperties;
  * @since    JDK 1.6
  * @see 	 
  */
-@ComponentScan(basePackages = { "dao","service","domain"})
+@ComponentScan(basePackages = { "dao","service","domain","config"})
 @EnableJpaRepositories("dao") // JPA扫描该包路径下的Repositorie
 @EntityScan(basePackages = { "java.lang.Object","domain"}) // 扫描实体类
 @EnableAutoConfiguration  
