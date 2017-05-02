@@ -13,6 +13,7 @@
       </div>
     </header>
     <section  v-show="selnav"  class="content">
+       <swiper :imgs="imgs"></swiper>
       <hot :hotLists="hotLists"></hot>
     </section>
     <section  v-show="!selnav"  class="content">
@@ -37,7 +38,7 @@ import hot from './hot'
 import city from './city'
 import coming from './coming'
 import playVideo from './playVideo'
-//import swiper from './swiper'
+import swiper from './swiper'
 
 export default {
   data () {
@@ -57,7 +58,8 @@ export default {
     hot,
     city,
     coming,
-    playVideo
+    playVideo,
+    swiper
   },
   computed: mapGetters([
     'hotLists'

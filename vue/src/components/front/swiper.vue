@@ -1,18 +1,17 @@
 <template>
-	<div class="swiper-container" id="swiper">
-    <div class="swiper-wrapper">
-    	<div class="swiper-slide" v-for="item in imgs">
-				<img class="img" :src="'https://gw.alicdn.com/tfs/' + item.smallPicUrl" />
-		  </div>
-    </div>
-	<div class="swiper-pagination"></div>
+<div id = "swiper">
+	<mt-swipe :auto="4000">
+		<div v-for="item in imgs" >
+	  <mt-swipe-item>
+	  	<img class="img" :src="'https://gw.alicdn.com/tfs/' + item.smallPicUrl" />
+	  </mt-swipe-item>
+	</div>
+	</mt-swipe>
 </div>
 </template>
 
 <script>
-import Swiper from '../../assets/js/swiper.min.js'
 export default {
-	name: 'swiper',
   data () {
 	  return{
 	  }
@@ -23,16 +22,10 @@ export default {
   		default: () => []
   	}
   },
-  watch: {
+   watch: {
   	imgs() {
   		this.$nextTick(() => {
-		  	new Swiper ('.swiper-container', {
-			    loop: true,
-			    pagination: '.swiper-pagination',
-			    paginationClickable: true,
-			    autoplay : 2000,
-				autoplayDisableOnInteraction : false,		    
-			}) 
+
   		})
   	}
   }
@@ -43,6 +36,9 @@ export default {
 	img {
 		width: 100%;
 		height: auto;
+	}
+	#swiper{
+		height:200px;
 	}
 	#swiper .swiper-pagination-bullet {
 		background: #e5e8e8;

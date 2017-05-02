@@ -1,7 +1,15 @@
 <template>
   <section id='hot'>
+  	  	<ul
+  v-infinite-scroll="loadMore"
+  infinite-scroll-disabled="loading"
+  infinite-scroll-distance="10">
+  <li v-for="mintitem in hotLists">{{ mintitem }}</li>
+</ul>
   	<ul>
   		<li :class="{'border-bottom': hotLists[hotLists.length-1] != item}" v-for="item in hotLists">
+  			<figure class="m-img ml fl pr" @click="playMovieVideo(item.preview[0].iphoneUrl
+, `https://gw.alicdn.com/${item.poster}`)">
   				<img v-lazyload="`https://gw.alicdn.com/${item.poster}`">
   				<div class="play-icon pa">
   					<img src="https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png" alt="">
