@@ -28,7 +28,7 @@ export default {
           routeData: ''
       }
   },
-  props: ['routeData']
+//  props: ['routeData']
 }
 
     

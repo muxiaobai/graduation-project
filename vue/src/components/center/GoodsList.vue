@@ -4,10 +4,10 @@
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
-					<el-input v-model="filters.name" placeholder="姓名"></el-input>
+					<el-input v-model="filters.goodsName" placeholder="商品名称"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="getUsers">查询</el-button>
+					<el-button type="primary" @click="getList">查询</el-button>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
@@ -17,14 +17,14 @@
 
 <!--列表-->
 <template>
-		<el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;">
+		<el-table :data="goods" highlight-current-row v-loading="listLoading" style="width: 100%;">
 	
     <el-table-column type="index" width="60">    </el-table-column>
-    <el-table-column prop="name" label="姓名" width="120" sortable>    </el-table-column>
-    <el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>    </el-table-column>
-    <el-table-column prop="age" label="年龄" width="100" sortable>    </el-table-column>
-    <el-table-column prop="birth" label="生日" width="120" sortable>    </el-table-column>
-    <el-table-column prop="addr" label="地址" min-width="180" sortable>    </el-table-column>
+    <el-table-column prop="goodsName" label="产品名称" width="120" >    </el-table-column>
+    <el-table-column prop="goodsType" label="类型" width="100" :formatter="formatSex" >    </el-table-column>
+    <el-table-column prop="goodsDate" label="生产日期" width="120" :formatter="formatDate"  sortable>    </el-table-column>
+    <el-table-column prop="goodsPrice" label="价格" width="120" sortable>   元 </el-table-column>
+    <el-table-column prop="goodsIntro" label="简介" min-width="180" >    </el-table-column>
     <el-table-column inline-template :context="_self" label="操作" width="150">
     	<span>
       	<el-button size="small" @click="handleEdit(row)">编辑</el-button>
@@ -51,27 +51,28 @@
 <!--编辑界面-->
 <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 	<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-		<el-form-item label="姓名" prop="name">
-			<el-input v-model="editForm.name" auto-complete="off"></el-input>
+		<el-form-item label="商品名称" prop="name">
+			<el-input v-model="editForm.goodsName" auto-complete="off"></el-input>
 		</el-form-item>
-		<el-form-item label="性别">
-			<!--<el-select v-model="editForm.sex" placeholder="请选择性别">
-						<el-option label="男" :value="1"></el-option>
-						<el-option label="女" :value="0"></el-option>
-					</el-select>-->
-			<el-radio-group v-model="editForm.sex">
-				<el-radio class="radio" :label="1">男</el-radio>
-				<el-radio class="radio" :label="0">女</el-radio>
+		<el-form-item label="类别">
+			<el-radio-group v-model="editForm.goodsType">
+				<el-radio class="radio" :label="1">正常</el-radio>
+				<el-radio class="radio" :label="2">热卖</el-radio>
+				<el-radio class="radio" :label="3">即将上市</el-radio>
 			</el-radio-group>
 		</el-form-item>
-		<el-form-item label="年龄">
-			<el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
+		<el-form-item label="商品价格">
+			<el-input-number v-model="editForm.goodsPrice" :min="0" :max="200"></el-input-number>
 		</el-form-item>
-		<el-form-item label="生日">
-			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
+		
+		<el-form-item label="生产日期">
+			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.goodsDate"></el-date-picker>
 		</el-form-item>
-		<el-form-item label="地址">
-			<el-input type="textarea" v-model="editForm.addr"></el-input>
+		<el-form-item label="商品简介">
+			<el-input type="textarea" v-model="editForm.goodsIntro"></el-input>
+		</el-form-item>
+		<el-form-item label="详细介绍">
+			<el-input type="textarea" v-model="editForm.detailIntro"></el-input>
 		</el-form-item>
 	</el-form>
 	<div slot="footer" class="dialog-footer">
@@ -87,7 +88,7 @@
 <script>
 import Top from '../include/Top'
 //import NProgress from 'nprogress'
-import {getUserListPage,addUser,removeUser,editUser} from '../../services/api/api'
+import {getGoodsListPage,addGoods,removeGoods,editGoods,getGoods} from '../../services/api/api'
 export default {
   name: 'goodsdetail',
   components: {
@@ -96,30 +97,29 @@ export default {
   data: function() {
     	return {
 				filters: {
-					name: ''
+					goodsName: ''
 				},
-				users: [],
+				goods: [],
 				total: 1,
 				page: 1,
 				currentPage: 1,
 				pageSize: 20,
-				
 				listLoading: false,
 				editFormVisible: false,//编辑界面显是否显示
 				editFormTtile: '编辑',//编辑界面标题
 				//编辑界面数据
 				editForm: {
 					id: 0,
-					name: '',
-					sex: -1,
-					age: 0,
-					birth: '',
-					addr: ''
+					goodsName: '',
+					goodsType: 1,
+					goodsPrice: 0,
+					goodsDate: '',
+					goodsIntro: ''
 				},
 				editLoading: false,
 				btnEditText: '提 交',
 				editFormRules: {
-					name: [
+					goodsName: [
 						{ required: true, message: '请输入姓名', trigger: 'blur' }
 					]
 				}
@@ -131,31 +131,36 @@ export default {
       this.$toast('Hello world!')
     },
     formatSex: function(row,column) {
-      	return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
+      	return row.goodsType == 1 ? '正常' : row.goodsType == 2 ? '热卖' : row.goodsType == 3 ? '即将上市' : '未知';
+    },
+    formatDate: function(row,column){
+    	return (new Date(row.goodsDate)).toLocaleDateString();
     },
     //CRUD
-    getUsers:function() {
+    getList:function() {
       let para = {
-					currentPage: this.currentPage,
-					pageSize: this.pageSize,
-					name: this.filters.name
+					page: this.currentPage,
+					size: this.pageSize,
+					goodsName: this.filters.goodsName
 				};
 				this.listLoading = true;
-				getUserListPage(para).then((res) => {
-					this.total = res.data.total;
-					this.users = res.data.users;
+				getGoodsListPage(para).then((res) => {
+					this.total = res.data.data.totalElements;
+					this.goods = res.data.data.content
 					this.listLoading = false;
 				});
+		return
     },
     handleAdd : function() {
       this.editFormVisible= true;
       this.editFormTtile = '新增';
     	this.editForm.id = 0;//重置参数,0为新增，其他为修改
-			this.editForm.name = '';
-			this.editForm.sex = 1;
-			this.editForm.age = 0;
-			this.editForm.birth = '';
-			this.editForm.addr = '';
+			this.editForm.goodsName = '';
+			this.editForm.goodsType = 1;
+			this.editForm.goodsPrice = 0;
+			this.editForm.goodsDate = '';
+			this.editForm.goodsIntro = '';
+			this.editForm.detailIntro = '';
     },
     handleDel: function(row) {
       	var _this = this;
@@ -164,7 +169,7 @@ export default {
 				}).then(() => {
 					_this.listLoading = true;
 					let para = { id: row.id };
-					removeUser(para).then((res) => {
+					removeGoods(para).then((res) => {
 						this.closeEdit(_this,'成功','删除成功','success');
 					});
 					
@@ -176,17 +181,20 @@ export default {
         this.editFormVisible= true;
         this.editFormTtile = '编辑';
 				this.editForm.id = row.id;
-				this.editForm.name = row.name;
-				this.editForm.sex = row.sex;
-				this.editForm.age = row.age;
-				this.editForm.birth = row.birth;
-				this.editForm.addr = row.addr;
+				let para = { id: row.id };
+				getGoods(para).then((res) => {
+					let edit = res.data.data;
+					this.editForm.goodsName = edit.goodsName;
+					this.editForm.goodsType = edit.goodsType;
+					this.editForm.goodsPrice = edit.goodsPrice;
+					this.editForm.goodsDate = edit.goodsDate;
+					this.editForm.goodsIntro = edit.goodsIntro;
+					this.editForm.detailIntro = edit.detailIntro;
+				});
+			
     },
     editSubmit: function(){
       	var _this = this;
-      console.log(this)
-      console.log(_this)
-
 				_this.$refs.editForm.validate((valid) => {
 					if (valid) {
 
@@ -197,26 +205,29 @@ export default {
 							if (_this.editForm.id == 0) {
 								//新增
 								let para = {
-									name: _this.editForm.name,
-									sex: _this.editForm.sex,
-									age: _this.editForm.age,
-									birth: _this.editForm.birth,
-									addr: _this.editForm.addr,
+									goodsName: _this.editForm.goodsName,
+									goodsType: _this.editForm.goodsType,
+									goodsPrice: _this.editForm.goodsPrice,
+									goodsDate: _this.editForm.goodsDate,
+									goodsIntro: _this.editForm.goodsIntro,
+									detailIntro:_this.editForm.detailIntro
 								};
-								addUser(para).then((res) => {
+								console.log(JSON.stringify(para));
+								addGoods(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
 								});
 							} else {
 								//编辑
 								let para = {
-									id: _this.editForm.id,
-									name: _this.editForm.name,
-									sex: _this.editForm.sex,
-									age: _this.editForm.age,
-									birth: _this.editForm.birth,
-									addr: _this.editForm.addr,
+									id : _this.editForm.id,
+									goodsName: _this.editForm.goodsName,
+									goodsType: _this.editForm.goodsType,
+									goodsPrice: _this.editForm.goodsPrice,
+									goodsDate: _this.editForm.goodsDate,
+									goodsIntro: _this.editForm.goodsIntro,
+									detailIntro:_this.editForm.detailIntro
 								};
-								editUser(para).then((res) => {
+								editGoods(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
 								});
 
@@ -226,8 +237,6 @@ export default {
 
 					}
 				});
-      console.log(this.editForm.birth)
-      console.log(_this.editForm.birth)
     },
     closeEdit: function (para,title,message,type) {
       	para.editLoading = false;
@@ -238,22 +247,73 @@ export default {
 					type: type
 				});
 				para.editFormVisible = false;
-				para.getUsers();
+				para.getList();
     },
     //分页有关的两个方法,改变当前页，和修改每页的数量
     handleCurrentChange: function(val){
       this.currentPage = val;
-			this.getUsers();
+			this.getList();
     },
     handleSizeChange: function(val) {
       this.pageSize = val;
-      this.getUsers();
+      this.getList();
     },
     mounted: function() {
-			this.getUsers();
+			this.getList();
 		}
     
-  }
+  },
+  created :function(){
+  	this.getList();
+  },
+ formatDate: function (v, dateFormat) {  
+    try {  
+        if (dateFormat == undefined || typeof dateFormat != "string") {  
+            dateFormat = "yyyy-MM-dd";  
+        }  
+        if ((typeof v) == "number"){  
+            var o = new Date(v*1000);  
+            return o.pattern(dateFormat);  
+        }  
+        if ((typeof v) == "string" && v.indexOf("/Date(") == 0) {  
+            var date = eval('new ' + eval(v).source);  
+            return date.pattern(dateFormat);  
+        }  
+        if (v.time) {  
+            var o = new Date(v.time);  
+            return o.pattern(dateFormat);  
+        }  
+        else {  
+            if (v != "") {  
+                v = v.replace(/\//g, "-");  
+                if(v=="1900-01-01 00:00:00"){  
+                    return "--";  
+                }  
+                if (v.split(" ")) {  
+                    var myDate = v.split(" ")[0];  
+                } else {  
+                    var myDate = v;  
+                    var myTime = "";  
+                }  
+                myDate = myDate.replace("-0", "-").replace("-0", "-");  
+                var nowDate = new Date();  
+                /*TD 7111*/  
+                if(myDate.split("-")[0]=="1900"){  
+                    return "--";  
+                }  
+                if (myDate.split("-")[0] == nowDate.getFullYear()) {//本年度 For td 5858  
+                    return myDate.split("-")[0] + "年" + myDate.split("-")[1] + "月" + myDate.split("-")[2] + "日";  
+                      
+                } else {//非本年度  
+                    return myDate.split("-")[0] + "年" + myDate.split("-")[1] + "月" + myDate.split("-")[2] + "日";  
+                }  
+            }else{  
+                return "--";  
+            }  
+        }  
+    }catch (e) { }  
+    return "--";  
+	}
 }
 
 </script>
