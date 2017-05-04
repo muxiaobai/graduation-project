@@ -11,6 +11,9 @@ import Login from 'components/login/Login'
 import Temp from 'components/Temp'
 //前台
 import Index from 'components/front/Index'
+import Myself from 'components/front/Myself'
+
+import AgriculturalProductsDetail from 'components/front/AgriculturalProductsDetail'
 //import {OrderList,GoodsList,UserList} from 'components/center'
 import Parent from 'components/ChildParent/Parent'
 Vue.use(Router)
@@ -32,7 +35,7 @@ export default new Router({
      //下面的是前台 route
     {
       path: '/',
-      name: 'index',
+      name: '首页',
       component: Index,
       hidden: true
       
@@ -44,6 +47,17 @@ export default new Router({
       hidden: true
       
     },
+    {
+      path : '/goods/detail/:id',
+      name: 'detail',
+      component : AgriculturalProductsDetail
+    },
+    {
+      path : '/me',
+      name: 'me',
+      component : Myself
+    },
+    
     //后台
     {
       path: '/main',

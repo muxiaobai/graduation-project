@@ -12,7 +12,7 @@ import Mock from './services/mock';
 import Vuex from 'vuex'
 import store from './vuex/store'
 
-Mock.bootstrap();
+//Mock.bootstrap();
 Vue.use(Mint)
 Vue.use(ElementUI)
 Vue.use(VueResource)

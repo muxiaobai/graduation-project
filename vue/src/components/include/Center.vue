@@ -28,7 +28,7 @@ export default {
           routeData: ''
       }
   },
-  props: ['routeData']
+//  props: ['routeData']
 }
 
     
@@ -39,6 +39,7 @@ export default {
     background: #f1f2f7;
     overflow-y: scroll;
     padding: 20px;
+    height: 600px;
 }
 
 </style>
