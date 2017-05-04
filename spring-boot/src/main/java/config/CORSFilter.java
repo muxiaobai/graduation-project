@@ -41,6 +41,7 @@ public class CORSFilter  implements Filter {
         public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)  
                 throws IOException, ServletException {  
         	HttpServletRequest request = (HttpServletRequest) req;
+        	System.out.println(request.getParameterMap());
             HttpServletResponse response = (HttpServletResponse) res;
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");

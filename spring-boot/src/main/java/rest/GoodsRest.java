@@ -9,9 +9,7 @@
 
 package rest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.BeanParam;
@@ -35,27 +33,28 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import domain.User;
-import service.UserService;
+import domain.Goods;
+import service.GoodsService;
 
-@Path("/users")  
+@Path("/goods")  
 @Component 
-public class UserRest {
+public class GoodsRest {
 
     @Autowired  
-    private UserService userService;  
+    private GoodsService goodsService;  
     private Map<String, Object> returnValue= new HashMap<String, Object>();
     @POST
     @Path("add")
+//    @Consumes("application/x-www-form-urlencoded")
     @Consumes("application/json;charset=UTF-8")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> post(@RequestBody User user){
+    public Map<String, Object> post( @RequestBody Goods goods){
         returnValue.clear();
-        userService.save(user);
+        goodsService.save(goods);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "add ");
-        returnValue.put("data", user);
+        returnValue.put("data", goods);
         return returnValue;
     }
     @DELETE
@@ -63,25 +62,21 @@ public class UserRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> delete(@PathParam("id") Long id) {
         returnValue.clear();
-        userService.delete(id);
+        goodsService.delete(id);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "delete ");
         return  returnValue;
     }
-    /**
-     * 修改
-     * @param id id
-     * @param user 修改的实例bean
-     * @return
-     */
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> put(@PathParam("id")Long id, @BeanParam User user) {
+    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Goods goods) {
         returnValue.clear();
-        user.setId(id);
-        userService.update(user);
+        goods.setId(id);
+        Goods dataGoods = goodsService.getById(id);
+        goodsService.update(goods);
+        System.out.println(goods);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "put update");
@@ -95,34 +90,23 @@ public class UserRest {
        returnValue.clear();
        returnValue.put("code", 200);
        returnValue.put("msg", "success");
-       returnValue.put("action", "getById");
-       returnValue.put("data", userService.getById(id));
-       return returnValue;
+       returnValue.put("action", "get byId");
+       returnValue.put("data", goodsService.getById(id));
+        return returnValue;
     }
     //http://127.0.0.1:8080/rest/users/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getList(@DefaultValue("0")@QueryParam("page") Integer page, @DefaultValue("20")@QueryParam("size") Integer size,@RequestBody User user) {
+    public Map<String, Object> getList(@DefaultValue("0")@QueryParam("page") Integer page, @DefaultValue("20")@QueryParam("size") Integer size,@RequestBody Goods goods) {
         returnValue.clear();
         Sort sort = new Sort(Direction.DESC, "id");
         Pageable pageable = new PageRequest(page, size, sort);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
-        returnValue.put("action", "getpageList");
-        returnValue.put("data",userService.FindList(pageable));
+        returnValue.put("action", " get page list");
+        returnValue.put("data",goodsService.FindList(pageable));
         return returnValue;
     }
- 
-    @GET
-    @Path("/page/{pagesize}/{currentpage}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getPage(@DefaultValue("20") @PathParam("pagesize") Integer pagesize, @DefaultValue("1") @PathParam("currentpage") Integer currentpage) {
-        returnValue.clear();
-        List<User> users = new ArrayList<User>();
-        returnValue.put("users",users);
-        return returnValue;
-    }
-    
 }
 
