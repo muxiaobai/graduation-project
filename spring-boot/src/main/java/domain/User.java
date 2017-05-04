@@ -14,9 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * ClassName:User <br/>
@@ -30,9 +27,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity  
 @Table(name = "user") 
-@XmlRootElement(name="user")
 public class User {
-
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)  
+    private Long id;  
+    private String username;
+    private String password;
     public User() {
     }
     public User(String username, String password) {
@@ -40,13 +40,7 @@ public class User {
         this.username = username;
         this.password = password;
     }
-    @Id  
-    @GeneratedValue(strategy = GenerationType.AUTO)  
-    private Long id;  
-    @FormParam("username")
-    private String username;
-    @FormParam("password")
-    private String password;
+   
 	public Long getId() {
 		return id;
 	}

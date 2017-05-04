@@ -32,16 +32,16 @@ import domain.User;
 @Service
 public interface UserService {
 	@Transactional
-    public User getUserById(Long id);
+    public User getById(Long id);
 	@Transactional
-    public void saveUserList(List users);
+    public void saveList(List users);
 	@Transactional
-    public Page<User> FindUserList(Pageable pageable);
+    public Page<User> FindList(Pageable pageable);
 	@Transactional
-	public void saveUser(User user);
+	public void save(User user);
 	@Transactional
-	public void deleteUser(Long id);
+	public void delete(Long id);
 	@Transactional
-	public User updateUser(User user);
+	public User update(User user);
 }
 
