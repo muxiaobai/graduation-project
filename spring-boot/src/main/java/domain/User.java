@@ -9,6 +9,8 @@
 
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,14 +35,12 @@ public class User {
     private Long id;  
     private String username;
     private String password;
+    private Integer sex;//1为男，0为女
+    private Date birth;
+    private Integer age;
+    private String addr;
     public User() {
     }
-    public User(String username, String password) {
-        super();
-        this.username = username;
-        this.password = password;
-    }
-   
 	public Long getId() {
 		return id;
 	}
@@ -59,10 +59,37 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	public Date getBirth() {
+		return birth;
+	}
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
+	public Integer getAge() {
+		return age;
+	}
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", sex=" + sex + ", birth="
+				+ birth + ", age=" + age + ", addr=" + addr + "]";
 	}
+	
   
     
 }

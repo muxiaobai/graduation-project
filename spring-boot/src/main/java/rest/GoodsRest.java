@@ -90,7 +90,7 @@ public class GoodsRest {
        returnValue.clear();
        returnValue.put("code", 200);
        returnValue.put("msg", "success");
-       returnValue.put("action", "get byId");
+       returnValue.put("action", "getById");
        returnValue.put("data", goodsService.getById(id));
         return returnValue;
     }
@@ -98,7 +98,7 @@ public class GoodsRest {
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getList(@DefaultValue("0")@QueryParam("page") Integer page, @DefaultValue("20")@QueryParam("size") Integer size,@RequestBody Goods goods) {
+    public Map<String, Object> getList(@DefaultValue("0")@QueryParam("page") Integer page, @DefaultValue("20")@QueryParam("size") Integer size) {
         returnValue.clear();
         Sort sort = new Sort(Direction.DESC, "id");
         Pageable pageable = new PageRequest(page, size, sort);
