@@ -50,11 +50,12 @@ export default new Router({
     {
       path : '/goods/detail/:id',
       name: 'detail',
-      component : AgriculturalProductsDetail
+      component : AgriculturalProductsDetail,
+      hidden : true
     },
     {
       path : '/me',
-      name: 'me',
+      name: '我的主页',
       component : Myself
     },
     

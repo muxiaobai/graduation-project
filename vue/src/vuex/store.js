@@ -5,7 +5,7 @@ import loadingMutations from './loading/mutations'
 import cityMutations from './city/mutations'
 import cityAcions from './city/actions'
 import comingMutations from './coming/mutations'
-import areaMutations from './cinema/mutations'
+import userMutations from './user/mutations'
 
 Vue.use(Vuex);
 
@@ -52,11 +52,13 @@ const coming = {
 	mutations: comingMutations
 }
 
-const cinema = {
+const user = {
 	state: {
-		area: []
+		id:'',
+		login : false,
+		user:{}
 	},
-	mutations: areaMutations
+	mutations: userMutations
 }
 
 
@@ -72,7 +74,7 @@ const store = new Vuex.Store({
  		loading,
  		city,
  		coming,
- 		cinema
+ 		user
  	},
   
 })

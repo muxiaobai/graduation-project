@@ -9,23 +9,23 @@
   			</figure>
 			<div class="mr border-bottom">
 				<div class="m-buy fr">
-					<button class="buy-btn f12" v-if="item.openTime < '2016-12-09'">购买</button>
+					<button class="buy-btn f12" v-if="item.goodsDate < new Date()">购买</button>
 					<button class="forward-buy-btn f12" v-else>预售</button>
 				</div>
-				<router-link :to="{ name: 'detail', params: { id: item.mID }}">
+				<router-link :to="{ name: 'detail', params: { id: item.id }}">
 					<div class="m-info">
 						<div class="m-name">
-							<h2 class="f16 tddd vm fl">{{ item.showName }}</h2>
+							<h2 class="f16 tddd vm fl">{{ item.goodsName }}</h2>
 							<div class="vm type-3dimax" v-if="item.showMark == 'IMAX3D'"></div>
 							<div class="vm type-imax" v-if="item.showMark == 'IMAX'"></div>
 							<div class="vm type-3d" v-if="item.showMark == '3D'"></div>
 						</div>
 						<div class="full-star pr">
-							<div class="score-start" :style="{width: `${item.remark * 10}%`}"></div>
-							<span class="score pa">{{ item.remark }}</span>
+							<div class="score-start" :style="{width: `${item.goodsprice * 10}%`}"></div>
+							<span class="score pa">{{ item.goodsPrice }}</span>
 						</div>
-						<p>{{ item.highlight }}</p>
-						<p>{{ item.leadingRole}}</p>
+						<p>{{ item.goodsIntro }}</p>
+						<p>{{ item.goodsPrice}}</p>
 					</div>
 				</router-link>		
 			</div>

@@ -2,25 +2,26 @@
 	<section id="movie-detail">
 		<header class="mbg pr">
 			<figure class="d-cover" style="float:left;position:inherit;">
-				<img :src="detailObj.poster ? `https://gw.alicdn.com/${detailObj.poster}` : 'https://gw.alicdn.com/tps/i1/TB147JCLFXXXXc1XVXXxGsw1VXX-112-168.png'" alt="">
+				<img :src="detailObj.avatar ? `${detailObj.avatar}` : 'https://gw.alicdn.com/tps/i1/TB147JCLFXXXXc1XVXXxGsw1VXX-112-168.png'" alt="">
 			</figure>
 			<article class="d-info"  style="float:left; margin-left:auto;">
-				<p class="d-name tddd">{{ detailObj.showName }}</p>
-				<p class="tddd">{{ detailObj.showNameEn }}</p>
-				<p>{{ detailObj.type }}</p>
-				<p>{{ detailObj.country }}｜{{ detailObj.duration }}分钟</p>
-				<p>{{ detailObj.openTime }}在中国上映</p>
+				<p class="d-name tddd">{{ detailObj.goodsName }}</p>
+				<p class="tddd">{{ detailObj.goodsName }}</p>
+				<p>{{ detailObj.goodsPrice/100 }}元/斤</p>
+				<p>{{ new Date(detailObj.goodsDate).toLocaleDateString() }}</p>
 				<div class="full-star pr">
 					<div class="score-start" :style="{width: `${detailObj.remark * 10}%`}"></div>
-					<span class="score pa">{{ detailObj.remark }}分</span>
+				<!--	<span class="score pa">{{ detailObj.remark }}分</span>-->
 				</div>
+				<p class = "buy">购买</p>
+				
 			</article>
 		</header>
 		<section v-if="infoObj">
 			<section class="intro-block border-1px-bottom">
 				<article class="d-intro">
 					<p ref="dint" :class="{'hide-something': hideSomething}">
-						{{ infoObj.description }}
+						{{ detailObj.detailIntro }}
 					</p>
 					<p class="d-control" @click="controlShowMany">
 						<span v-if="hideSomething">展开</span>
@@ -71,6 +72,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { hotEvaluation } from './hotEvaluation'
+import {getGoods} from '../../services/api/api'
 export default{
 	data () {
 		return {
@@ -94,56 +96,26 @@ export default{
 		requestData (url, fn) {
 	      this.pushLoadStack()
 	      this.$http.get(url).then(fn).then(this.completeLoad)
-    },
-    getDataById (lists, id) {
-    	for (let i = 0; i < lists.length; i++) {
-    		if (lists[i].mID === id) {
-    			return lists[i]
-    		}
-    	}
-    	return false
-    },
-    initSwiper () {
-    	this.$nextTick(() => {
-    		var swiper = new Swiper('.swiper-container', {
-  		    pagination: '.swiper-pagination',
-  		    slidesPerView: 'auto',
-  		    centeredSlides: false,
-  		    spaceBetween: 5
-    		})
-    	})
-    }
+    	},
+	    getDataById (id) {
+	    	this.pushLoadStack()
+	    	let params = {id :id};
+			getGoods(params).then(res=>{
+				this.infoObj = true;
+				this.detailObj = res.data.data;
+			})
+	    },
 	},
 	created () {
+		console.log("created");
 		let id = this.$route.params.id
 		let hotLists = this.$store.state.city.data
 		let comingLists = this.$store.state.coming.lists
 		//由于后台没有配置更多的请求接口，
 		//电影详情页的数据是从全局（vuex）拿过来的
-		if (comingLists.length) {
-			this.detailObj = this.getDataById(comingLists, id)
-		} else if (!comingLists.length && !hotLists.length) {
-			this.$router.push('/')
-		} else {
-			this.detailObj = this.getDataById(hotLists, id)
-		}
-
-		let detailStr = this.detailObj.detailStr
-		if (detailStr) {
-			this.requestData(`http://python-muxiaobai.c9users.io:8080/movie/info/?name=${detailStr}`, (response) => {
-				let data = response.data 
-				this.infoObj = data.data.data.returnValue
-				this.initSwiper()
-			})
-			this.requestData(`http://python-muxiaobai.c9users.io:8080/movie/evaluation/?name=${detailStr}`, (response) => {
-				let data = response.data
-				this.evalLists = data.data.data.returnValue
-			})
-		} else {
-			this.infoObj = false
-		}
-		this.initSwiper()
-	}
+		this.getDataById(id);
+		this.completeLoad();
+	},
 }
 </script>
 
@@ -206,7 +178,7 @@ export default{
 	opacity: 1;
 }
 .mbg .full-star {
-	margin-top: 6vmin;
+/*	margin-top: 6vmin;*/
 }
 .mbg .score {
 	right: -32px;
@@ -217,6 +189,9 @@ export default{
 .mbg .full-star {
 	width: 70px;
 	height: 14px;
+}
+.buy{
+	font-size:20px;
 }
 .intro-block {
 }
