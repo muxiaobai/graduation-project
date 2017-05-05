@@ -23,7 +23,7 @@
     <el-table-column prop="goodsName" label="产品名称" width="120" >    </el-table-column>
     <el-table-column prop="goodsType" label="类型" width="100" :formatter="formatSex" >    </el-table-column>
     <el-table-column prop="goodsDate" label="生产日期" width="120" :formatter="formatDate"  sortable>    </el-table-column>
-    <el-table-column prop="goodsPrice" label="价格" width="120" sortable>   元 </el-table-column>
+    <el-table-column prop="goodsPrice" label="价格(单位：元)" width="120" sortable>   元 </el-table-column>
     <el-table-column prop="goodsIntro" label="简介" min-width="180" >    </el-table-column>
     <el-table-column inline-template :context="_self" label="操作" width="150">
     	<span>
@@ -64,7 +64,9 @@
 		<el-form-item label="商品价格">
 			<el-input-number v-model="editForm.goodsPrice" :min="0" :max="200"></el-input-number>
 		</el-form-item>
-		
+			<el-form-item label="商品库存">
+			<el-input-number v-model="editForm.goodsPrice" :min="0" :max="200"></el-input-number>
+		</el-form-item>
 		<el-form-item label="生产日期">
 			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.goodsDate"></el-date-picker>
 		</el-form-item>
@@ -180,18 +182,17 @@ export default {
     handleEdit: function(row) {
         this.editFormVisible= true;
         this.editFormTtile = '编辑';
-				this.editForm.id = row.id;
-				let para = { id: row.id };
-				getGoods(para).then((res) => {
-					let edit = res.data.data;
-					this.editForm.goodsName = edit.goodsName;
-					this.editForm.goodsType = edit.goodsType;
-					this.editForm.goodsPrice = edit.goodsPrice;
-					this.editForm.goodsDate = edit.goodsDate;
-					this.editForm.goodsIntro = edit.goodsIntro;
-					this.editForm.detailIntro = edit.detailIntro;
-				});
-			
+		this.editForm.id = row.id;
+		let para = { id: row.id };
+		getGoods(para).then((res) => {
+			let edit = res.data.data;
+			this.editForm.goodsName = edit.goodsName;
+			this.editForm.goodsType = edit.goodsType;
+			this.editForm.goodsPrice = edit.goodsPrice;
+			this.editForm.goodsDate = edit.goodsDate;
+			this.editForm.goodsIntro = edit.goodsIntro;
+			this.editForm.detailIntro = edit.detailIntro;
+		});
     },
     editSubmit: function(){
       	var _this = this;
@@ -212,7 +213,6 @@ export default {
 									goodsIntro: _this.editForm.goodsIntro,
 									detailIntro:_this.editForm.detailIntro
 								};
-								console.log(JSON.stringify(para));
 								addGoods(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
 								});
@@ -252,7 +252,7 @@ export default {
     //分页有关的两个方法,改变当前页，和修改每页的数量
     handleCurrentChange: function(val){
       this.currentPage = val;
-			this.getList();
+	  this.getList();
     },
     handleSizeChange: function(val) {
       this.pageSize = val;
@@ -266,54 +266,6 @@ export default {
   created :function(){
   	this.getList();
   },
- formatDate: function (v, dateFormat) {  
-    try {  
-        if (dateFormat == undefined || typeof dateFormat != "string") {  
-            dateFormat = "yyyy-MM-dd";  
-        }  
-        if ((typeof v) == "number"){  
-            var o = new Date(v*1000);  
-            return o.pattern(dateFormat);  
-        }  
-        if ((typeof v) == "string" && v.indexOf("/Date(") == 0) {  
-            var date = eval('new ' + eval(v).source);  
-            return date.pattern(dateFormat);  
-        }  
-        if (v.time) {  
-            var o = new Date(v.time);  
-            return o.pattern(dateFormat);  
-        }  
-        else {  
-            if (v != "") {  
-                v = v.replace(/\//g, "-");  
-                if(v=="1900-01-01 00:00:00"){  
-                    return "--";  
-                }  
-                if (v.split(" ")) {  
-                    var myDate = v.split(" ")[0];  
-                } else {  
-                    var myDate = v;  
-                    var myTime = "";  
-                }  
-                myDate = myDate.replace("-0", "-").replace("-0", "-");  
-                var nowDate = new Date();  
-                /*TD 7111*/  
-                if(myDate.split("-")[0]=="1900"){  
-                    return "--";  
-                }  
-                if (myDate.split("-")[0] == nowDate.getFullYear()) {//本年度 For td 5858  
-                    return myDate.split("-")[0] + "年" + myDate.split("-")[1] + "月" + myDate.split("-")[2] + "日";  
-                      
-                } else {//非本年度  
-                    return myDate.split("-")[0] + "年" + myDate.split("-")[1] + "月" + myDate.split("-")[2] + "日";  
-                }  
-            }else{  
-                return "--";  
-            }  
-        }  
-    }catch (e) { }  
-    return "--";  
-	}
 }
 
 </script>

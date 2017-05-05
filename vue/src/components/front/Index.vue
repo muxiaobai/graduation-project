@@ -39,6 +39,7 @@ import city from './city'
 import coming from './coming'
 import playVideo from './playVideo'
 import swiper from './swiper'
+import {getGoodsListPage,addGoods,removeGoods,editGoods,getGoods} from '../../services/api/api'
 
 export default {
   data () {
@@ -50,7 +51,8 @@ export default {
       selnav: true,
       clickLoadStatus: 'start',
       offset: 0,
-      limit: 20,
+      limit: 2,
+      page : 0,
       total: 0
     }
   },
@@ -64,6 +66,7 @@ export default {
   computed: mapGetters([
     'hotLists'
   ]),
+  
   methods: {
     ...mapMutations([
       'pushLoadStack',
@@ -90,26 +93,18 @@ export default {
     },
     clickLoadMore () {
       if (this.clickLoadStatus != 'complete') {
-        this.clickLoadStatus = 'loading'
+        this.clickLoadStatus = 'loading',
         setTimeout(() => {
-          this.$http.get(`http://python-muxiaobai.c9users.io:8080/movie/coming/?limit=${this.limit}&offset=${this.offset}`).then((response) => {
-            let data = response.data
-            let lists = data.data.data.returnValue
-            this.loaingLists = this.loaingLists.concat(lists)
-            //模拟索引数据的id号
-            this.loaingLists.forEach((item, index) => {
-              item.mID = index  
-            })
-            this.pushComingList({lists: this.loaingLists})
-            this.comingLists = this.sortComingData(this.loaingLists)
-            this.offset = this.offset + this.limit
-            if (this.offset < this.total) {
+          this.page =this.page+1;
+          this.getList();
+          
+          if (this.offset < this.total) {
               this.clickLoadStatus = 'start'
-            } else {
+          } else {
               this.clickLoadStatus = 'complete'
-            }
-          })
+          }
         }, 500)
+        this.completeLoad;
       }
     },
     requestData (url, fn) {
@@ -117,50 +112,27 @@ export default {
       this.$http.get(url).then(fn).then(this.completeLoad)
     },
     sortComingData (lists) {
-      let comingLists = []
-      lists.forEach((item) => {
-        let hasItem = false
-        for (let i = 0; i < comingLists.length; i++) {
-          if (item.openTime === comingLists[i].openTime) {
-            comingLists[i].movies.push(item)
-            hasItem = true 
-            break
-          }
-        }
-        if (!hasItem) {
-          let comingItem = {
-            openTime: '',
-            day: '',
-            movies: []
-          }
-          comingItem.openTime = item.openTime
-          comingItem.day = this.getWeekDay(new Date(item.openTime).getDay())
-          comingItem.movies.push(item)
-          comingLists.push(comingItem)
-        }
-      })
-      return comingLists
+      return lists
+    },
+    getList:function() {
+      let params ={
+        size : this.limit,
+        page : this.page
+      };
+      getGoodsListPage(params).then(res =>{
+        this.loaingLists = res.data.data.content;
+        this.comingLists = res.data.data.content;
+        this.total = res.data.data.totalElements;
+        this.offset = this.offset + this.limit;
+        this.page = this.page +1;
+      });
+     
     }
   },
   created () {
-    this.pushComingList({lists: []})
-    this.requestData('http://python-muxiaobai.c9users.io:8080/movie/swiper', (response) => {
-      let data = response.data
-      this.imgs = data.data.data.returnValue
-    })
-
-    this.requestData(`http://python-muxiaobai.c9users.io:8080/movie/coming/?limit=${this.limit}&offset=${this.offset}`, (response) => {
-      let data = response.data
-      let lists = data.data.data.returnValue
-      //模拟索引数据的id号
-      lists.forEach((item, index) => {
-        item.mID = index  
-      })
-      this.loaingLists = lists
-      this.total = data.total
-      this.comingLists = this.sortComingData(lists)
-      this.offset = this.offset + this.limit
-    })
+     this.pushComingList({lists: this.comingLists})
+     this.getList();
+     this.completeLoad();
   }
 }
 </script>

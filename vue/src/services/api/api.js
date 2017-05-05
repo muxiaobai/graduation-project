@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base = 'http://5b29c28f.ngrok.io/rest';
+let base = 'http://09981bdd.ngrok.io/rest';
 
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
@@ -9,9 +9,10 @@ export const getUserList = params => { return axios.get(`${base}/user/list`, { p
 //User
 export const addUser = params => { return axios.post(`${base}/users/add`, params); };
 //前台增加用户使用myself 后台可以借用
-export const removeUser = params => { return axios.delete(`${base}/users/`+params.id, JSON.stringify(params));};
-export const editUser = params => { return axios.put(`${base}/users/`+params.id, JSON.stringify(params));};
-export const getUserListPage = params => { return axios.get(`${base}/users/list`, JSON.stringify(params));};
+export const removeUser = params => { return axios.delete(`${base}/users/`+params.id, params);};
+export const editUser = params => { return axios.put(`${base}/users/`+params.id,params);};
+export const getUser = params => { return axios.get(`${base}/users/`+params.id, params);};
+export const getUserListPage = params => { return axios.get(`${base}/users/list`,params);};
 
 
 //Goods
