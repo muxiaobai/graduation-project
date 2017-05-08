@@ -65,7 +65,7 @@
 			<el-input-number v-model="editForm.goodsPrice" :min="0" :max="200"></el-input-number>
 		</el-form-item>
 			<el-form-item label="商品库存">
-			<el-input-number v-model="editForm.goodsPrice" :min="0" :max="200"></el-input-number>
+			<el-input-number v-model="editForm.goodsStock" :min="0" :max="200"></el-input-number>
 		</el-form-item>
 		<el-form-item label="生产日期">
 			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.goodsDate"></el-date-picker>
@@ -116,7 +116,8 @@ export default {
 					goodsType: 1,
 					goodsPrice: 0,
 					goodsDate: '',
-					goodsIntro: ''
+					goodsIntro: '',
+					goodsStock: 100
 				},
 				editLoading: false,
 				btnEditText: '提 交',
@@ -163,6 +164,7 @@ export default {
 			this.editForm.goodsDate = '';
 			this.editForm.goodsIntro = '';
 			this.editForm.detailIntro = '';
+			this.editForm.goodsStock = 100;
     },
     handleDel: function(row) {
       	var _this = this;
@@ -192,6 +194,7 @@ export default {
 			this.editForm.goodsDate = edit.goodsDate;
 			this.editForm.goodsIntro = edit.goodsIntro;
 			this.editForm.detailIntro = edit.detailIntro;
+			this.editForm.goodsStock = edit.goodsStock;
 		});
     },
     editSubmit: function(){
@@ -211,7 +214,8 @@ export default {
 									goodsPrice: _this.editForm.goodsPrice,
 									goodsDate: _this.editForm.goodsDate,
 									goodsIntro: _this.editForm.goodsIntro,
-									detailIntro:_this.editForm.detailIntro
+									detailIntro:_this.editForm.detailIntro,
+									goodsStock : _this.editForm.goodsStock
 								};
 								addGoods(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
@@ -225,7 +229,8 @@ export default {
 									goodsPrice: _this.editForm.goodsPrice,
 									goodsDate: _this.editForm.goodsDate,
 									goodsIntro: _this.editForm.goodsIntro,
-									detailIntro:_this.editForm.detailIntro
+									detailIntro:_this.editForm.detailIntro,
+									goodsStock :_this.editForm.goodsStock
 								};
 								editGoods(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
