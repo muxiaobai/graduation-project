@@ -26,7 +26,7 @@
     </el-table-column>
     <el-table-column prop="age" label="年龄" width="100" sortable>
     </el-table-column>
-    <el-table-column prop="birth" label="生日" width="120" sortable>
+    <el-table-column prop="birth" label="生日" width="120" :formatter="formatDate" sortable>
     </el-table-column>
     <el-table-column prop="addr" label="地址" min-width="180" sortable>
     </el-table-column>
@@ -56,8 +56,8 @@
 <!--编辑界面-->
 <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 	<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-		<el-form-item label="姓名" prop="name">
-			<el-input v-model="editForm.name" auto-complete="off"></el-input>
+		<el-form-item label="姓名" prop="username">
+			<el-input v-model="editForm.username" auto-complete="off"></el-input>
 		</el-form-item>
 		<el-form-item label="性别">
 			<!--<el-select v-model="editForm.sex" placeholder="请选择性别">
@@ -136,6 +136,9 @@ export default {
     formatSex: function(row,column) {
       	return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
     },
+    formatDate: function(row,column){
+    	return (new Date(row.birth)).toLocaleDateString();
+    },
     //CRUD
     getList:function() {
       let para = {
@@ -146,7 +149,7 @@ export default {
 				this.listLoading = true;
 				getUserListPage(para).then((res) => {
 					this.total = res.data.data.totalElements;
-					this.users = res.data.data.content
+					this.users = res.data.data.content;
 					this.listLoading = false;
 				});
     },
@@ -181,6 +184,7 @@ export default {
 		this.editForm.id = row.id;
 		let para = { id: row.id };
 		getUser(para).then((res) => {
+			
 			let edit = res.data.data;
 			this.editForm.username = edit.username;
 			this.editForm.sex = edit.sex;
@@ -221,6 +225,7 @@ export default {
 									age: _this.editForm.age,
 									birth: _this.editForm.birth,
 									addr: _this.editForm.addr,
+									password : _this.editForm.password
 								};
 								editUser(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');

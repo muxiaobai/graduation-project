@@ -21,3 +21,7 @@ export const removeGoods = params => { return axios.delete(`${base}/goods/`+para
 export const editGoods = params => { return axios.put(`${base}/goods/`+params.id, params);};
 export const getGoods = params => { return axios.get(`${base}/goods/`+params.id, params);};
 export const getGoodsListPage = params => { return axios.get(`${base}/goods/list`, params);};
+
+
+//下订单
+export const addOrder = params => { return axios.post(`${base}/orders/add`, params);};

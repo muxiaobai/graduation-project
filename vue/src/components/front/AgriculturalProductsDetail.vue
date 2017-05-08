@@ -7,13 +7,13 @@
 			<article class="d-info"  style="float:left; margin-left:auto;">
 				<p class="d-name tddd">{{ detailObj.goodsName }}</p>
 				<p class="tddd">{{ detailObj.goodsName }}</p>
-				<p>{{ detailObj.goodsPrice/100 }}元/斤</p>
+				<span>{{ detailObj.goodsPrice}}元/份</span><span>&nbqs;仅剩{{detailObj.goodsStock}}份</span>
 				<p>{{ new Date(detailObj.goodsDate).toLocaleDateString() }}</p>
 				<div class="full-star pr">
 					<div class="score-start" :style="{width: `${detailObj.remark * 10}%`}"></div>
 				<!--	<span class="score pa">{{ detailObj.remark }}分</span>-->
 				</div>
-				<p class = "buy">购买</p>
+				<p class = "buy" @click="handleAdd">购买</p>
 				
 			</article>
 		</header>
@@ -66,20 +66,41 @@
 		<section v-else class="no-data">
 			<span>暂时没有更多数据～</span>
 		</section>
+		<mt-popup  v-model="popupVisible"  position="bottom" class ='popup'> 
+		<mt-field label="收货人" placeholder="请输入" v-model="editForm.username"></mt-field>
+		<mt-field label="地址" placeholder="收货地址" type="textarea" rows="4" v-model="editForm.addr"></mt-field>
+		<mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="editForm.email"></mt-field>
+		<mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="editForm.phone"></mt-field>
+		<mt-field label="购买数量" placeholder="请输入数字" type="number" v-model="editForm.number"></mt-field>
+		<mt-field label="总计" type="text" v-model="editForm.total" readonly ></mt-field>
+		
+		<mt-button type="default" @click.native="popupVisible = false">取消</mt-button>
+		<mt-button type="primary"  @click.native="editSubmit">提交</mt-button>
+		</mt-popup>
 	</section>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
+import { MessageBox } from 'mint-ui';
 import { hotEvaluation } from './hotEvaluation'
-import {getGoods} from '../../services/api/api'
+import {getGoods,addOrder} from '../../services/api/api'
 export default{
 	data () {
 		return {
 			hideSomething: true,
 			detailObj: {},
 			infoObj: false,
-			evalLists: []
+			evalLists: [],
+			popupVisible: false,
+			editForm: {
+				username:'',
+				addr:'',
+				email:'',
+				phone:'', 
+				number:1,
+				price: 0
+			}
 		}
 	},
 	components: {
@@ -88,7 +109,8 @@ export default{
 	methods: {
 		...mapMutations([
 		  'pushLoadStack',
-		  'completeLoad'
+		  'completeLoad',
+		  'storeUser'
 		]),
 		controlShowMany () {
 			this.hideSomething = !this.hideSomething
@@ -105,8 +127,50 @@ export default{
 				this.detailObj = res.data.data;
 			})
 	    },
+	    handleAdd :function(){
+	    	this.popupVisible =true;
+    		this.editFormTtile = '新增';
+	    	this.editForm.phone  = '';
+			this.editForm.username = '';
+			this.editForm.addr = '';
+			this.editForm.email = '';
+			this.editForm.phone = '';
+			this.editForm.price = this.detailObj.goodsPrice;
+			this.editForm.number = 1;
+			this.editForm.total = this.detailObj.price * this.editForm.number;
+	    },
+	    editSubmit: function(){
+	    	var _this = this;
+	    	MessageBox.confirm('确认提交吗?').then(action => {
+				_this.btnEditText = '提交中';
+						//新增
+						//this.$store.state.user.id
+		    	let userid = 11;
+		    	let goodsid = this.$route.params.id;
+				let para = {
+					username: _this.editForm.username,
+					addr: _this.editForm.addr,
+					email: _this.editForm.email,
+					phone: _this.editForm.phone,
+					price: _this.editForm.price,
+					number:_this.editForm.number,
+					total : _this.editForm.total,
+					user : {id : userid},
+					goods : {id: goodsid}
+				};
+				addOrder(para).then((res) => {
+				  console.log(res.data);
+				});
+				_this.popupVisible = false;
+	    	});
+	    },
+	    getStoreUser (){
+	    	console.log(this.$store.state.user.id);
+	    }
 	},
 	created () {
+		 // this.storeUser({id : 11,username : ""});
+		//this.getStoreUser();
 		console.log("created");
 		let id = this.$route.params.id
 		let hotLists = this.$store.state.city.data
@@ -142,6 +206,10 @@ export default{
 	min-width: 31.3vmin;
 	height: 46.3vmin;
 }
+.popup{
+	    height: 470px;
+	    width:370px;
+}
 .d-cover img {
 	width: 100%;
 	height: 100%;
@@ -150,7 +218,6 @@ export default{
 	display: inline-block;
 	margin: 3.8vmin 0 0 37.5vmin;
 	color: #fff;
-	width: 55%;
 }
 .d-info p {
 	opacity: .8;

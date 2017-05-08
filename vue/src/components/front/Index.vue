@@ -72,6 +72,7 @@ export default {
       'pushLoadStack',
       'completeLoad',
       'showCityList',
+      'storeUser',
       'pushComingList'
     ]),
     moveTab (event) {
@@ -133,6 +134,7 @@ export default {
      this.pushComingList({lists: this.comingLists})
      this.getList();
      this.completeLoad();
+//     this.storeUser({id : 11,username : ""});
   }
 }
 </script>
