@@ -38,7 +38,7 @@ public class User {
     private Integer sex;//1为男，0为女
     private Date birth;
     private Integer age;
-    private String addr;
+    private String addr;//默认此地址为收货地址
     public User() {
     }
 	public Long getId() {

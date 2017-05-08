@@ -35,6 +35,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import domain.Goods;
 import service.GoodsService;
+/**
+ * 
+ * rest GoodsRest.java
+ * @author 张鹏飞
+ * @time 2017年5月8日 上午9:23:37
+ *
+ */
 
 @Path("/goods")  
 @Component 
