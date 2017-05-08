@@ -1,6 +1,6 @@
 /**
  * Project Name:spring-boot
- * File Name:UserRest.java
+ * File Name:OrderRest.java
  * Package Name:rest
  * Date:2017年2月28日上午10:13:51
  * Copyright (c) 2017, All Rights Reserved.
@@ -9,6 +9,7 @@
 
 package rest;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,27 +36,33 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import domain.User;
-import service.UserService;
-
-@Path("/users")  
+import domain.Order;
+import service.OrderService;
+/**
+ * OrderRest
+ * @author 张鹏飞
+ * @time 2017年5月8日 上午9:20:03
+ *
+ */
+@Path("/orders")  
 @Component 
-public class UserRest {
+public class OrderRest {
 
     @Autowired  
-    private UserService userService;  
+    private OrderService OrderService;  
     private Map<String, Object> returnValue= new HashMap<String, Object>();
     @POST
     @Path("add")
     @Consumes("application/json;charset=UTF-8")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> post(@RequestBody User user){
+    public Map<String, Object> post(@RequestBody Order Order){
         returnValue.clear();
-        userService.save(user);
+        System.out.println(Order);
+        OrderService.save(Order);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "add ");
-        returnValue.put("data", user);
+        returnValue.put("data", Order);
         return returnValue;
     }
     @DELETE
@@ -63,26 +70,25 @@ public class UserRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> delete(@PathParam("id") Long id) {
         returnValue.clear();
-        userService.delete(id);
+        OrderService.delete(id);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
-        returnValue.put("action", "delete ");
+        returnValue.put("action", "delete");
         return  returnValue;
     }
     /**
      * 修改
      * @param id id
-     * @param user 修改的实例bean
+     * @param Order 修改的实例bean
      * @return
      */
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody User user) {
+    public Map<String, Object> put(@PathParam("id")Long id, @BeanParam Order Order) {
         returnValue.clear();
-        user.setId(id);
-        System.out.println("==============="+user);
-        userService.update(user);
+        Order.setId(id);
+        OrderService.update(Order);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "put update");
@@ -97,10 +103,10 @@ public class UserRest {
        returnValue.put("code", 200);
        returnValue.put("msg", "success");
        returnValue.put("action", "getById");
-       returnValue.put("data", userService.getById(id));
+       returnValue.put("data", OrderService.getById(id));
        return returnValue;
     }
-    //http://127.0.0.1:8080/rest/users/list?page=0&size=20
+    //http://127.0.0.1:8080/rest/Orders/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
@@ -111,7 +117,7 @@ public class UserRest {
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "getpageList");
-        returnValue.put("data",userService.FindList(pageable));
+        returnValue.put("data",OrderService.FindList(pageable));
         return returnValue;
     }
  
@@ -120,8 +126,8 @@ public class UserRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> getPage(@DefaultValue("20") @PathParam("pagesize") Integer pagesize, @DefaultValue("1") @PathParam("currentpage") Integer currentpage) {
         returnValue.clear();
-        List<User> users = new ArrayList<User>();
-        returnValue.put("users",users);
+        List<Order> Orders = new ArrayList<Order>();
+        returnValue.put("Orders",Orders);
         return returnValue;
     }
     

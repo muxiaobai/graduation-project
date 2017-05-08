@@ -17,14 +17,10 @@ import org.springframework.stereotype.Repository;
 import domain.User;
 
 /**
- * ClassName:UserServiceImpl <br/>
- * Function: TODO ADD FUNCTION. <br/>
- * Reason:	 TODO ADD REASON. <br/>
- * Date:     2017年2月28日 上午10:14:47 <br/>
- * @author   Lenovo
- * @version  
- * @since    JDK 1.6
- * @see 	 
+ * UserDao
+ * @author 张鹏飞
+ * @time 2017年5月8日 上午9:19:54
+ *
  */
 @Repository
 public interface UserDao  extends JpaRepository<User, Long>{
