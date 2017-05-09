@@ -57,7 +57,6 @@ public class OrderRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> post(@RequestBody Order Order){
         returnValue.clear();
-        System.out.println(Order);
         OrderService.save(Order);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
@@ -85,7 +84,7 @@ public class OrderRest {
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> put(@PathParam("id")Long id, @BeanParam Order Order) {
+    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Order Order) {
         returnValue.clear();
         Order.setId(id);
         OrderService.update(Order);
