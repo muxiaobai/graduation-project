@@ -4,36 +4,34 @@
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
-					<el-input v-model="filters.name" placeholder="姓名"></el-input>
+					<el-input v-model="filters.username" placeholder="收货人"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="getUsers">查询</el-button>
+					<el-input v-model="filters.phone" placeholder="收货人联系方式"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="handleAdd">新增</el-button>
+					<el-button type="primary" @click="getList">查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
-
 <!--列表-->
 <template>
-		<el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;">
+		<el-table :data="list" highlight-current-row v-loading="listLoading" style="width: 100%;">
     <el-table-column type="index" width="60">
     </el-table-column>
-    <el-table-column prop="name" label="姓名" width="120" sortable>
+    <el-table-column prop="username" label="收货人" width="120" >
     </el-table-column>
-    <el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
+    <el-table-column prop="phone" label="收货号码" width="100" >
     </el-table-column>
-    <el-table-column prop="age" label="年龄" width="100" sortable>
+    <el-table-column prop="total" label="总计" width="100"sortable>
     </el-table-column>
-    <el-table-column prop="birth" label="生日" width="120" sortable>
+    <el-table-column prop="goods.goodsName" label="商品名称" width="120" >
     </el-table-column>
-    <el-table-column prop="addr" label="地址" min-width="180" sortable>
+    <el-table-column prop="addr" label="地址" min-width="180" >
     </el-table-column>
     <el-table-column inline-template :context="_self" label="操作" width="150">
     	<span>
       	<el-button size="small" @click="handleEdit(row)">编辑</el-button>
-      	<el-button type="danger" size="small" @click="handleDel(row)">删除</el-button>
     	</span>
     </el-table-column>
     </el-table>
@@ -56,24 +54,23 @@
 <!--编辑界面-->
 <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 	<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-		<el-form-item label="姓名" prop="name">
-			<el-input v-model="editForm.name" auto-complete="off"></el-input>
+		<el-form-item label="收货人" prop="name">
+			<el-input v-model="editForm.username" auto-complete="off"></el-input>
 		</el-form-item>
-		<el-form-item label="性别">
-			<!--<el-select v-model="editForm.sex" placeholder="请选择性别">
-						<el-option label="男" :value="1"></el-option>
-						<el-option label="女" :value="0"></el-option>
-					</el-select>-->
-			<el-radio-group v-model="editForm.sex">
-				<el-radio class="radio" :label="1">男</el-radio>
-				<el-radio class="radio" :label="0">女</el-radio>
-			</el-radio-group>
+		<el-form-item label="收货手机号" prop="name">
+			<el-input v-model="editForm.phone" auto-complete="off"></el-input>
 		</el-form-item>
-		<el-form-item label="年龄">
-			<el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
+		<el-form-item label="商品名称">
+			<el-input v-model="editForm.goods_name" readonly ></el-input>
 		</el-form-item>
-		<el-form-item label="生日">
-			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
+		<el-form-item label="商品单价">
+			<el-input v-model="editForm.price" readonly ></el-input>
+		</el-form-item>
+		<el-form-item label="数量">
+			<el-input-number v-model="editForm.number" :min="1" :max="200"></el-input-number>
+		</el-form-item>
+		<el-form-item label="总计">
+			<el-input v-model="editForm.total"  readonly ></el-input>
 		</el-form-item>
 		<el-form-item label="地址">
 			<el-input type="textarea" v-model="editForm.addr"></el-input>
@@ -91,9 +88,9 @@
 
 <script>
 import Top from '../include/Top'
-import {getUserListPage} from '../../services/api/api'
+import {getOrderListPage,editOrder,getOrder} from '../../services/api/api'
 export default {
-  name: 'goodsdetail',
+  name: 'order',
   components: {
      Top
   },
@@ -102,7 +99,7 @@ export default {
 				filters: {
 					name: ''
 				},
-				users: [],
+				list: [],
 				total: 1,
 				page: 1,
 				currentPage: 1,
@@ -112,22 +109,34 @@ export default {
 				//编辑界面数据
 				editForm: {
 					id: 0,
-					name: '',
-					sex: -1,
-					age: 0,
-					birth: '',
-					addr: ''
+					username: '',
+					phone: '',
+					price : 0,
+					number: 1,
+					total : 0,
+					goods_id : 0,
+					goods_name: '',
+					user_id : 0,
+					user_name: '',
 				},
 				editLoading: false,
 				btnEditText: '提 交',
 				editFormRules: {
-					name: [
+					username: [
 						{ required: true, message: '请输入姓名', trigger: 'blur' }
-					]
+					],
+					phone :[
+						{ required:true, message :'请输入收货人电话',trigger:'blur'}
+						]
 				}
 
 			}
   },
+  	watch: {
+		'editForm.number' : function(val){
+            this.editForm.total = this.editForm.price*val == 0? 0 :this.editForm.price * val;
+		}
+	},
    methods: {
     handleClick: function() {
       this.$toast('Hello world!')
@@ -136,61 +145,105 @@ export default {
       	return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
     },
     //CRUD
-    getUsers:function() {
-      console.log("user"+this.filters.name);
-      let para = {
-					page: this.page,
-					name: this.filters.name
-				};
-				this.listLoading = true;
-				getUserListPage(para).then((res) => {
-					this.total = res.data.total;
-					this.users = res.data.users;
-					this.listLoading = false;
-				});
-      return 
-    },
-    handleAdd : function() {
-      this.editFormVisible= true;
-      this.editFormTtile = '新增';
-    	this.editForm.id = 0;//重置参数
-			this.editForm.name = '';
-			this.editForm.sex = 1;
-			this.editForm.age = 0;
-			this.editForm.birth = '';
-			this.editForm.addr = '';
-    },
-    handleDel: function(row) {
-      console.log(row+"del")
+    getList:function() {
+    	let para = {
+			page: this.page,
+			username: this.filters.username,
+			phone : this.filters.phone,
+		};
+		this.listLoading = true;
+		getOrderListPage(para).then((res) => {
+			console.log(res.data.data);
+			this.total = res.data.data.totalElements;
+			this.list = res.data.data.content;
+			this.listLoading = false;
+		});
     },
     handleEdit: function(row) {
         this.editFormVisible= true;
         this.editFormTtile = '编辑';
-				this.editForm.id = row.id;
-				this.editForm.name = row.name;
-				this.editForm.sex = row.sex;
-				this.editForm.age = row.age;
-				this.editForm.birth = row.birth;
-				this.editForm.addr = row.addr;
+		this.editForm.id = row.id;
+		let params = {
+			id : row.id
+		}
+		getOrder(params).then(res=>{
+			let data = res.data.data;
+			console.log(data);
+			this.editForm.username = data.username;
+			this.editForm.phone = data.phone;
+			this.editForm.number = data.number;
+			this.editForm.price = data.goods.goodsPrice ;
+			this.editForm.total = this.editForm.price*this.editForm.number == 0? 0 :this.editForm.number * this.editForm.price;
+			this.editForm.user_id = data.user.id;
+			this.editForm.user_name = data.user.username;
+			this.editForm.goods_id  = data.goods.id;
+			this.editForm.goods_name  = data.goods.goodsName;
+			this.editForm.addr = row.addr;
+		});
+	
     },
     editSubmit: function(){
-      
+    	var _this = this;
+		_this.$refs.editForm.validate((valid) => {
+			if (valid) {
+				_this.$confirm('确认提交吗？', '提示', {}).then(() => {
+					_this.editLoading = true;
+					_this.btnEditText = '提交中';
+					//编辑
+					let para = {
+						id : _this.editForm.id,
+						username : _this.editForm.username,
+						addr: _this.editForm.addr,
+						email: _this.editForm.email,
+						number: _this.editForm.number,
+						addr: _this.editForm.addr,
+						phone: _this.editForm.phone,
+						total: _this.editForm.total,
+						user:{
+							id :_this.editForm.user_id
+						},
+						goods :{
+							id :_this.editForm.goods_id
+						},
+					};
+					editOrder(para).then((res) => {
+					  this.closeEdit(_this,'成功','提交成功','success');
+					});
+				});
+
+			}
+		});
     },
-    
-    //分页有关的两个方法
+    closeEdit: function (para,title,message,type) {
+      	para.editLoading = false;
+				para.btnEditText = '提 交';
+				para.$notify({
+					title: title,
+					message: message,
+					type: type
+				});
+				para.editFormVisible = false;
+				para.getList();
+    },
+   //分页有关的两个方法,改变当前页，和修改每页的数量
     handleCurrentChange: function(val){
-      console.log(val);
+      this.currentPage = val;
+	  this.getList();
     },
     handleSizeChange: function(val) {
-      console.log(val);
+      this.pageSize = val;
+      this.getList();
     },
     mounted: function() {
-			this.getUsers();
-		}
+		this.getList();
+	}
     
+  },
+  created :function(){
+  	this.getList();
+  	console.log(this.list);
   }
 }
-
 </script>
 
 <style scoped>

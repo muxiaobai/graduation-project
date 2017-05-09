@@ -25,3 +25,6 @@ export const getGoodsListPage = params => { return axios.get(`${base}/goods/list
 
 //下订单
 export const addOrder = params => { return axios.post(`${base}/orders/add`, params);};
+export const editOrder = params => { return axios.put(`${base}/orders/`+params.id, params);};
+export const getOrder = params => { return axios.get(`${base}/orders/`+params.id, params);};
+export const getOrderListPage = params => { return axios.get(`${base}/orders/list`, params);};

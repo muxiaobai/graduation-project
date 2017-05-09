@@ -89,7 +89,6 @@
 
 <script>
 import Top from '../include/Top'
-//import NProgress from 'nprogress'
 import {getGoodsListPage,addGoods,removeGoods,editGoods,getGoods} from '../../services/api/api'
 export default {
   name: 'goodsdetail',
