@@ -196,47 +196,47 @@ export default {
 			
     },
     editSubmit: function(){
-      	var _this = this;
-				_this.$refs.editForm.validate((valid) => {
-					if (valid) {
-
-						_this.$confirm('确认提交吗？', '提示', {}).then(() => {
-							_this.editLoading = true;
-							_this.btnEditText = '提交中';
-
-							if (_this.editForm.id == 0) {
-								//新增
-								let para = {
-									username: _this.editForm.goodsName,
-									sex: _this.editForm.sex,
-									age: _this.editForm.age,
-									birth: _this.editForm.birth,
-									addr: _this.editForm.addr,
-								};
-								addUser(para).then((res) => {
-								  this.closeEdit(_this,'成功','提交成功','success');
-								});
-							} else {
-								//编辑
-								let para = {
-									id : _this.editForm.id,
-									username : _this.editForm.username,
-									sex: _this.editForm.sex,
-									age: _this.editForm.age,
-									birth: _this.editForm.birth,
-									addr: _this.editForm.addr,
-									password : _this.editForm.password
-								};
-								editUser(para).then((res) => {
-								  this.closeEdit(_this,'成功','提交成功','success');
-								});
-
-							}
-
+		var _this = this;
+		_this.$refs.editForm.validate((valid) => {
+			if (valid) {
+	
+				_this.$confirm('确认提交吗？', '提示', {}).then(() => {
+					_this.editLoading = true;
+					_this.btnEditText = '提交中';
+	
+					if (_this.editForm.id == 0) {
+						//新增
+						let para = {
+							username: _this.editForm.goodsName,
+							sex: _this.editForm.sex,
+							age: _this.editForm.age,
+							birth: _this.editForm.birth,
+							addr: _this.editForm.addr,
+						};
+						addUser(para).then((res) => {
+						  this.closeEdit(_this,'成功','提交成功','success');
 						});
-
+					} else {
+						//编辑
+						let para = {
+							id : _this.editForm.id,
+							username : _this.editForm.username,
+							sex: _this.editForm.sex,
+							age: _this.editForm.age,
+							birth: _this.editForm.birth,
+							addr: _this.editForm.addr,
+							password : _this.editForm.password
+						};
+						editUser(para).then((res) => {
+						  this.closeEdit(_this,'成功','提交成功','success');
+						});
+	
 					}
+	
 				});
+	
+			}
+		});
     },
     closeEdit: function (para,title,message,type) {
       	para.editLoading = false;

@@ -29,38 +29,6 @@
 					</p>
 				</article>
 			</section>
-			<section class="ab-photo pr border-1px-bottom">
-				<header class="ab-header pa">
-					<span class="fb">演职人员</span>
-				</header>
-				<div class="swiper-container">
-				    <div class="swiper-wrapper" v-if="infoObj.artistes">
-				        <div class="swiper-slide" v-for="item in infoObj.artistes.actor">
-				        	<div class="am-img pr">
-				        		<img :src="`https://gw.alicdn.com/${item.avatar}`" alt="">
-				        		<div class="am-title pa">
-				        			<p class="tddd">{{ item.artisteName }}</p>
-				        			<p>{{ item.profession }}</p>
-				        		</div>
-				        	</div>
-				        </div>
-				    </div>
-				</div>
-			</section>
-			<section class="ab-photo crew-ab-photo pr border-1px-bottom">
-				<header class="ab-header pa">
-					<span class="fb">剧照</span>
-				</header>
-				<div class="swiper-container crew-swiper-container">
-				    <div class="swiper-wrapper">
-				        <div class="swiper-slide" v-for="item in infoObj.trailer">
-				        	<div class="am-img crew-img">
-				        		<img :src="`https://gw.alicdn.com/${item}`" alt="">
-				        	</div>
-				        </div>
-			        </div>
-			    </div>
-			</section>
 			<hotEvaluation :lists="evalLists"></hotEvaluation>
 		</section>
 		<section v-else class="no-data">
@@ -71,9 +39,8 @@
 		<mt-field label="地址" placeholder="收货地址" type="textarea" rows="4" v-model="editForm.addr"></mt-field>
 		<mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="editForm.email"></mt-field>
 		<mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="editForm.phone"></mt-field>
-		<mt-field label="购买数量" placeholder="请输入数字" type="number" v-model="editForm.number"></mt-field>
+		<mt-field label="购买数量" placeholder="请输入数字" type="number":min = 1 v-model="editForm.number"></mt-field>
 		<mt-field label="总计" type="text" v-model="editForm.total" readonly ></mt-field>
-		
 		<mt-button type="default" @click.native="popupVisible = false">取消</mt-button>
 		<mt-button type="primary"  @click.native="editSubmit">提交</mt-button>
 		</mt-popup>
@@ -99,12 +66,18 @@ export default{
 				email:'',
 				phone:'', 
 				number:1,
-				price: 0
+				price: 0,
+				total: 0,
 			}
 		}
 	},
 	components: {
 		hotEvaluation
+	},
+	watch: {
+		'editForm.number' : function(val){
+            this.editForm.total = this.editForm.price*val == 0? 0 :this.editForm.price * val;
+		}
 	},
 	methods: {
 		...mapMutations([
@@ -159,7 +132,8 @@ export default{
 					goods : {id: goodsid}
 				};
 				addOrder(para).then((res) => {
-				  console.log(res.data);
+					console.log(res.data);
+					MessageBox('提示', '操作成功');
 				});
 				_this.popupVisible = false;
 	    	});
@@ -173,10 +147,6 @@ export default{
 		//this.getStoreUser();
 		console.log("created");
 		let id = this.$route.params.id
-		let hotLists = this.$store.state.city.data
-		let comingLists = this.$store.state.coming.lists
-		//由于后台没有配置更多的请求接口，
-		//电影详情页的数据是从全局（vuex）拿过来的
 		this.getDataById(id);
 		this.completeLoad();
 	},

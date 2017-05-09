@@ -23,17 +23,18 @@ export default {
   watch: {
      // 如果路由有变化，会执行该方法
     '$route': function() {
-      this.routeChange()
+      this.routeChange();
     }
   },
   methods: {
     routeChange () {
-      let path = this.$route.path
-      if (path === '/' || path === '/front' || path === '/me') {
+      let path = this.$route.path;
+      console.log(path);
+    //  if (path === '/' || path === '/front' || path === '/me' || path == '/goods/detail/') {
         this.showNav = true
-      } else {
-        this.showNav = false
-      }
+    //  } else {
+     //   this.showNav = false
+    //  }
     }
   },
   created () {
