@@ -1,7 +1,7 @@
 <template>
   <section class="me">
 	   <section>
-  		<mt-cell  title="我的资料" to="/no" is-link value=""></mt-cell>
+  		<mt-cell  title="我的资料" to="/" is-link value=""></mt-cell>
   		<mt-cell title="我的订单" to="/no" is-link value=""></mt-cell>
   		<mt-cell title="我的其他" to="/no" is-link value=""> </mt-cell>
   		<mt-cell title="帮助中心" to="/no" is-link value=""></mt-cell>
@@ -23,6 +23,7 @@
 
 <script>
 import {addUser} from '../../services/api/api'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -40,17 +41,21 @@ export default {
     }
   },
   methods:{
+      ...mapMutations([
+          'storeUser'
+        ]),
       editSubmit: function(){
         let para = {
           username:	this.editForm.username,
           password: this.editForm.password,
-         
 		  	};
 			  console.log(para);
-      	addUser(para).then((res) => {
-    	  console.log(res.data);
-    	  
-			});
+			  this.storeUser({user:{id :'1',username:'12',password: '212'}});
+    	console.log(this.$store.state.user.login);
+	    
+      	//addUser(para).then((res) => {
+    	  //console.log(res.data);
+		  	//});
     },
   }
 }

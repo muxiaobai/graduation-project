@@ -168,7 +168,6 @@ export default {
 		}
 		getOrder(params).then(res=>{
 			let data = res.data.data;
-			console.log(data);
 			this.editForm.username = data.username;
 			this.editForm.phone = data.phone;
 			this.editForm.number = data.number;
