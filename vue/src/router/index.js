@@ -55,7 +55,7 @@ export default new Router({
     },
     {
       path : '/me',
-      name: '我的主页',
+      name: 'me',
       component : Myself
     },
     

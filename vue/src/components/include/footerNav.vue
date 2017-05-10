@@ -10,7 +10,7 @@
 	  		</router-link>
 	  	</nav>
 	  	<nav class="nav nav-cinama" :class="{'cur-page': route === '/cinema'}">
-			<router-link to="cinema">
+			<router-link to="/cinema">
 				<div class="nav-icon">
 					<img v-show="route !== '/cinema'" src="../../assets/images/mno.svg" alt="">
 					<img v-show="route === '/cinema'" src="../../assets/images/mok.svg" alt="">
@@ -18,7 +18,7 @@
 			</router-link>
 	  	</nav>
 	  	<nav class="nav nav-me" :class="{'cur-page': route === '/me'}">
-	  		<router-link to="me">
+	  		<router-link to="/me">
 	  			<div class="nav-icon">
 	  				<img v-show="route !== '/me'" src="../../assets/images/eno.svg" alt="">
 	  				<img v-show="route === '/me'" src="../../assets/images/eok.svg" alt="">

@@ -55,7 +55,7 @@ const coming = {
 const user = {
 	state: {
 		id:'',
-		login : false,
+		login : true,
 		user:{}
 	},
 	mutations: userMutations
