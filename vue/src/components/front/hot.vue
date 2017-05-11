@@ -2,11 +2,12 @@
   <section id='hot'>
   	<ul>
   		<li :class="{'border-bottom': hotLists[hotLists.length-1] != item}" v-for="item in hotLists">
-  				<img v-lazyload="`https://gw.alicdn.com/${item.poster}`">
-  				<div class="play-icon pa">
-  					<img src="https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png" alt="">
-  				</div>
-  			</figure>
+  			 <figure class="m-img ml fl pr" @click="">
+            <img v-lazyload="`https://gw.alicdn.com/${item.poster}`">
+            <div class="play-icon pa">
+                <img src="https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png" alt="">
+            </div>
+          </figure>
 			<div class="mr border-bottom">
 				<router-link :to="{ name: 'detail', params: { id: item.id }}">
 				<div class="m-buy fr">
@@ -25,7 +26,7 @@
 						<span class="score pa">{{ item.goodsPrice }}</span>
 					</div>
 					<p>{{ item.goodsIntro }}</p>
-					<p>{{ item.goodsPrice}}</p>
+				
 				</div>
 				</router-link>		
 			</div>
@@ -76,6 +77,18 @@ export default{
 #hot li {
 	padding-top: 15px;
 }
+.fr{
+	float:right;
+}
+.fl{
+	float:left;
+}
+.pr{
+	position:relative;
+}
+.pa{
+	position: absolute;
+}
 .m-img {
 	width: 65px;
 	height: 90px;
@@ -102,6 +115,10 @@ export default{
 .mr {
 	margin-left: 76px;
 }
+.ml{
+	margin:initial;	
+}
+
 .m-act {
 	margin-right: 15px;
 }

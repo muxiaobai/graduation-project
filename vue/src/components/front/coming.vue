@@ -23,9 +23,9 @@
                   <div class="vm type-imax" v-if="item.showMark == 'IMAX'"></div>
                   <div class="vm type-3d" v-if="item.showMark == '3D'"></div>
                 </div>
-                <p class="count">{{ item.goodsPrice }}元/斤</p>
-                <p>导演：{{ item.goodsIntro }}</p>
-                <p>主演：{{ item.leadingRole }}</p>
+                <p class="count">{{ item.goodsPrice }}元/份</p>
+                <p>{{ item.goodsIntro }}</p>
+                <p>{{ item.leadingRole }}</p>
               </router-link>
             </div>
           </div>

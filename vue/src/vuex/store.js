@@ -55,7 +55,7 @@ const coming = {
 const user = {
 	state: {
 		id:'',
-		login : true,
+		login : false,
 		user:{}
 	},
 	mutations: userMutations
@@ -66,7 +66,7 @@ const user = {
 const store = new Vuex.Store({
   // 定义状态
   state: {
-    author: 'Wise Wrong',
+    author: 'Mu xiaobai',
     centerpath: ''
   },
   modules: {

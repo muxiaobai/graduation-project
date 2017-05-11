@@ -12,7 +12,7 @@ import Temp from 'components/Temp'
 //前台
 import Index from 'components/front/Index'
 import Myself from 'components/front/Myself'
-
+import NoData from 'components/front/NoData'
 import AgriculturalProductsDetail from 'components/front/AgriculturalProductsDetail'
 //import {OrderList,GoodsList,UserList} from 'components/center'
 import Parent from 'components/ChildParent/Parent'
@@ -57,6 +57,11 @@ export default new Router({
       path : '/me',
       name: 'me',
       component : Myself
+    },
+        {
+      path : '/no',
+      name: 'no',
+      component : NoData
     },
     
     //后台
