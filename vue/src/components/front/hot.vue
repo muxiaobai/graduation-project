@@ -2,31 +2,32 @@
   <section id='hot'>
   	<ul>
   		<li :class="{'border-bottom': hotLists[hotLists.length-1] != item}" v-for="item in hotLists">
-  				<img v-lazyload="`https://gw.alicdn.com/${item.poster}`">
-  				<div class="play-icon pa">
-  					<img src="https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png" alt="">
-  				</div>
-  			</figure>
+  			 <figure class="m-img ml fl pr" @click="">
+            <img v-lazyload="`https://gw.alicdn.com/${item.poster}`">
+            <div class="play-icon pa">
+                <img src="https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png" alt="">
+            </div>
+          </figure>
 			<div class="mr border-bottom">
+				<router-link :to="{ name: 'detail', params: { id: item.id }}">
 				<div class="m-buy fr">
 					<button class="buy-btn f12" v-if="item.goodsDate < new Date()">购买</button>
 					<button class="forward-buy-btn f12" v-else>预售</button>
 				</div>
-				<router-link :to="{ name: 'detail', params: { id: item.id }}">
-					<div class="m-info">
-						<div class="m-name">
-							<h2 class="f16 tddd vm fl">{{ item.goodsName }}</h2>
-							<div class="vm type-3dimax" v-if="item.showMark == 'IMAX3D'"></div>
-							<div class="vm type-imax" v-if="item.showMark == 'IMAX'"></div>
-							<div class="vm type-3d" v-if="item.showMark == '3D'"></div>
-						</div>
-						<div class="full-star pr">
-							<div class="score-start" :style="{width: `${item.goodsprice * 10}%`}"></div>
-							<span class="score pa">{{ item.goodsPrice }}</span>
-						</div>
-						<p>{{ item.goodsIntro }}</p>
-						<p>{{ item.goodsPrice}}</p>
+				<div class="m-info">
+					<div class="m-name">
+						<h2 class="f16 tddd vm fl">{{ item.goodsName }}</h2>
+						<div class="vm type-3dimax" v-if="item.showMark == 'IMAX3D'"></div>
+						<div class="vm type-imax" v-if="item.showMark == 'IMAX'"></div>
+						<div class="vm type-3d" v-if="item.showMark == '3D'"></div>
 					</div>
+					<div class="full-star pr">
+						<div class="score-start" :style="{width: `${item.goodsprice * 10}%`}"></div>
+						<span class="score pa">{{ item.goodsPrice }}</span>
+					</div>
+					<p>{{ item.goodsIntro }}</p>
+				
+				</div>
 				</router-link>		
 			</div>
 			<div class="f13 m-act">
@@ -76,6 +77,18 @@ export default{
 #hot li {
 	padding-top: 15px;
 }
+.fr{
+	float:right;
+}
+.fl{
+	float:left;
+}
+.pr{
+	position:relative;
+}
+.pa{
+	position: absolute;
+}
 .m-img {
 	width: 65px;
 	height: 90px;
@@ -102,6 +115,10 @@ export default{
 .mr {
 	margin-left: 76px;
 }
+.ml{
+	margin:initial;	
+}
+
 .m-act {
 	margin-right: 15px;
 }

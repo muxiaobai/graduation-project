@@ -143,12 +143,11 @@ export default{
 	    }
 	},
 	created () {
-		 // this.storeUser({id : 11,username : ""});
+		 //this.storeUser({id : 11,username : ""});
 		//this.getStoreUser();
-		console.log("created");
 		let id = this.$route.params.id
 		this.getDataById(id);
-		this.completeLoad();
+		this.completeLoad;
 	},
 }
 </script>
