@@ -10,6 +10,7 @@
 package service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -39,6 +40,9 @@ public interface UserService {
     public Page<User> FindList(Pageable pageable);
 	@Transactional
 	public void save(User user);
+	@Transactional
+	public Long login(User user);
+	
 	@Transactional
 	public void delete(Long id);
 	@Transactional

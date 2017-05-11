@@ -58,6 +58,24 @@ public class UserRest {
         returnValue.put("data", user);
         return returnValue;
     }
+    @POST
+    @Path("login")
+    @Consumes("application/json;charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> login(@RequestBody User user){
+        returnValue.clear();
+        Long id = userService.login(user);
+        if(id!=null&&id!=0){
+        	returnValue.put("islogin", true);
+        	returnValue.put("data", userService.getById(id));
+        }else{
+        	returnValue.put("islogin",false);
+        }
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "login ");
+        return returnValue;
+    }
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)

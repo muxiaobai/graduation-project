@@ -62,6 +62,16 @@ public class UserServiceImpl implements UserService{
 	public User update(User user) {
 		return userDao.save(user);
 	}
+	@Override
+	public Long login(User user) {
+		User user2 =userDao.getUserByUsername(user.getUsername());
+		System.out.println("serviceimpl:"+user2);
+		if(user2!=null&&user2.getPassword().equals(user.getPassword())){
+			return user2.getId();
+		}else{
+			return 0L;
+		}
+	}
 
 }
 
