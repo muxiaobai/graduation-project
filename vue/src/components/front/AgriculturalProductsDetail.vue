@@ -98,7 +98,8 @@ export default{
 			getGoods(params).then(res=>{
 				this.infoObj = true;
 				this.detailObj = res.data.data;
-			})
+			});
+			this.completeLoad();
 	    },
 	    handleAdd :function(){
 	    	this.popupVisible =true;
@@ -145,9 +146,10 @@ export default{
 	created () {
 		 //this.storeUser({id : 11,username : ""});
 		//this.getStoreUser();
+		console.log(this.$route.path);
 		let id = this.$route.params.id
 		this.getDataById(id);
-		this.completeLoad;
+		this.completeLoad();
 	},
 }
 </script>

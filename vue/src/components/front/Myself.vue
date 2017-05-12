@@ -16,7 +16,6 @@
             <mt-field label="生日" placeholder="请输入生日" type="date" v-model="editForm.birthday"></mt-field>
             <mt-field label="自我介绍" placeholder="自我介绍" type="textarea" rows="4" v-model="editForm.introduction"></mt-field>
             <el-button type="default" @click.native="closeEdit">取消</el-button>
-            <!--<router-link to="/index">取消</router-link>-->
             <el-button type="primary" @click.native="editSubmit">{{btnEditText}}</el-button>
             </el-form>
         </mt-popup>
@@ -96,7 +95,7 @@ export default {
       },
       getOrder:function(){
         let params = {
-          
+             
         };
         
         getOrderListPage(params).then(res=>{

@@ -6,7 +6,7 @@
 	  			<div class="nav-icon">
 	  				<img v-show="route !== '/'" src="../../assets/images/hno.svg" alt="">
 	  				<img v-show="route === '/'" src="../../assets/images/hok.svg" alt="">
-	  			</div>
+	  			</div> 
 	  		</router-link>
 	  	</nav>
 	  	<nav class="nav nav-cinama" :class="{'cur-page': route === '/cinema'}">
@@ -33,6 +33,9 @@
 </template>
 <script>
 export default{
+  data:function (){
+	return {}
+  },
   props: {
   	'showNav': {
   		type: Boolean,
@@ -91,10 +94,10 @@ export default{
 	font-size: 12px;
 }
 .nav-movie::after {
-	content: "电影";
+	content: "主页";
 }
 .nav-cinama::after {
-	content: "影院";
+	content: "热卖";
 }
 .nav-me::after {
 	content: "我的";
