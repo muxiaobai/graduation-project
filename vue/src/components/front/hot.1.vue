@@ -54,9 +54,19 @@ export default{
   	}
   },
   methods: {
-  
+  	...mapMutations([
+  		'playVideo'
+  	]),
+  	playMovieVideo (url, cover) {
+  		this.playVideo({audio: {
+  			url,
+  			cover
+  		}})
+  	}
   },
   created:function(){
+  	
+  	console.log(this.hotLists);
   }
 }
 </script>

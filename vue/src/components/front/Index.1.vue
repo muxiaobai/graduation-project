@@ -136,11 +136,7 @@ export default {
      
     }
   },
-  mounted:function(){
-    console.log("asasd");
-  },
-  created:function(){ 
-    	console.log(this.$route.path);
+  created () {
      this.getList();
      this.pushComingList({lists: this.comingLists})
      this.completeLoad();

@@ -11,6 +11,8 @@ import Login from 'components/login/Login'
 import Temp from 'components/Temp'
 //前台
 import Index from 'components/front/Index'
+import Hot from 'components/front/hot'
+
 import Myself from 'components/front/Myself'
 import NoData from 'components/front/NoData'
 import AgriculturalProductsDetail from 'components/front/AgriculturalProductsDetail'
@@ -19,6 +21,7 @@ import Parent from 'components/ChildParent/Parent'
 Vue.use(Router)
 
 export default new Router({
+  mode:'history',
   routes: [
     {
       path: '/childparent',
@@ -37,8 +40,19 @@ export default new Router({
       path: '/',
       name: '首页',
       component: Index,
-      hidden: true
-      
+      hidden: true,
+      children:[
+      {
+        path: '/',
+        name: 'hot',
+        component: Hot
+      },
+      {
+        path: 'first',
+        name: 'first',
+        component: Hot
+      }
+      ]
     },
     {
       path: '/index',

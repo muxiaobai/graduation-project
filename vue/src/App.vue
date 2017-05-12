@@ -27,9 +27,9 @@ export default {
     }
   },
   methods: {
-    routeChange () {
-      let path = this.$route.path;
-      console.log(path);
+    routeChange:function() {
+    //  let path = this.$route.path;
+    //  console.log(path);
     //  if (path === '/' || path === '/front' || path === '/me' || path == '/goods/detail/') {
         this.showNav = true
     //  } else {
