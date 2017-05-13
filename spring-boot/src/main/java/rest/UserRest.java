@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -118,7 +117,7 @@ public class UserRest {
        returnValue.put("data", userService.getById(id));
        return returnValue;
     }
-    //http://127.0.0.1:8080/rest/users/list?page=0&size=20
+    //http://127.0.0.1:8080/rest/xxx/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
