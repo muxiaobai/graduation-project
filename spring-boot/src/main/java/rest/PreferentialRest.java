@@ -1,6 +1,6 @@
 /**
  * Project Name:spring-boot
- * File Name:OrderRest.java
+ * File Name:PreferentialRest.java
  * Package Name:rest
  * Date:2017年2月28日上午10:13:51
  * Copyright (c) 2017, All Rights Reserved.
@@ -25,7 +25,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,59 +32,60 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import domain.Order;
-import service.OrderService;
+import domain.Preferential;
+import service.PreferentialService;
 /**
- * OrderRest
+ * 
+ * rest PreferentialRest.java
  * @author 张鹏飞
- * @time 2017年5月8日 上午9:20:03
+ * @time 2017年5月13日 下午4:12:16
  *
  */
-@Path("/orders")  
+@Path("/preferentials")  
 @Component 
-public class OrderRest {
+public class PreferentialRest {
 
     @Autowired  
-    private OrderService OrderService;  
+    private PreferentialService PreferentialService;  
     private Map<String, Object> returnValue= new HashMap<String, Object>();
     @POST
     @Path("add")
     @Consumes("application/json;charset=UTF-8")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> post(@RequestBody Order Order){
+    public Map<String, Object> post(@RequestBody Preferential Preferential){
         returnValue.clear();
-        OrderService.save(Order);
+        PreferentialService.save(Preferential);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "add ");
-        returnValue.put("data", Order);
+        returnValue.put("data", Preferential);
         return returnValue;
     }
+    
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> delete(@PathParam("id") Long id) {
         returnValue.clear();
-        OrderService.delete(id);
+        PreferentialService.delete(id);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
-        returnValue.put("action", "delete");
+        returnValue.put("action", "delete ");
         return  returnValue;
     }
     /**
      * 修改
      * @param id id
-     * @param Order 修改的实例bean
+     * @param Preferential 修改的实例bean
      * @return
      */
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Order Order) {
+    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Preferential Preferential) {
         returnValue.clear();
-        Order.setId(id);
-        OrderService.update(Order);
+        Preferential.setId(id);
+        PreferentialService.update(Preferential);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "put update");
@@ -100,21 +100,22 @@ public class OrderRest {
        returnValue.put("code", 200);
        returnValue.put("msg", "success");
        returnValue.put("action", "getById");
-       returnValue.put("data", OrderService.getById(id));
+       returnValue.put("data", PreferentialService.getById(id));
        return returnValue;
     }
-    //http://127.0.0.1:8080/rest/Orders/list?page=0&size=20
+    //http://127.0.0.1:8080/rest/Preferentials/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> getList(@DefaultValue("0")@QueryParam("page") Integer page, @DefaultValue("20")@QueryParam("size") Integer size) {
         returnValue.clear();
+        System.out.println("======================");
         Sort sort = new Sort(Direction.DESC, "id");
         Pageable pageable = new PageRequest(page, size, sort);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "getpageList");
-        returnValue.put("data",OrderService.FindList(pageable));
+        returnValue.put("data",PreferentialService.FindList(pageable));
         return returnValue;
     }
  
@@ -123,8 +124,8 @@ public class OrderRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> getPage(@DefaultValue("20") @PathParam("pagesize") Integer pagesize, @DefaultValue("1") @PathParam("currentpage") Integer currentpage) {
         returnValue.clear();
-        List<Order> Orders = new ArrayList<Order>();
-        returnValue.put("Orders",Orders);
+        List<Preferential> Preferentials = new ArrayList<Preferential>();
+        returnValue.put("Preferentials",Preferentials);
         return returnValue;
     }
     

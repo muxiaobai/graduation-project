@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -56,6 +55,24 @@ public class UserRest {
         returnValue.put("msg", "success");
         returnValue.put("action", "add ");
         returnValue.put("data", user);
+        return returnValue;
+    }
+    @POST
+    @Path("login")
+    @Consumes("application/json;charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> login(@RequestBody User user){
+        returnValue.clear();
+        Long id = userService.login(user);
+        if(id!=null&&id!=0){
+        	returnValue.put("islogin", true);
+        	returnValue.put("data", userService.getById(id));
+        }else{
+        	returnValue.put("islogin",false);
+        }
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "login ");
         return returnValue;
     }
     @DELETE
@@ -100,7 +117,7 @@ public class UserRest {
        returnValue.put("data", userService.getById(id));
        return returnValue;
     }
-    //http://127.0.0.1:8080/rest/users/list?page=0&size=20
+    //http://127.0.0.1:8080/rest/xxx/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)

@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -35,6 +36,9 @@ public class User {
     private Long id;  
     private String username;
     private String password;
+    private Integer type;//用户类型，0代表默认，1位白银，2为黄金，3为白金
+    @ManyToOne(targetEntity = Preferential.class)
+    private Preferential preferential;//优惠，不同的type对应不同的优惠活动
     private Integer sex;//1为男，0为女
     private Date birth;
     private Integer age;
@@ -84,13 +88,24 @@ public class User {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
+	
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
+	public Preferential getPreferential() {
+		return preferential;
+	}
+	public void setPreferential(Preferential preferential) {
+		this.preferential = preferential;
+	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", sex=" + sex + ", birth="
-				+ birth + ", age=" + age + ", addr=" + addr + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", type=" + type
+				+ ", preferential=" + preferential + ", sex=" + sex + ", birth=" + birth + ", age=" + age + ", addr="
+				+ addr + "]";
 	}
-	
-  
-    
 }
 

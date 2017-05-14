@@ -25,5 +25,6 @@ import domain.User;
 @Repository
 public interface UserDao  extends JpaRepository<User, Long>{
     public User getUserById(Long id);
+    public User getUserByUsername(String username);
 }
 
