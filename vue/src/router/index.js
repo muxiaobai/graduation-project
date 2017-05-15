@@ -70,12 +70,14 @@ export default new Router({
     {
       path : '/me',
       name: 'me',
-      component : Myself
+      component : Myself,
+      hidden:true
     },
         {
       path : '/no',
       name: 'no',
-      component : NoData
+      component : NoData,
+      hidden:true
     },
     
     //后台
@@ -98,8 +100,8 @@ export default new Router({
       iconCls: "el-icon-menu",
       children: [
         {path:'goodslist',name:'商品管理',component:GoodsList},
+        {path:'userlist',name: '用户管理',component:UserList},
         {path:'orderlist',name: '订单管理',component:OrderList},
-        {path:'userlist',name: '用户管理',component:UserList}
         ]
     },
      {
@@ -123,13 +125,6 @@ export default new Router({
         {path:'/loginchild',name: 'loginchild',component:Login},
         
         ] 
-    },
-    //获取 暂时不行，采用axios
-    {
-      path: '/services/api/',
-      name: '',
-      hidden:true
     }
-   
   ]
 })

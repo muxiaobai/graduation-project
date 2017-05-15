@@ -64,7 +64,14 @@
 		<el-form-item label="商品价格">
 			<el-input-number v-model="editForm.goodsPrice" :min="0" :max="200"></el-input-number>
 		</el-form-item>
-			<el-form-item label="商品库存">
+		<el-form-item label="优惠活动">
+			<el-select v-model="editForm.goodsPrefer.id"  placeholder="editForm.goodsPrefer.intro" >
+       		 <span v-for = 'preferential in preferentials'>
+			     <el-option :label="preferential.intro" :value="preferential.id"></el-option>
+			</span>
+     	 	</el-select>
+		</el-form-item>
+		<el-form-item label="商品库存">
 			<el-input-number v-model="editForm.goodsStock" :min="0" :max="200"></el-input-number>
 		</el-form-item>
 		<el-form-item label="生产日期">
@@ -89,7 +96,7 @@
 
 <script>
 import Top from '../include/Top'
-import {getGoodsListPage,addGoods,removeGoods,editGoods,getGoods} from '../../services/api/api'
+import {getGoodsListPage,addGoods,removeGoods,editGoods,getGoods,getPreferentialList} from '../../services/api/api'
 export default {
   name: 'goodsdetail',
   components: {
@@ -101,6 +108,8 @@ export default {
 					goodsName: ''
 				},
 				goods: [],
+				preferentials:[],
+				preferentialintro:'请选择优惠活动',
 				total: 1,
 				page: 1,
 				currentPage: 1,
@@ -116,7 +125,11 @@ export default {
 					goodsPrice: 0,
 					goodsDate: '',
 					goodsIntro: '',
-					goodsStock: 100
+					goodsStock: 100,
+					goodsPrefer: {
+						id : 1,
+						intro: '请选择优惠活动'
+					}
 				},
 				editLoading: false,
 				btnEditText: '提 交',
@@ -128,6 +141,8 @@ export default {
 
 			}
   },
+   computed: {
+   },
    methods: {
     handleClick: function() {
       this.$toast('Hello world!')
@@ -138,6 +153,17 @@ export default {
     formatDate: function(row,column){
     	return (new Date(row.goodsDate)).toLocaleDateString();
     },
+    handleCreatedPreferential:function(){
+    	let params ={
+			page: this.currentPage,
+			size: this.pageSize,
+    	};
+    	getPreferentialList(params).then(res=>{
+    		this.preferentials = res.data.data.content;
+    		console.log(this.preferentials);
+    	});
+    },
+
     //CRUD
     getList:function() {
       let para = {
@@ -148,37 +174,40 @@ export default {
 				this.listLoading = true;
 				getGoodsListPage(para).then((res) => {
 					this.total = res.data.data.totalElements;
-					this.goods = res.data.data.content
+					this.goods = res.data.data.content;
 					this.listLoading = false;
 				});
 		return
     },
     handleAdd : function() {
-      this.editFormVisible= true;
-      this.editFormTtile = '新增';
-    	this.editForm.id = 0;//重置参数,0为新增，其他为修改
-			this.editForm.goodsName = '';
-			this.editForm.goodsType = 1;
-			this.editForm.goodsPrice = 0;
-			this.editForm.goodsDate = '';
-			this.editForm.goodsIntro = '';
-			this.editForm.detailIntro = '';
-			this.editForm.goodsStock = 100;
-    },
+		this.editFormVisible= true;
+    	this.editFormTtile = '新增';
+		this.editForm.id = 0;//重置参数,0为新增，其他为修改
+		this.editForm.goodsName = '';
+		this.editForm.goodsType = 1;
+		this.editForm.goodsPrice = 0;
+		this.editForm.goodsDate = '';
+		this.editForm.goodsIntro = '';
+		this.editForm.detailIntro = '';
+		this.editForm.goodsStock = 100;
+		this.editForm.goodsPrefer.id = 1;
+		this.editForm.goodsPrefer.intro = "选择优惠活动";
+		
+	},
     handleDel: function(row) {
       	var _this = this;
-				this.$confirm('确认删除该记录吗?', '提示', {
-					//type: 'warning'
-				}).then(() => {
-					_this.listLoading = true;
-					let para = { id: row.id };
-					removeGoods(para).then((res) => {
-						this.closeEdit(_this,'成功','删除成功','success');
-					});
-					
-				}).catch(() => {
+		this.$confirm('确认删除该记录吗?', '提示', {
+			//type: 'warning'
+		}).then(() => {
+			_this.listLoading = true;
+			let para = { id: row.id };
+			removeGoods(para).then((res) => {
+				this.closeEdit(_this,'成功','删除成功','success');
+			});
+			
+		}).catch(() => {
 
-				});
+		});
     },
     handleEdit: function(row) {
         this.editFormVisible= true;
@@ -194,6 +223,7 @@ export default {
 			this.editForm.goodsIntro = edit.goodsIntro;
 			this.editForm.detailIntro = edit.detailIntro;
 			this.editForm.goodsStock = edit.goodsStock;
+			this.editForm.goodsPrefer = edit.preferential;
 		});
     },
     editSubmit: function(){
@@ -214,7 +244,8 @@ export default {
 									goodsDate: _this.editForm.goodsDate,
 									goodsIntro: _this.editForm.goodsIntro,
 									detailIntro:_this.editForm.detailIntro,
-									goodsStock : _this.editForm.goodsStock
+									goodsStock : _this.editForm.goodsStock,
+									preferential :{ id : _this.editForm.goodsPrefer.id}
 								};
 								addGoods(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
@@ -229,8 +260,10 @@ export default {
 									goodsDate: _this.editForm.goodsDate,
 									goodsIntro: _this.editForm.goodsIntro,
 									detailIntro:_this.editForm.detailIntro,
-									goodsStock :_this.editForm.goodsStock
+									goodsStock :_this.editForm.goodsStock,
+									preferential :{ id : _this.editForm.goodsPrefer.id}
 								};
+								console.log(para);
 								editGoods(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
 								});
@@ -269,6 +302,7 @@ export default {
   },
   created :function(){
   	this.getList();
+  	this.handleCreatedPreferential();
   },
 }
 
