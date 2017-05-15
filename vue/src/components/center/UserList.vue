@@ -60,14 +60,17 @@
 			<el-input v-model="editForm.username" auto-complete="off"></el-input>
 		</el-form-item>
 		<el-form-item label="性别">
-			<!--<el-select v-model="editForm.sex" placeholder="请选择性别">
-						<el-option label="男" :value="1"></el-option>
-						<el-option label="女" :value="0"></el-option>
-					</el-select>-->
 			<el-radio-group v-model="editForm.sex">
 				<el-radio class="radio" :label="1">男</el-radio>
 				<el-radio class="radio" :label="0">女</el-radio>
 			</el-radio-group>
+		</el-form-item>
+				<el-form-item label="优惠活动">
+			<el-select v-model="editForm.preferential.id"  placeholder="editForm.preferential.intro" >
+       		 <span v-for = 'preferential in preferentials'>
+			     <el-option :label="preferential.intro" :value="preferential.id"></el-option>
+			</span>
+     	 	</el-select>
 		</el-form-item>
 		<el-form-item label="年龄">
 			<el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
@@ -91,7 +94,7 @@
 
 <script>
 import Top from '../include/Top'
-import {getUserListPage,addUser,removeUser,editUser,getUser} from '../../services/api/api'
+import {getUserListPage,addUser,removeUser,editUser,getUser,getPreferentialList} from '../../services/api/api'
 export default {
   name: 'goodsdetail',
   components: {
@@ -117,8 +120,14 @@ export default {
 					age: 0,
 					birth: '',
 					addr: '',
-					password:''
+					password:'',
+					type: 0,
+					preferential:{
+						id : 1,
+						intro: '请选择优惠活动'
+					}
 				},
+				preferentials:[],
 				editLoading: false,
 				btnEditText: '提 交',
 				editFormRules: {
@@ -138,6 +147,15 @@ export default {
     },
     formatDate: function(row,column){
     	return (new Date(row.birth)).toLocaleDateString();
+    },
+     handleCreatedPreferential:function(){
+    	let params ={
+			page: this.currentPage,
+			size: this.pageSize,
+    	};
+    	getPreferentialList(params).then(res=>{
+    		this.preferentials = res.data.data.content;
+    	});
     },
     //CRUD
     getList:function() {
@@ -162,6 +180,10 @@ export default {
 		this.editForm.age = 0;
 		this.editForm.birth = '';
 		this.editForm.addr = '';
+		this.editForm.type = 0;
+		this.editForm.preferential.id = 1;
+		this.editForm.preferential.intro = '请选择优惠活动';
+		
     },
     handleDel: function(row) {
     		var _this = this;
@@ -184,7 +206,6 @@ export default {
 		this.editForm.id = row.id;
 		let para = { id: row.id };
 		getUser(para).then((res) => {
-			
 			let edit = res.data.data;
 			this.editForm.username = edit.username;
 			this.editForm.sex = edit.sex;
@@ -192,6 +213,8 @@ export default {
 			this.editForm.birth = edit.birth;
 			this.editForm.addr = edit.addr;
 			this.editForm.password = edit.password;
+			this.editForm.type = edit.type;
+			this.editForm.preferential = edit.preferential;
 		});
 			
     },
@@ -212,6 +235,8 @@ export default {
 							age: _this.editForm.age,
 							birth: _this.editForm.birth,
 							addr: _this.editForm.addr,
+							type: _this.editForm.type,
+							preferential :{ id : _this.editForm.preferential.id}
 						};
 						addUser(para).then((res) => {
 						  this.closeEdit(_this,'成功','提交成功','success');
@@ -225,7 +250,9 @@ export default {
 							age: _this.editForm.age,
 							birth: _this.editForm.birth,
 							addr: _this.editForm.addr,
-							password : _this.editForm.password
+							password : _this.editForm.password,
+							type: _this.editForm.type,
+							preferential :{ id : _this.editForm.preferential.id}
 						};
 						editUser(para).then((res) => {
 						  this.closeEdit(_this,'成功','提交成功','success');
@@ -265,6 +292,7 @@ export default {
   },
   created :function(){
   	this.getList();
+  	this.handleCreatedPreferential();
   }
 }
 

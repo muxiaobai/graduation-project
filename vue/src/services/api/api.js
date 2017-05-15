@@ -30,3 +30,6 @@ export const addOrder = params => { return axios.post(`${base}/orders/add`, para
 export const editOrder = params => { return axios.put(`${base}/orders/`+params.id, params);};
 export const getOrder = params => { return axios.get(`${base}/orders/`+params.id, params);};
 export const getOrderListPage = params => { return axios.get(`${base}/orders/list`, params);};
+
+//Preferential 优惠活动
+export const getPreferentialList = params => { return axios.get(`${base}/preferentials/list`, params);};
