@@ -1,6 +1,6 @@
 /**
  * Project Name:spring-boot
- * File Name:UserRest.java
+ * File Name:CommentRest.java
  * Package Name:rest
  * Date:2017年2月28日上午10:13:51
  * Copyright (c) 2017, All Rights Reserved.
@@ -9,7 +9,9 @@
 
 package rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -23,7 +25,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,58 +32,60 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import domain.Goods;
-import service.GoodsService;
+import domain.Comment;
+import service.CommentService;
 /**
  * 
- * rest GoodsRest.java
+ * rest CommentRest.java
  * @author 张鹏飞
- * @time 2017年5月8日 上午9:23:37
+ * @time 2017年5月15日 下午3:52:52
  *
  */
-
-@Path("/goods")  
+@Path("/comments")  
 @Component 
-public class GoodsRest {
+public class CommentRest {
 
     @Autowired  
-    private GoodsService goodsService;  
+    private CommentService CommentService;  
     private Map<String, Object> returnValue= new HashMap<String, Object>();
     @POST
     @Path("add")
-//    @Consumes("application/x-www-form-urlencoded")
     @Consumes("application/json;charset=UTF-8")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> post( @RequestBody Goods goods){
+    public Map<String, Object> post(@RequestBody Comment Comment){
         returnValue.clear();
-        goodsService.save(goods);
+        CommentService.save(Comment);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "add ");
-        returnValue.put("data", goods);
+        returnValue.put("data", Comment);
         return returnValue;
     }
+    
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> delete(@PathParam("id") Long id) {
         returnValue.clear();
-        goodsService.delete(id);
+        CommentService.delete(id);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "delete ");
         return  returnValue;
     }
+    /**
+     * 修改
+     * @param id id
+     * @param Comment 修改的实例bean
+     * @return
+     */
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Goods goods) {
+    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Comment Comment) {
         returnValue.clear();
-        goods.setId(id);
-        Goods dataGoods = goodsService.getById(id);
-        goodsService.update(goods);
-        System.out.println(goods);
+        Comment.setId(id);
+        CommentService.update(Comment);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "put update");
@@ -97,10 +100,10 @@ public class GoodsRest {
        returnValue.put("code", 200);
        returnValue.put("msg", "success");
        returnValue.put("action", "getById");
-       returnValue.put("data", goodsService.getById(id));
-        return returnValue;
+       returnValue.put("data", CommentService.getById(id));
+       return returnValue;
     }
-    //http://127.0.0.1:8080/rest/users/list?page=0&size=20
+    //http://127.0.0.1:8080/rest/Comments/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
@@ -110,9 +113,20 @@ public class GoodsRest {
         Pageable pageable = new PageRequest(page, size, sort);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
-        returnValue.put("action", " get page list");
-        returnValue.put("data",goodsService.FindList(pageable));
+        returnValue.put("action", "getpageList");
+        returnValue.put("data",CommentService.FindList(pageable));
         return returnValue;
     }
+ 
+    @GET
+    @Path("/page/{pagesize}/{currentpage}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> getPage(@DefaultValue("20") @PathParam("pagesize") Integer pagesize, @DefaultValue("1") @PathParam("currentpage") Integer currentpage) {
+        returnValue.clear();
+        List<Comment> Comments = new ArrayList<Comment>();
+        returnValue.put("Comments",Comments);
+        return returnValue;
+    }
+    
 }
 
