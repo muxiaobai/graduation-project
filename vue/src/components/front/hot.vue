@@ -28,11 +28,15 @@
 					<p>{{ item.goodsIntro }}</p>
 				
 				</div>
-				</router-link>		
+				</router-link>
 			</div>
-			<div class="f13 m-act">
-				<span class="border-right">1212五折狂欢</span>
-				<span class="tddd">1212特惠抢票，名额有限抢完即止</span>
+			<div class="f13 m-act" v-if ='item.preferential != null '>
+				<span class="border-right">{{item.preferential.intro}}</span>
+				<span class="tddd">特享折扣</span>
+			</div>
+				<div class="f13 m-act" v-if ='item.preferential == null '>
+				<span class="border-right">此商品暂无优惠</span>
+				<span class="tddd">敬请期待，优惠马上到！！！</span>
 			</div>
   		</li> 		
   	</ul>

@@ -178,7 +178,4 @@ export default {
 .me{
   background-color:#fff;
 }
-.el-button{
-  padding:10px 80px;
-}
 </style>
