@@ -64,13 +64,16 @@ public class UserServiceImpl implements UserService{
 	}
 	@Override
 	public Long login(User user) {
-		User user2 =userDao.getUserByUsername(user.getUsername());
-		System.out.println("serviceimpl:"+user2);
+		User user2 =userDao.findByUsername(user.getUsername());
 		if(user2!=null&&user2.getPassword().equals(user.getPassword())){
 			return user2.getId();
 		}else{
 			return 0L;
 		}
+	}
+	@Override
+	public User isSign(String username) {
+		return userDao.findByUsername( username);
 	}
 
 }

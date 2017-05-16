@@ -80,9 +80,8 @@ public class GoodsRest {
     public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Goods goods) {
         returnValue.clear();
         goods.setId(id);
-        Goods dataGoods = goodsService.getById(id);
         goodsService.update(goods);
-        System.out.println(goods);
+        System.out.println("============"+goods);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "put update");

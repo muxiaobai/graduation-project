@@ -25,6 +25,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import domain.Cart;
 import service.CartService;
 /**
@@ -101,6 +103,18 @@ public class CartRest {
        returnValue.put("msg", "success");
        returnValue.put("action", "getById");
        returnValue.put("data", CartService.getById(id));
+       return returnValue;
+    }
+    @POST
+    @Path("")
+    @Consumes("application/json;charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> get(@RequestBody Cart Cart) {
+       returnValue.clear();
+       returnValue.put("code", 200);
+       returnValue.put("msg", "success");
+       returnValue.put("action", "getByGoodsAndUserId");
+       returnValue.put("data", CartService.findByGoodsAndUser(Cart));
        return returnValue;
     }
     //http://127.0.0.1:8080/rest/Carts/list?page=0&size=20

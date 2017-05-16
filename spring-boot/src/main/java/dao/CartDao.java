@@ -16,4 +16,5 @@ import domain.Cart;
 @Repository
 public interface CartDao extends JpaRepository<Cart, Long> {
 	public List<Cart> findByUser(Cart Cart);
+	public List<Cart> findByGoodsAndUser(Cart Cart);
 }

@@ -117,6 +117,28 @@ public class UserRest {
        returnValue.put("data", userService.getById(id));
        return returnValue;
     }
+    /**
+     * 根据用户名查询是否已经注册
+     * @param username
+     * @return
+     */
+    @GET
+    @Path("username")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> getByUserName(@PathParam("id") String username) {
+       returnValue.clear();
+       User user = userService.isSign(username);
+       if(user!=null){
+       	returnValue.put("issign", true);
+       	returnValue.put("data", user);
+       }else{
+       	returnValue.put("issign",false);
+       }
+       returnValue.put("code", 200);
+       returnValue.put("msg", "success");
+       returnValue.put("action", "getById");
+       return returnValue;
+    }
     //http://127.0.0.1:8080/rest/xxx/list?page=0&size=20
     @GET
     @Path("list")

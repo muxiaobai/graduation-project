@@ -1,5 +1,7 @@
 package service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,7 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public void save(Cart Cart) {
+		CartDao.findByGoodsAndUser(Cart);
 		CartDao.save(Cart);
 		
 	}
@@ -45,6 +48,16 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public Cart update(Cart Cart) {
 		return CartDao.save(Cart);
+	}
+
+	@Override
+	public Boolean findByGoodsAndUser(Cart Cart) {
+		List<Cart> carts =CartDao.findByGoodsAndUser(Cart);
+		if((carts!=null)&&(!carts.isEmpty())&&carts.size()>0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }

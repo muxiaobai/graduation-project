@@ -26,4 +26,6 @@ public interface CartService {
 	public void delete(Long id);
 	@Transactional
 	public Cart update(Cart Cart);
+	@Transactional
+	public Boolean findByGoodsAndUser(Cart cart);
 }

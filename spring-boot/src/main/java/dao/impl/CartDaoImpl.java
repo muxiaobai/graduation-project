@@ -2,9 +2,11 @@ package dao.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import dao.CartDao;
 import domain.Cart;
 
 /**
@@ -16,9 +18,19 @@ import domain.Cart;
  */
 @Repository
 public class CartDaoImpl {
+	@Autowired
+	public EntityManager em;
 	public List<Cart> findByUser(Cart Cart){
 //		CartDao
 		return null;
 		
+	} 
+	public List<Cart> findByGoodsAndUser(Cart Cart){
+		
+		List<Cart> carts =(List<domain.Cart>) em.createQuery("  from Cart  cart where cart.user.id =  "
+				+ Cart.getUser().getId()
+				+ " and cart.goods.id = "+ Cart.getGoods().getId());
+		System.out.println("================="+carts);
+		return null;
 	}
 }

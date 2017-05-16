@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ public class Order {
 	private Long id;
 	@ManyToOne(targetEntity = Goods.class)
 	private Goods goods;
-	@ElementCollection(targetClass = Goods.class)
+	@ElementCollection(targetClass = Goods.class,fetch = FetchType.EAGER)
 	private Map<Integer,Goods> mapGoods;//integer 个 goods
 	@ManyToOne(targetEntity = User.class)
 	private User user;
