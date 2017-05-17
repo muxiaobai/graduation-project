@@ -62,6 +62,10 @@ public class OrderServiceImpl implements OrderService{
 	public Order update(Order Order) {
 		return orderDao.save(Order);
 	}
+	@Override
+	public List<Order> FindMyList(Pageable pageable, Order order) {
+		return orderDao.findByUser(order.getUser());
+	}
 
 }
 

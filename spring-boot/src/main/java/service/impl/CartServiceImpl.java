@@ -31,12 +31,12 @@ public class CartServiceImpl implements CartService{
 	public Page<Cart> FindList(Pageable pageable) {
 		return CartDao.findAll(pageable);
 	}
-
+//通过商品和用户找不到之后才能继续加入购物车
 	@Override
 	public void save(Cart Cart) {
-		CartDao.findByGoodsAndUser(Cart);
-		CartDao.save(Cart);
-		
+		if(!this.findByGoodsAndUser(Cart)){
+			CartDao.save(Cart);
+		}
 	}
 
 	@Override
@@ -52,12 +52,17 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public Boolean findByGoodsAndUser(Cart Cart) {
-		List<Cart> carts =CartDao.findByGoodsAndUser(Cart);
+		List<Cart> carts =CartDao.findByGoodsAndUser(Cart.getGoods(),Cart.getUser());
 		if((carts!=null)&&(!carts.isEmpty())&&carts.size()>0){
 			return true;
 		}else{
 			return false;
 		}
+	}
+    
+	@Override
+	public List<Cart> FindMyList(Pageable pageable,Cart Cart) {
+		return CartDao.findByUser(Cart.getUser());
 	}
 
 }

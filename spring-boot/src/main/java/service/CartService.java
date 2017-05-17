@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
@@ -28,4 +30,6 @@ public interface CartService {
 	public Cart update(Cart Cart);
 	@Transactional
 	public Boolean findByGoodsAndUser(Cart cart);
+	@Transactional
+	public List<Cart> FindMyList(Pageable pageable,Cart Cart);
 }

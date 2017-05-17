@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,7 @@ public class Comment {
 	@ManyToOne(targetEntity = Goods.class)
 	private Goods goods;
 	private String content;
+	private Date createDate;
 	public Long getId() {
 		return id;
 	}
@@ -44,6 +47,12 @@ public class Comment {
 	}
 	
 	
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 	public Goods getGoods() {
 		return goods;
 	}

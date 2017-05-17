@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import domain.Order;
-import domain.User;
 
 /**
  * ClassName:UserService <br/>
@@ -35,7 +34,7 @@ public interface OrderService {
 	@Transactional
     public Order getById(Long id);
 	@Transactional
-    public void saveList(List orders);
+    public void saveList(List<?> orders);
 	@Transactional
     public Page<Order> FindList(Pageable pageable);
 	@Transactional
@@ -44,5 +43,8 @@ public interface OrderService {
 	public void delete(Long id);
 	@Transactional
 	public Order update(Order order);
+	@Transactional
+	public List<Order> FindMyList(Pageable pageable,Order order);
+	
 }
 

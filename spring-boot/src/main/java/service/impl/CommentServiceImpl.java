@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import dao.CommentDao;
 import domain.Comment;
 import service.CommentService;
-import service.CommentService;
 
 /**
  * 

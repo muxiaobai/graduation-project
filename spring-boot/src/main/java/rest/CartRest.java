@@ -35,6 +35,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import domain.Cart;
+import domain.User;
 import service.CartService;
 /**
  * 
@@ -131,7 +132,29 @@ public class CartRest {
         returnValue.put("data",CartService.FindList(pageable));
         return returnValue;
     }
- 
+    /**
+     * 获取我的购物车
+     * @param page
+     * @param size
+     * @return
+     */
+    @GET
+    @Path("mylist/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> getMyList(@PathParam("id") Long id) {
+        returnValue.clear();
+        Sort sort = new Sort(Direction.DESC, "id");
+        Pageable pageable = new PageRequest(0, 20, sort);
+        User user =new User();
+        user.setId(id);
+        Cart Cart =new Cart();
+        Cart.setUser(user);
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "getpageList");
+        returnValue.put("data",CartService.FindMyList(pageable, Cart));
+        return returnValue;
+    }
     @GET
     @Path("/page/{pagesize}/{currentpage}")
     @Produces(MediaType.APPLICATION_JSON)

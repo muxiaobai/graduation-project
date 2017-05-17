@@ -3,9 +3,12 @@ package dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Cart;
+import domain.Goods;
+import domain.User;
 /**
  * 
  * dao CartDao.java
@@ -15,6 +18,9 @@ import domain.Cart;
  */
 @Repository
 public interface CartDao extends JpaRepository<Cart, Long> {
-	public List<Cart> findByUser(Cart Cart);
-	public List<Cart> findByGoodsAndUser(Cart Cart);
+	@Query(" from Cart t where t.goods = ?1 and t.user =?2")
+	public List<Cart> findByGoodsAndUser(Goods Goods,User User);
+	@Query(" from Cart t where t.user =?1")
+	public List<Cart> findByUser(User User);
+	
 }
