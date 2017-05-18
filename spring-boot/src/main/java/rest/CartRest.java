@@ -1,6 +1,6 @@
 /**
  * Project Name:spring-boot
- * File Name:UserRest.java
+ * File Name:CartRest.java
  * Package Name:rest
  * Date:2017年2月28日上午10:13:51
  * Copyright (c) 2017, All Rights Reserved.
@@ -9,7 +9,9 @@
 
 package rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -32,56 +34,61 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import domain.Goods;
-import service.GoodsService;
+import domain.Cart;
+import domain.User;
+import service.CartService;
 /**
  * 
- * rest GoodsRest.java
+ * rest CartRest.java
  * @author 张鹏飞
- * @time 2017年5月8日 上午9:23:37
+ * @time 2017年5月15日 下午3:51:42
  *
  */
-
-@Path("/goods")  
+@Path("/carts")  
 @Component 
-public class GoodsRest {
+public class CartRest {
 
     @Autowired  
-    private GoodsService goodsService;  
+    private CartService CartService;  
     private Map<String, Object> returnValue= new HashMap<String, Object>();
     @POST
     @Path("add")
-//    @Consumes("application/x-www-form-urlencoded")
     @Consumes("application/json;charset=UTF-8")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> post( @RequestBody Goods goods){
+    public Map<String, Object> post(@RequestBody Cart Cart){
         returnValue.clear();
-        goodsService.save(goods);
+        CartService.save(Cart);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "add ");
-        returnValue.put("data", goods);
+        returnValue.put("data", Cart);
         return returnValue;
     }
+    
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> delete(@PathParam("id") Long id) {
         returnValue.clear();
-        goodsService.delete(id);
+        CartService.delete(id);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "delete ");
         return  returnValue;
     }
+    /**
+     * 修改
+     * @param id id
+     * @param Cart 修改的实例bean
+     * @return
+     */
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Goods goods) {
+    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Cart Cart) {
         returnValue.clear();
-        goods.setId(id);
-        goodsService.update(goods);
-        System.out.println("============"+goods);
+        Cart.setId(id);
+        CartService.update(Cart);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "put update");
@@ -96,10 +103,22 @@ public class GoodsRest {
        returnValue.put("code", 200);
        returnValue.put("msg", "success");
        returnValue.put("action", "getById");
-       returnValue.put("data", goodsService.getById(id));
-        return returnValue;
+       returnValue.put("data", CartService.getById(id));
+       return returnValue;
     }
-    //http://127.0.0.1:8080/rest/users/list?page=0&size=20
+    @POST
+    @Path("")
+    @Consumes("application/json;charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> get(@RequestBody Cart Cart) {
+       returnValue.clear();
+       returnValue.put("code", 200);
+       returnValue.put("msg", "success");
+       returnValue.put("action", "getByGoodsAndUserId");
+       returnValue.put("data", CartService.findByGoodsAndUser(Cart));
+       return returnValue;
+    }
+    //http://127.0.0.1:8080/rest/Carts/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
@@ -109,9 +128,42 @@ public class GoodsRest {
         Pageable pageable = new PageRequest(page, size, sort);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
-        returnValue.put("action", " get page list");
-        returnValue.put("data",goodsService.FindList(pageable));
+        returnValue.put("action", "getpageList");
+        returnValue.put("data",CartService.FindList(pageable));
         return returnValue;
     }
+    /**
+     * 获取我的购物车
+     * @param page
+     * @param size
+     * @return
+     */
+    @GET
+    @Path("mylist/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> getMyList(@PathParam("id") Long id) {
+        returnValue.clear();
+        Sort sort = new Sort(Direction.DESC, "id");
+        Pageable pageable = new PageRequest(0, 20, sort);
+        User user =new User();
+        user.setId(id);
+        Cart Cart =new Cart();
+        Cart.setUser(user);
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "getpageList");
+        returnValue.put("data",CartService.FindMyList(pageable, Cart));
+        return returnValue;
+    }
+    @GET
+    @Path("/page/{pagesize}/{currentpage}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> getPage(@DefaultValue("20") @PathParam("pagesize") Integer pagesize, @DefaultValue("1") @PathParam("currentpage") Integer currentpage) {
+        returnValue.clear();
+        List<Cart> Carts = new ArrayList<Cart>();
+        returnValue.put("Carts",Carts);
+        return returnValue;
+    }
+    
 }
 

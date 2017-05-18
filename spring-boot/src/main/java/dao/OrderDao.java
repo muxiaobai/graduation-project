@@ -1,8 +1,12 @@
 package dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import domain.Order;
+import domain.User;
 /**
  * OrderDao
  * @author 张鹏飞
@@ -10,5 +14,6 @@ import domain.Order;
  *
  */
 public interface OrderDao extends JpaRepository<Order, Long> {
-
+	@Query(" from Order t where t.user =?1")
+	public List<Order> findByUser(User User);
 }

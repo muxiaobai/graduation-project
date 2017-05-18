@@ -1,6 +1,10 @@
 package domain;
 
+import java.util.Map;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +20,8 @@ public class Order {
 	private Long id;
 	@ManyToOne(targetEntity = Goods.class)
 	private Goods goods;
+	@ElementCollection(targetClass = Goods.class,fetch = FetchType.EAGER)
+	private Map<Integer,Goods> mapGoods;//integer 个 goods
 	@ManyToOne(targetEntity = User.class)
 	private User user;
 	private Integer number;//数量
@@ -73,10 +79,88 @@ public class Order {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public Map<Integer, Goods> getMapGoods() {
+		return mapGoods;
+	}
+	public void setMapGoods(Map<Integer, Goods> mapGoods) {
+		this.mapGoods = mapGoods;
+	}
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", goods=" + goods + ", user=" + user + ", number=" + number + ", total=" + total
-				+ ", phone=" + phone + ", username=" + username + ", addr=" + addr + "]";
+		return "Order [id=" + id + ", goods=" + goods + ", mapGoods=" + mapGoods + ", user=" + user + ", number="
+				+ number + ", total=" + total + ", phone=" + phone + ", username=" + username + ", addr=" + addr + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((addr == null) ? 0 : addr.hashCode());
+		result = prime * result + ((goods == null) ? 0 : goods.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((mapGoods == null) ? 0 : mapGoods.hashCode());
+		result = prime * result + ((number == null) ? 0 : number.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + ((total == null) ? 0 : total.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (addr == null) {
+			if (other.addr != null)
+				return false;
+		} else if (!addr.equals(other.addr))
+			return false;
+		if (goods == null) {
+			if (other.goods != null)
+				return false;
+		} else if (!goods.equals(other.goods))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (mapGoods == null) {
+			if (other.mapGoods != null)
+				return false;
+		} else if (!mapGoods.equals(other.mapGoods))
+			return false;
+		if (number == null) {
+			if (other.number != null)
+				return false;
+		} else if (!number.equals(other.number))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
+		if (total == null) {
+			if (other.total != null)
+				return false;
+		} else if (!total.equals(other.total))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
 	}
 	
 	

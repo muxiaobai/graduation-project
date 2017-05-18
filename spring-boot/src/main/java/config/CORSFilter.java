@@ -10,6 +10,7 @@
 package config;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -19,10 +20,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
 
 /**
  * ClassName:CORSFilter <br/>
@@ -41,6 +39,7 @@ public class CORSFilter  implements Filter {
         public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)  
                 throws IOException, ServletException {  
         	HttpServletRequest request = (HttpServletRequest) req;
+            System.out.println(request.getRequestURL());
         	System.out.println(request.getParameterMap());
             HttpServletResponse response = (HttpServletResponse) res;
             request.setCharacterEncoding("UTF-8");

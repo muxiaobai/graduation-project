@@ -19,7 +19,7 @@ public class Preferential {
 	private Long id;
 	private String intro;//优惠活动
 	@Column(nullable=false,columnDefinition="INT default 0") 
-	private Integer whichType;//判断是折扣还是减少多少，0 没有，1 discount 2 reducePrice
+	private Integer whichType;//判断是折扣还是减少多少，0 没有，1 discount 2 reducePrice 3 
 	private Integer discount;//折扣 3代表打三折
 	private Integer reducePrice;//卖价3代表减少多少钱，如果应用于用户代表此单减多少，如果应用于商品代表每份减少多少
 	public Long getId() {

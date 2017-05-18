@@ -109,7 +109,6 @@ public class PreferentialRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> getList(@DefaultValue("0")@QueryParam("page") Integer page, @DefaultValue("20")@QueryParam("size") Integer size) {
         returnValue.clear();
-        System.out.println("======================");
         Sort sort = new Sort(Direction.DESC, "id");
         Pageable pageable = new PageRequest(page, size, sort);
         returnValue.put("code", 200);

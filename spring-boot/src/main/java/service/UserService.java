@@ -47,5 +47,7 @@ public interface UserService {
 	public void delete(Long id);
 	@Transactional
 	public User update(User user);
+	@Transactional
+	public User isSign(String username);
 }
 
