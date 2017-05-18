@@ -34,15 +34,15 @@
 		<section v-else class="no-data">
 			<span>暂时没有更多数据～</span>
 		</section>
-		<mt-popup  v-model="popupVisible"  position="bottom" class ='popup'> 
+		<mt-popup  v-model="popupVisible"  position="center" class ='popup'> 
 		<mt-field label="收货人" placeholder="请输入" v-model="editForm.username"></mt-field>
 		<mt-field label="地址" placeholder="收货地址" type="textarea" rows="4" v-model="editForm.addr"></mt-field>
 		<mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="editForm.email"></mt-field>
 		<mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="editForm.phone"></mt-field>
-		<mt-field label="购买数量" placeholder="请输入数字" type="number":min = 1 v-model="editForm.number"></mt-field>
+		<mt-field label="购买数量" placeholder="请输入数字" type="number" min ="1" v-model="editForm.number"></mt-field>
 		<mt-field label="总计" type="text" v-model="editForm.total" readonly ></mt-field>
 		<mt-button type="default" @click.native="popupVisible = false">取消</mt-button>
-		<mt-button type="primary"  @click.native="editSubmit">提交</mt-button>
+		<mt-button type="primary" class='fr'  @click.native="editSubmit">提交</mt-button>
 		</mt-popup>
 		<mt-popup  v-model="loginVisible" position="center" >
           <el-form :model="loginForm" label-width="80px" ref="loginForm">
@@ -168,16 +168,22 @@ export default{
 			this.editForm.number = 1;
 			this.editForm.total = this.detailObj.price * this.editForm.number;
 	    },
+	    getOneCart:function(params){
+				getCartOne(params).then(res=>{
+			    	return res.data.data;
+	    		});
+	    },
 	    updateCart: function(){
 	    		let params = { 
 					goods:{
 						id: this.$route.params.id
 					},
 					user :{
-						id : 1
+						id : this.$store.state.user.id
 					}
 				};
-	    		getCartOne(params).then(res=>{
+				if(this.$store.state.user.login){
+					getCartOne(params).then(res=>{
 	    			if(res.data.data){
 			    		this.CartBtnStr = '该商品已加入购物车';
 			    		this.Cartdisabled = true;
@@ -186,6 +192,7 @@ export default{
 			    		this.CartBtnStr = '请加入购物车';
 	    			}
 	    		});
+				}
 	    },
 	    handleAddCart: function(){
 	    	if(this.islogin){
@@ -203,6 +210,10 @@ export default{
 						},
 						number : 1
 						};
+					if(this.getOneCart(params)){
+						MessageBox('提示','此商品已经加入购物车');
+						return;
+					}
 					addCart(params).then(res=>{
 					this.Cartdisabled = true;
 				//	this.btnEditText = '已添加';

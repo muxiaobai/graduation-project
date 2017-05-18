@@ -2,6 +2,7 @@
   <section class="me">
 	   <section>
   		<mt-cell title="我的资料" is-link value="" @click.native="showMyDetail"></mt-cell>
+  		<mt-cell title="我的购物车"  is-link value="" @click.native="showMyCarts"></mt-cell>
   		<mt-cell title="我的订单"  is-link value="" @click.native="showMyOrders"></mt-cell>
   		<mt-cell title="我的优惠" to="/no" is-link value=""> </mt-cell>
   		<mt-cell title="帮助中心" to="/no" is-link value=""></mt-cell>
@@ -27,17 +28,32 @@
             <el-button class='fr' type="primary" @click.native="login">{{btnEditText}}</el-button>
           </el-form>
         </mt-popup>
-        
-        
-        
-        
+        <mt-popup  v-model="OrderVisible" position="center">
+            <mt-cell  v-for='order in orders'>
+              <router-link :to="{ name: 'detail', params: { id: order.goods.id }}">
+              {{order.id}}
+              {{order.goods.goodsName}}
+              {{order.goods.goodsIntro}}
+              </router-link>
+            </mt-cell>
+        </mt-popup>
+        <mt-popup  v-model="CartVisible" position="center">
+            <mt-cell  v-for='cart in carts'>
+              <router-link :to="{ name: 'detail', params: { id: cart.goods.id }}">
+              {{cart.id}}
+              {{cart.goods.goodsName}}
+              {{cart.goods.goodsIntro}}
+                
+              </router-link>
+            </mt-cell>
+        </mt-popup>
      </section>
 	</section>
 
 </template>
 
 <script>
-import {addUser,getUser,userLogin,getOrderListPage} from '../../services/api/api'
+import {addUser,getUser,userLogin,getMyOrder,getMyCart} from '../../services/api/api'
 import { MessageBox } from 'mint-ui';
 import { mapGetters, mapMutations } from 'vuex'
 export default {
@@ -49,7 +65,11 @@ export default {
       	  username : '',
       	  password : ''
       	},
-      	loginVisible:true,
+      	loginVisible: true,
+      	CartVisible: false,
+      	carts:[],
+      	OrderVisible: false,
+      	orders: [],
 				editForm: {
     			username: '',
           email:'',
@@ -60,6 +80,10 @@ export default {
 				},
 				editVisible: false,
 				btnEditText: '提 交',
+				ordersize:20,
+				orderpage:0,
+				cartsize:20,
+				cartpage:0,
     }
   },
   computed: {
@@ -93,13 +117,21 @@ export default {
           this.editForm.introduction = data.introduction;
           })
       },
+      getCart:function(){
+        let params = {
+           id :this.$store.state.user.id
+        };
+        getMyCart(params).then(res=>{
+          console.log(res.data);
+          this.carts = res.data.data;
+        })
+      },
       getOrder:function(){
         let params = {
-             
+             id :this.$store.state.user.id
         };
-        
-        getOrderListPage(params).then(res=>{
-          
+        getMyOrder(params).then(res=>{
+            this.orders = res.data.data;
         });
       },
       showMyDetail:function(){
@@ -109,6 +141,15 @@ export default {
           this.getUser();
         }else{
           this.loginVisible =true;
+          this.btnEditText = '登录';
+        }
+      },
+      showMyCarts:function(){
+         if(this.islogin){
+          this.CartVisible = true;
+          this.getCart();
+        }else{
+          this.loginVisible = true;
           this.btnEditText = '登录';
         }
       },
@@ -131,7 +172,6 @@ export default {
         }
         userLogin(params).then(res =>{
           let data = res.data;
-          console.log(data);
           if(data.islogin){
             this.storeUser({user:res.data.data});
             this.loginVisible =false;
@@ -162,6 +202,7 @@ export default {
 			  this.editVisible =false;
     },
   },
+  
   created:function(){
      this.islogin = this.$store.state.user.login;
      if(this.islogin){
