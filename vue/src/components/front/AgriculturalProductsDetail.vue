@@ -13,8 +13,8 @@
 					<div class="score-start" :style="{width: `${detailObj.remark * 10}%`}"></div>
 				<!--	<span class="score pa">{{ detailObj.remark }}分</span>-->
 				</div>
-				<p class = "buy" @click="handleAdd">购买</p>
-				
+				<mt-button :disabled = Cartdisabled type="primary" size="small" class = "buy" @click.native="handleAddCart">{{CartBtnStr}}</mt-button>
+				<mt-button type="primary" size="small" class = "buy" @click.native="handleAdd">购买</mt-button>
 			</article>
 		</header>
 		<section v-if="infoObj">
@@ -34,16 +34,25 @@
 		<section v-else class="no-data">
 			<span>暂时没有更多数据～</span>
 		</section>
-		<mt-popup  v-model="popupVisible"  position="bottom" class ='popup'> 
+		<mt-popup  v-model="popupVisible"  position="center" class ='popup'> 
 		<mt-field label="收货人" placeholder="请输入" v-model="editForm.username"></mt-field>
 		<mt-field label="地址" placeholder="收货地址" type="textarea" rows="4" v-model="editForm.addr"></mt-field>
 		<mt-field label="邮箱" placeholder="请输入邮箱" type="email" v-model="editForm.email"></mt-field>
 		<mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="editForm.phone"></mt-field>
-		<mt-field label="购买数量" placeholder="请输入数字" type="number":min = 1 v-model="editForm.number"></mt-field>
+		<mt-field label="购买数量" placeholder="请输入数字" type="number" min ="1" v-model="editForm.number"></mt-field>
 		<mt-field label="总计" type="text" v-model="editForm.total" readonly ></mt-field>
 		<mt-button type="default" @click.native="popupVisible = false">取消</mt-button>
-		<mt-button type="primary"  @click.native="editSubmit">提交</mt-button>
+		<mt-button type="primary" class='fr'  @click.native="editSubmit">提交</mt-button>
 		</mt-popup>
+		<mt-popup  v-model="loginVisible" position="center" >
+          <el-form :model="loginForm" label-width="80px" ref="loginForm">
+          <mt-field label="用户名" placeholder="请输入用户名" v-model="loginForm.username"></mt-field>
+          <mt-field label="密码" placeholder="请输入密码" type="password" v-model="loginForm.password"></mt-field>
+            <el-button type="primary" @click.native="cancel">取消</el-button>
+            <el-button class='' type="primary" @click.native="login">登录</el-button>
+           <el-button class='fr' type="primary" @click.native="signin">注册</el-button>
+          </el-form>
+        </mt-popup>
 	</section>
 </template>
 
@@ -51,10 +60,19 @@
 import { mapMutations } from 'vuex'
 import { MessageBox } from 'mint-ui';
 import { hotEvaluation } from './hotEvaluation'
-import {getGoods,addOrder} from '../../services/api/api'
+import {getGoods,addOrder,addCart,userLogin,getCartOne,addUser,isSign} from '../../services/api/api'
 export default{
 	data () {
 		return {
+			islogin:this.$store.state.user.login,
+				//编辑界面数据
+		  	loginForm:{
+		  	  username : '',
+		  	  password : ''
+		  	},
+			loginVisible: false,
+			CartBtnStr : "请加入购物车",
+			Cartdisabled: false,
 			hideSomething: true,
 			detailObj: {},
 			infoObj: false,
@@ -76,7 +94,11 @@ export default{
 	},
 	watch: {
 		'editForm.number' : function(val){
-            this.editForm.total = this.editForm.price*val == 0? 0 :this.editForm.price * val;
+          this.editForm.total = this.editForm.price*val == 0? 0 :this.editForm.price * val;
+		},
+	
+	    '$store.state.user.login' :function(){
+    	  this.islogin = this.$store.state.user.login;
 		}
 	},
 	methods: {
@@ -92,15 +114,48 @@ export default{
 	      this.pushLoadStack()
 	      this.$http.get(url).then(fn).then(this.completeLoad)
     	},
-	    getDataById (id) {
-	    	this.pushLoadStack()
-	    	let params = {id :id};
+    	cancel :function(){
+        this.loginVisible =false;
+    	},
+		login : function(){
+			let params = {
+			  username : this.loginForm.username,
+			  password : this.loginForm.password,
+			};
+			userLogin(params).then(res =>{
+			  let data = res.data;
+			  console.log(data);
+			  if(data.islogin){
+			    this.storeUser({user:res.data.data});
+			    this.loginVisible =false;
+			     MessageBox.alert("登录成功", "登录成功");
+			  }else{
+			    MessageBox.alert("账号密码错误", "登录失败");
+			  }
+			});
+		},
+		signin:function(){
+			let params = {
+			  username : this.loginForm.username,
+			  password : this.loginForm.password,
+			};
+			addUser(params).then(res =>{
+			  let data = res.data;
+			  console.log(data);
+			  this.storeUser({user:res.data.data});
+			  this.loginVisible =false;
+			  MessageBox.alert("您已注册成功", "注册成功");
+			});
+		},
+		getDataById :function(id) {
+			this.pushLoadStack()
+			let params = {id :id};
 			getGoods(params).then(res=>{
 				this.infoObj = true;
 				this.detailObj = res.data.data;
 			});
 			this.completeLoad();
-	    },
+		},
 	    handleAdd :function(){
 	    	this.popupVisible =true;
     		this.editFormTtile = '新增';
@@ -113,13 +168,69 @@ export default{
 			this.editForm.number = 1;
 			this.editForm.total = this.detailObj.price * this.editForm.number;
 	    },
+	    getOneCart:function(params){
+				getCartOne(params).then(res=>{
+			    	return res.data.data;
+	    		});
+	    },
+	    updateCart: function(){
+	    		let params = { 
+					goods:{
+						id: this.$route.params.id
+					},
+					user :{
+						id : this.$store.state.user.id
+					}
+				};
+				if(this.$store.state.user.login){
+					getCartOne(params).then(res=>{
+	    			if(res.data.data){
+			    		this.CartBtnStr = '该商品已加入购物车';
+			    		this.Cartdisabled = true;
+	    			}else{
+			    		this.Cartdisabled = false;
+			    		this.CartBtnStr = '请加入购物车';
+	    			}
+	    		});
+				}
+	    },
+	    handleAddCart: function(){
+	    	if(this.islogin){
+		    	MessageBox({
+				  title: '提示',
+				  message: '确定要加入购物车?',
+				  showCancelButton: true
+				}).then(action=>{
+					let params = { 
+						goods:{
+							id: this.$route.params.id
+						},
+						user :{
+							id : this.$store.state.user.id
+						},
+						number : 1
+						};
+					if(this.getOneCart(params)){
+						MessageBox('提示','此商品已经加入购物车');
+						return;
+					}
+					addCart(params).then(res=>{
+					this.Cartdisabled = true;
+				//	this.btnEditText = '已添加';
+					this.CartBtnStr = '已添加到购物车';
+					})
+				});
+	    	}else{
+				this.loginVisible = true;
+			}
+	    },
 	    editSubmit: function(){
 	    	var _this = this;
 	    	MessageBox.confirm('确认提交吗?').then(action => {
 				_this.btnEditText = '提交中';
 						//新增
 						//this.$store.state.user.id
-		    	let userid = 11;
+		    	let userid = this.$store.state.user.id;
 		    	let goodsid = this.$route.params.id;
 				let para = {
 					username: _this.editForm.username,
@@ -150,6 +261,7 @@ export default{
 		let id = this.$route.params.id
 		this.getDataById(id);
 		this.completeLoad();
+		this.updateCart();
 	},
 }
 </script>

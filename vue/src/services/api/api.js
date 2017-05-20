@@ -10,6 +10,9 @@ export const getUserList = params => { return axios.get(`${base}/user/list`, { p
 
 export const addUser = params => { return axios.post(`${base}/users/add`, params); };
 export const userLogin = params => { return axios.post(`${base}/users/login`, params);};
+export const isSign = params => { return axios.get(`${base}/users/username`, params);};
+
+
 //前台增加用户使用myself 后台可以借用
 export const removeUser = params => { return axios.delete(`${base}/users/`+params.id, params);};
 export const editUser = params => { return axios.put(`${base}/users/`+params.id,params);};
@@ -30,6 +33,15 @@ export const addOrder = params => { return axios.post(`${base}/orders/add`, para
 export const editOrder = params => { return axios.put(`${base}/orders/`+params.id, params);};
 export const getOrder = params => { return axios.get(`${base}/orders/`+params.id, params);};
 export const getOrderListPage = params => { return axios.get(`${base}/orders/list`, params);};
+export const getMyOrder = params => { return axios.get(`${base}/orders/mylist/`+params.id, params);};
 
 //Preferential 优惠活动
 export const getPreferentialList = params => { return axios.get(`${base}/preferentials/list`, params);};
+
+//购物车
+export const addCart = params => { return axios.post(`${base}/carts/add`, params);};
+export const editCart = params => { return axios.put(`${base}/carts/`+params.id, params);};
+export const getCartOne = params => { return axios.post(`${base}/carts`, params);};//根据用户和商品判断是否购物车中是否有此商品
+export const getCart = params => { return axios.get(`${base}/carts/`+params.id, params);};
+export const getCartListPage = params => { return axios.get(`${base}/carts/list`, params);};
+export const getMyCart = params => { return axios.get(`${base}/carts/mylist/`+params.id, params);};

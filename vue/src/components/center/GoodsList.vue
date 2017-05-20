@@ -127,7 +127,7 @@ export default {
 					goodsIntro: '',
 					goodsStock: 100,
 					goodsPrefer: {
-						id : 1,
+						id : 1, 
 						intro: '请选择优惠活动'
 					}
 				},
