@@ -11,7 +11,7 @@
 	  	<img class="img" src="http://img.cnhnb.com/group1/M00/72/E8/2FED61C20DChRkRlj9dTaAAXUWAAJF6ygP680344.jpg" />
 	  </mt-swipe-item>
 	  <mt-swipe-item>
-	  	<img class="img" src="http://img.cnhnb.com/group1/M00/77/0A/7C853FD075ChRkRlkMKWCANndDAAISQvQX3GE408.jpg" />
+	  	<img class="img" src="http://img.cnhnb.com/group1/M00/7C/40/A18D4*HE86ChRkRlkc-ouAWvWmAAF5HfooFIw239.jpg" />
 	  </mt-swipe-item>
 
 	</mt-swipe>
@@ -46,7 +46,7 @@ export default {
 		height: auto;
 	}
 	#swiper{
-		height:400px;
+		height:200px;
 	}
 	#swiper .swiper-pagination-bullet {
 		background: #e5e8e8;

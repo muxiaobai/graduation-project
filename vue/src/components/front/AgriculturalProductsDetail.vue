@@ -17,12 +17,17 @@
 				<mt-button type="primary" size="small" class = "buy" @click.native="handleAdd">购买</mt-button>
 			</article>
 		</header>
+	
 		<section v-if="infoObj">
 			<section class="intro-block border-1px-bottom">
 				<article class="d-intro">
 					<p ref="dint" :class="{'hide-something': hideSomething}">
 						{{ detailObj.detailIntro }}
 					</p>
+				<img :src="detailObj.detailFile1 ? `${detailObj.detailFile1}` : 'https://gw.alicdn.com/tps/i1/TB147JCLFXXXXc1XVXXxGsw1VXX-112-168.png'" alt="">
+				<img :src="detailObj.detailFile2 ? `${detailObj.detailFile2}` : 'https://gw.alicdn.com/tps/i1/TB147JCLFXXXXc1XVXXxGsw1VXX-112-168.png'" alt="">
+				<img :src="detailObj.detailFile3 ? `${detailObj.detailFile2}` : 'https://gw.alicdn.com/tps/i1/TB147JCLFXXXXc1XVXXxGsw1VXX-112-168.png'" alt="">
+				<img :src="detailObj.detailFile4 ? `${detailObj.detailFile4}` : 'https://gw.alicdn.com/tps/i1/TB147JCLFXXXXc1XVXXxGsw1VXX-112-168.png'" alt="">
 					<p class="d-control" @click="controlShowMany">
 						<span v-if="hideSomething">展开</span>
 						<span v-else>收起</span>
@@ -94,9 +99,9 @@ export default{
 	},
 	watch: {
 		'editForm.number' : function(val){
-          this.editForm.total = this.editForm.price*val == 0? 0 :this.editForm.price * val;
+			this.editForm.number = val;
+    	    this.editForm.total = this.getTotal();
 		},
-	
 	    '$store.state.user.login' :function(){
     	  this.islogin = this.$store.state.user.login;
 		}
@@ -113,6 +118,21 @@ export default{
 		requestData (url, fn) {
 	      this.pushLoadStack()
 	      this.$http.get(url).then(fn).then(this.completeLoad)
+    	},
+    	getTotal:function(){
+    		let total = 0;
+    		let origin = this.editForm.price * this.editForm.number;
+    		if(this.detailObj.preferential.whichType == 1){
+    			//折扣
+    			total = origin * this.detailObj.preferential.discount;
+    		}else if(this.detailObj.preferential.whichType == 2){
+    			//减免
+    			total = origin - this.detailObj.preferential.reducePrice;
+    		}else{
+				total = origin;
+    		}
+    		console.log(total);
+    		return total;
     	},
     	cancel :function(){
         this.loginVisible =false;
@@ -166,7 +186,7 @@ export default{
 			this.editForm.phone = '';
 			this.editForm.price = this.detailObj.goodsPrice;
 			this.editForm.number = 1;
-			this.editForm.total = this.detailObj.price * this.editForm.number;
+			this.editForm.total = this.getTotal();
 	    },
 	    getOneCart:function(params){
 				getCartOne(params).then(res=>{
@@ -226,6 +246,17 @@ export default{
 	    },
 	    editSubmit: function(){
 	    	var _this = this;
+	    	if(this.editForm.number == 0){
+	    		MessageBox.alert("数量不能为0", "数量错误");
+	    		return false;
+	    	}
+	    	if(!this.$store.state.user.login){
+	    		MessageBox.alert("请先登录", "未登录");
+				this.popupVisible =false;
+				this.loginVisible = true;
+	    		return false;
+	    	}
+	    	
 	    	MessageBox.confirm('确认提交吗?').then(action => {
 				_this.btnEditText = '提交中';
 						//新增
