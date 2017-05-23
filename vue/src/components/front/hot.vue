@@ -2,12 +2,12 @@
   <section id='hot'>
   	<ul>
   		<li :class="{'border-bottom': hotLists[hotLists.length-1] != item}" v-for="item in hotLists">
-  			 <figure class="m-img ml fl pr" @click="">
-            <img v-lazyload="`https://gw.alicdn.com/${item.poster}`">
-            <div class="play-icon pa">
-                <img src="https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png" alt="">
-            </div>
-          </figure>
+	           <figure class="m-img ml fl pr" @click="">
+	  			 	<img :src=" item.avatar ? `${item.avatar}` : 'https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png'" alt="">
+				   	<div class="play-icon pa">
+		            <img :src=" item.avatar ? `${item.avatar}` : 'https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png'" alt="">
+		            </div>
+	          </figure>
 			<div class="mr border-bottom">
 				<router-link :to="{ name: 'detail', params: { id: item.id }}">
 				<div class="m-buy fr">
