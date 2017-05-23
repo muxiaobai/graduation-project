@@ -1,5 +1,4 @@
 package service;
-
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,11 +9,9 @@ import org.springframework.stereotype.Service;
 
 import domain.Cart;
 /**
- * 
  * service CartService.java
  * @author 张鹏飞
  * @time 2017年5月13日 下午4:07:19
- *
  */
 @Service
 public interface CartService {
