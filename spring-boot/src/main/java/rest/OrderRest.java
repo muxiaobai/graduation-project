@@ -1,6 +1,6 @@
 /**
  * Project Name:spring-boot
- * File Name:UserRest.java
+ * File Name:OrderRest.java
  * Package Name:rest
  * Date:2017年2月28日上午10:13:51
  * Copyright (c) 2017, All Rights Reserved.
@@ -34,45 +34,33 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import domain.Order;
 import domain.User;
-import service.UserService;
-
-@Path("/users")  
+import service.OrderService;
+/**
+ * OrderRest
+ * @author 张鹏飞
+ * @time 2017年5月8日 上午9:20:03
+ *
+ */
+@Path("/orders")  
 @Component 
-public class UserRest {
+public class OrderRest {
 
     @Autowired  
-    private UserService userService;  
+    private OrderService OrderService;  
     private Map<String, Object> returnValue= new HashMap<String, Object>();
     @POST
     @Path("add")
     @Consumes("application/json;charset=UTF-8")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> post(@RequestBody User user){
+    public Map<String, Object> post(@RequestBody Order Order){
         returnValue.clear();
-        userService.save(user);
+        OrderService.save(Order);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "add ");
-        returnValue.put("data", user);
-        return returnValue;
-    }
-    @POST
-    @Path("login")
-    @Consumes("application/json;charset=UTF-8")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> login(@RequestBody User user){
-        returnValue.clear();
-        Long id = userService.login(user);
-        if(id!=null&&id!=0){
-        	returnValue.put("islogin", true);
-        	returnValue.put("data", userService.getById(id));
-        }else{
-        	returnValue.put("islogin",false);
-        }
-        returnValue.put("code", 200);
-        returnValue.put("msg", "success");
-        returnValue.put("action", "login ");
+        returnValue.put("data", Order);
         return returnValue;
     }
     @DELETE
@@ -80,26 +68,25 @@ public class UserRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> delete(@PathParam("id") Long id) {
         returnValue.clear();
-        userService.delete(id);
+        OrderService.delete(id);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
-        returnValue.put("action", "delete ");
+        returnValue.put("action", "delete");
         return  returnValue;
     }
     /**
      * 修改
      * @param id id
-     * @param user 修改的实例bean
+     * @param Order 修改的实例bean
      * @return
      */
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody User user) {
+    public Map<String, Object> put(@PathParam("id")Long id, @RequestBody Order Order) {
         returnValue.clear();
-        user.setId(id);
-        System.out.println("==============="+user);
-        userService.update(user);
+        Order.setId(id);
+        OrderService.update(Order);
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "put update");
@@ -114,32 +101,10 @@ public class UserRest {
        returnValue.put("code", 200);
        returnValue.put("msg", "success");
        returnValue.put("action", "getById");
-       returnValue.put("data", userService.getById(id));
+       returnValue.put("data", OrderService.getById(id));
        return returnValue;
     }
-    /**
-     * 根据用户名查询是否已经注册
-     * @param username
-     * @return
-     */
-    @GET
-    @Path("username")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getByUserName(@PathParam("id") String username) {
-       returnValue.clear();
-       User user = userService.isSign(username);
-       if(user!=null){
-       	returnValue.put("issign", true);
-       	returnValue.put("data", user);
-       }else{
-       	returnValue.put("issign",false);
-       }
-       returnValue.put("code", 200);
-       returnValue.put("msg", "success");
-       returnValue.put("action", "getById");
-       return returnValue;
-    }
-    //http://127.0.0.1:8080/rest/xxx/list?page=0&size=20
+    //http://127.0.0.1:8080/rest/Orders/list?page=0&size=20
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
@@ -150,17 +115,33 @@ public class UserRest {
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "getpageList");
-        returnValue.put("data",userService.FindList(pageable));
+        returnValue.put("data",OrderService.FindList(pageable));
         return returnValue;
     }
- 
+    @GET
+    @Path("mylist/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> getMyList(@PathParam("id") Long id) {
+        returnValue.clear();
+        Sort sort = new Sort(Direction.DESC, "id");
+        Pageable pageable = new PageRequest(0, 20, sort);
+        User user =new User();
+        user.setId(id);
+        Order Order =new Order();
+        Order.setUser(user);
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "getpageList");
+        returnValue.put("data",OrderService.FindMyList(pageable, Order));
+        return returnValue;
+    }
     @GET
     @Path("/page/{pagesize}/{currentpage}")
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> getPage(@DefaultValue("20") @PathParam("pagesize") Integer pagesize, @DefaultValue("1") @PathParam("currentpage") Integer currentpage) {
         returnValue.clear();
-        List<User> users = new ArrayList<User>();
-        returnValue.put("users",users);
+        List<Order> Orders = new ArrayList<Order>();
+        returnValue.put("Orders",Orders);
         return returnValue;
     }
     

@@ -36,19 +36,44 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;  
     @Override
-    public User getUserById(Long id) {
+    public User getById(Long id) {
          return userDao.findOne(id);
     }
 	@Override
-	public void saveUserList(List users) {
+	public void saveList(List users) {
 		Iterable<User> iterable =(Iterable<User>) ((ArrayList<User>)users).iterator();
 		userDao.save(iterable);
 	}
 	@Override
-	public Page<User> FindUserList(Pageable pageable) {
-		Page<User> page =userDao.findAll(pageable);
-		return page;
+	public Page<User> FindList(Pageable pageable) {
+		return userDao.findAll(pageable);
 		
+	}
+	@Override
+	public void save(User user) {
+		userDao.save(user);
+		
+	}
+	@Override
+	public void delete(Long id) {
+		userDao.delete(id);
+	}
+	@Override
+	public User update(User user) {
+		return userDao.save(user);
+	}
+	@Override
+	public Long login(User user) {
+		User user2 =userDao.findByUsername(user.getUsername());
+		if(user2!=null&&user2.getPassword().equals(user.getPassword())){
+			return user2.getId();
+		}else{
+			return 0L;
+		}
+	}
+	@Override
+	public User isSign(String username) {
+		return userDao.findByUsername( username);
 	}
 
 }

@@ -10,7 +10,6 @@
 package service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -18,7 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import domain.User;
+import domain.Order;
 
 /**
  * ClassName:UserService <br/>
@@ -31,23 +30,21 @@ import domain.User;
  * @see 	 
  */
 @Service
-public interface UserService {
+public interface OrderService {
 	@Transactional
-    public User getById(Long id);
+    public Order getById(Long id);
 	@Transactional
-    public void saveList(List users);
+    public void saveList(List<?> orders);
 	@Transactional
-    public Page<User> FindList(Pageable pageable);
+    public Page<Order> FindList(Pageable pageable);
 	@Transactional
-	public void save(User user);
-	@Transactional
-	public Long login(User user);
-	
+	public void save(Order order);
 	@Transactional
 	public void delete(Long id);
 	@Transactional
-	public User update(User user);
+	public Order update(Order order);
 	@Transactional
-	public User isSign(String username);
+	public List<Order> FindMyList(Pageable pageable,Order order);
+	
 }
 

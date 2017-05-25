@@ -12,17 +12,15 @@ package dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import domain.User;
+import domain.Goods;
 
 /**
- * UserDao
+ * GoodsDao
  * @author 张鹏飞
- * @time 2017年5月8日 上午9:19:54
+ * @time 2017年5月8日 上午9:19:26
  *
  */
 @Repository
-public interface UserDao  extends JpaRepository<User, Long>{
-    public User getUserById(Long id);
-    public User findByUsername(String username);
+public interface GoodsDao  extends JpaRepository<Goods, Long>{
 }
 
