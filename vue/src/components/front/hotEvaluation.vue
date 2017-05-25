@@ -13,7 +13,7 @@
 					<div>
 						<div class="ib">
 							<span class="he-u-name">
-								{{ item.nickName }}
+								{{ item.user.username }}
 							</span>
 							<div class="full-star pr">
 								<div class="score-start" :style="{width: `${item.remark * 10}%`}"></div>

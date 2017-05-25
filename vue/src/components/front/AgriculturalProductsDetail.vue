@@ -34,7 +34,7 @@
 					</p>
 				</article>
 			</section>
-			<hotEvaluation :lists="evalLists"></hotEvaluation>
+			<hotEvaluation :lists="commentLists"></hotEvaluation>
 		</section>
 		<section v-else class="no-data">
 			<span>暂时没有更多数据～</span>
@@ -65,7 +65,7 @@
 import { mapMutations } from 'vuex'
 import { MessageBox } from 'mint-ui';
 import { hotEvaluation } from './hotEvaluation'
-import {getGoods,addOrder,addCart,userLogin,getCartOne,addUser,isSign} from '../../services/api/api'
+import {getGoods,addOrder,addCart,userLogin,getCartOne,addUser,isSign,getGoodsComment} from '../../services/api/api'
 export default{
 	data () {
 		return {
@@ -81,7 +81,7 @@ export default{
 			hideSomething: true,
 			detailObj: {},
 			infoObj: false,
-			evalLists: [],
+			commentLists: [],
 			popupVisible: false,
 			editForm: {
 				username:'',
@@ -244,6 +244,13 @@ export default{
 				this.loginVisible = true;
 			}
 	    },
+	    getGoodsComment:function(){
+	    	let params = {};
+		    getGoodsComment(params).then(res=>{
+	    		this.commentLists = res.data.data;
+	    		console.log(this.commentLists);
+		    });
+	    },
 	    editSubmit: function(){
 	    	var _this = this;
 	    	if(this.editForm.number == 0){
@@ -293,6 +300,7 @@ export default{
 		this.getDataById(id);
 		this.completeLoad();
 		this.updateCart();
+		this.getGoodsComment();
 	},
 }
 </script>

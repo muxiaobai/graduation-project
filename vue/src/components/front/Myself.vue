@@ -29,13 +29,22 @@
           </el-form>
         </mt-popup>
         <mt-popup  v-model="OrderVisible" position="center">
-            <mt-cell  v-for='order in orders'>
+          <table>
+              <tr>
+                <th>订单号</th>
+                <th>商品名</th>
+                <th>总额</th>
+                <th>操作</th>
+              </tr>
+            <tr  v-for='order in orders'>
               <router-link :to="{ name: 'detail', params: { id: order.goods.id }}">
-              {{order.id}}
-              {{order.goods.goodsName}}
-              {{order.goods.goodsIntro}}
-              </router-link>
-            </mt-cell>
+                <td>{{order.id}}</td>
+                <td>{{order.goods.goodsName}}</td>
+                <td>总额{{order.total}}元</td>
+               </router-link>
+              <td><mt-button @click.native="ClickComment(order.id,order.goods.id)"size="small" type = "primary">请评论</mt-button></td>
+            </tr>
+            </table>
         </mt-popup>
         <mt-popup  v-model="CartVisible" position="center">
             <mt-cell  v-for='cart in carts'>
@@ -47,13 +56,20 @@
               </router-link>
             </mt-cell>
         </mt-popup>
+        <mt-popup  v-model="CommentVisible" position="center">
+           <el-form :model="commentForm" label-width="80px" ref="editForm">
+            <mt-field label="评论" placeholder="请评论" type="textarea" rows="4" v-model="commentForm.content"></mt-field>
+            <el-button type="default" @click.native="CommentVisible=false">取消</el-button>
+            <el-button type="primary" @click.native="addComment">提交</el-button>
+            </el-form>
+        </mt-popup>
      </section>
 	</section>
 
 </template>
 
 <script>
-import {addUser,getUser,userLogin,getMyOrder,getMyCart} from '../../services/api/api'
+import {addUser,getUser,userLogin,getMyOrder,getMyCart,addComment} from '../../services/api/api'
 import { MessageBox } from 'mint-ui';
 import { mapGetters, mapMutations } from 'vuex'
 export default {
@@ -70,6 +86,14 @@ export default {
       	carts:[],
       	OrderVisible: false,
       	orders: [],
+      	CommentVisible:false,
+      	commentForm:{
+      	  order:{id:''},
+      	  user:{id :''},
+      	  goods:{id :''},
+      	  content:'',
+      	  createDate:(new Date()).toLocaleDateString()
+      	},
 				editForm: {
     			username: '',
           email:'',
@@ -101,6 +125,25 @@ export default {
       goIndex:function(){
           this.$route;
           
+      },
+      ClickComment:function(order,goods){
+        this.commentForm.order.id = order;
+        this.commentForm.goods.id = goods;
+        this.commentForm.content ='';
+        this.CommentVisible =true;
+
+      },
+      addComment:function(){
+        let params = {
+          user:{id :this.$store.state.user.id},
+          order: this.commentForm.order,
+          goods: this.commentForm.goods,
+          content: this.commentForm.content,
+          createDate:this.commentForm.createDate
+        };
+        addComment(params).then(res=>{
+          console.log(res);
+        });
       },
       getUser:function(){
           this.editForm.id = this.$store.state.user.id;
