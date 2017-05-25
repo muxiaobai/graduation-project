@@ -31,7 +31,7 @@
 		<div style="height: 60px"></div>
 	</section>
 </template>
-<script>
+<script> 
 export default{
 	data () {
 		return {
