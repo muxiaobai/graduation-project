@@ -131,6 +131,7 @@ export default {
         this.commentForm.goods.id = goods;
         this.commentForm.content ='';
         this.CommentVisible =true;
+        this;
       },
       addComment:function(){
         let params = {
