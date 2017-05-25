@@ -32,6 +32,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import domain.Cart;
 import domain.Comment;
 import service.CommentService;
 /**
@@ -126,6 +128,23 @@ public class CommentRest {
         List<Comment> Comments = new ArrayList<Comment>();
         returnValue.put("Comments",Comments);
         return returnValue;
+    }
+    /**
+     * 通过商品查询所有评论
+     * @param Comment
+     * @return
+     */
+    @POST
+    @Path("goodscomment")
+    @Consumes("application/json;charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> get(@RequestBody Comment Comment) {
+       returnValue.clear();
+       returnValue.put("code", 200);
+       returnValue.put("msg", "success");
+       returnValue.put("action", "getByGoodsAndUserId");
+       returnValue.put("data", CommentService.findByGoods(Comment));
+       return returnValue;
     }
     
 }

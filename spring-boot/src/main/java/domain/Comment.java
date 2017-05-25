@@ -23,6 +23,8 @@ public class Comment {
 	private  Long id;
 	@OneToOne(targetEntity = Order.class)
 	private Order order;
+	@ManyToOne(targetEntity = User.class)
+	private User user;
 	@ManyToOne(targetEntity = Goods.class)
 	private Goods goods;
 	private String content;
@@ -47,6 +49,12 @@ public class Comment {
 	}
 	
 	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -61,8 +69,10 @@ public class Comment {
 	}
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", order=" + order + ", goods=" + goods + ", content=" + content + "]";
+		return "Comment [id=" + id + ", order=" + order + ", user=" + user + ", goods=" + goods + ", content=" + content
+				+ ", createDate=" + createDate + "]";
 	}
+	
 	
 	
 }

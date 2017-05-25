@@ -1,9 +1,13 @@
 package dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Comment;
+import domain.Goods;
 /**
  * 
  * dao CommentDao.java
@@ -13,6 +17,7 @@ import domain.Comment;
  */
 @Repository
 public interface CommentDao extends JpaRepository<Comment, Long> {
-	//public List<Comment> findByGoods();
+	@Query(" from Comment  t where t.goods = ?1")
+	public List<Comment> findByGoods(Goods Goods);
 	//public Comment findByOrder();
 }
