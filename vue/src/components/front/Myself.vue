@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import {addUser,getUser,userLogin,getMyOrder,getMyCart,addComment} from '../../services/api/api'
+import {addUser,getUser,userLogin,getMyOrder,getMyCart,addComment,getOrderComment} from '../../services/api/api'
 import { MessageBox } from 'mint-ui';
 import { mapGetters, mapMutations } from 'vuex'
 export default {
@@ -129,9 +129,16 @@ export default {
       ClickComment:function(order,goods){
         this.commentForm.order.id = order;
         this.commentForm.goods.id = goods;
-        this.commentForm.content ='';
         this.CommentVisible =true;
-        this;
+         let params = {
+          order: this.commentForm.order,
+        };
+       getOrderComment(params).then(res=>{
+          let data = res.data.data;
+          if(data!=null){
+            this.commentForm.content =data.content;
+          }
+        });
       },
       addComment:function(){
         let params = {
@@ -141,8 +148,16 @@ export default {
           content: this.commentForm.content,
           createDate:this.commentForm.createDate
         };
-        addComment(params).then(res=>{
-          console.log(res);
+      getOrderComment(params).then(res=>{
+          let data = res.data.data;
+          if(data!=null){
+              MessageBox.alert("此单已评论", "操作失败");
+              return false;
+          }else{
+            addComment(params).then(res=>{
+              this.CommentVisible = false;
+            });
+          }
         });
       },
       getUser:function(){

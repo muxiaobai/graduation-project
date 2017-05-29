@@ -35,6 +35,37 @@
 				</article>
 			</section>
 			<hotEvaluation :lists="commentLists"></hotEvaluation>
+			<section id="hot-evaluation">
+			<header class="h-e-header">
+				<span>热门评价</span>
+				<span>({{commentLists.length}}条)</span>
+			</header>
+			<ul>
+				<li class="border-1px-bottom evl-item" v-for="item in commentLists">
+					<figure class="he-u-icon fl">
+						<img src="https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_100x100.jpg" alt="">
+					</figure>
+					<section class="he-u-content">
+						<div>
+							<div class="ib">
+								<span class="he-u-name">
+									{{ item.content }}
+								</span>
+								<div class="full-star pr">
+									<div class="score-start" :style="{width: `${8 * 10}%`}"></div>
+								</div>
+							</div>
+							<span class="fr he-u-time">{{(new Date(item.createDate)).toLocaleDateString()}}</span>
+						</div>
+						<article class="he-u-say">
+							{{ item.content }}
+						</article>
+					</section>
+				</li>
+			</ul>
+			<p class="no-more">没有更多了～</p>
+			<div style="height: 60px"></div>
+			</section>
 		</section>
 		<section v-else class="no-data">
 			<span>暂时没有更多数据～</span>
@@ -245,10 +276,13 @@ export default{
 			}
 	    },
 	    getGoodsComment:function(){
-	    	let params = {};
+	    	let params = {
+	    		goods:{id : this.$route.params.id}
+	    	};
 		    getGoodsComment(params).then(res=>{
 	    		this.commentLists = res.data.data;
 	    		console.log(this.commentLists);
+	    		console.log(res);
 		    });
 	    },
 	    editSubmit: function(){
