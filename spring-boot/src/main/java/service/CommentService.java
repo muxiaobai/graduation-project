@@ -30,5 +30,7 @@ public interface CommentService {
 	public void delete(Long id);
 	@Transactional
 	public Comment update(Comment Comment);
-
+	@Transactional
+	public Comment findByOrder(Comment Comment);
+		
 }

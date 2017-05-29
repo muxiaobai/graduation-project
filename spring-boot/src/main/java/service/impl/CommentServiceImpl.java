@@ -54,4 +54,13 @@ public class CommentServiceImpl implements CommentService{
 		return CommentDao.findByGoods(Comment.getGoods());
 	}
 
+	@Override
+	public Comment findByOrder(Comment Comment) {
+		List<Comment> comments = CommentDao.findByOrder(Comment.getOrder());
+		if(!comments.isEmpty()&&comments.size()>0){
+			return comments.get(0);
+		}
+		System.out.println("sdfsdfsdfsdffs=========="+comments);
+		return null;
+	}
 }

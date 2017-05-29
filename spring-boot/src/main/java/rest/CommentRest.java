@@ -25,6 +25,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import domain.Cart;
 import domain.Comment;
 import service.CommentService;
 /**
@@ -144,6 +144,18 @@ public class CommentRest {
        returnValue.put("msg", "success");
        returnValue.put("action", "getByGoodsAndUserId");
        returnValue.put("data", CommentService.findByGoods(Comment));
+       return returnValue;
+    }
+    @POST
+    @Path("ordercomment")
+    @Consumes("application/json;charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> findByOrder(@RequestBody Comment Comment) {
+       returnValue.clear();
+       returnValue.put("code", 200);
+       returnValue.put("msg", "success");
+       returnValue.put("action", "findByOrder");
+       returnValue.put("data", CommentService.findByOrder(Comment));
        return returnValue;
     }
     
