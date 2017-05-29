@@ -29,21 +29,23 @@ import config.RedisProperties;
  * Reason:	 TODO ADD REASON. <br/>
  * @author   Lenovo
  * @version  
- * @since    JDK 1.6
+ * @since    JDK 1.8
  * @see 	 
  */
-@ComponentScan(basePackages = { "dao","service","domain","config"})
-@EnableJpaRepositories("dao") // JPA扫描该包路径下的Repositorie
+@ComponentScan(basePackages = { "dao","service","domain","config"})//扫描组件
+@EnableJpaRepositories("dao") // JPA扫描该包路径下的Repositories
 @EntityScan(basePackages = { "java.lang.Object","domain"}) // 扫描实体类
-@EnableAutoConfiguration  
-@SpringBootApplication
+@EnableAutoConfiguration
+@SpringBootApplication//项目启动类
 @EnableConfigurationProperties({RedisProperties.class,DatabaseProperties.class})  
 public class Application {
     //注册jersey
     @Bean
     public ServletRegistrationBean jerseyServlet() {
-        ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer(), "/rest/*");
-        registration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, JerseyConfig.class.getName());
+        ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer(), 
+        		"/rest/*");
+        registration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, 
+        		JerseyConfig.class.getName());
         return registration;
     }
     public static void main(String[] args) {

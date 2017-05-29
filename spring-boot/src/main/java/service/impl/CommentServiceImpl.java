@@ -1,5 +1,7 @@
 package service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,4 +49,18 @@ public class CommentServiceImpl implements CommentService{
 		return CommentDao.save(Comment);
 	}
 
+	@Override
+	public List<Comment> findByGoods(Comment Comment) {
+		return CommentDao.findByGoods(Comment.getGoods());
+	}
+
+	@Override
+	public Comment findByOrder(Comment Comment) {
+		List<Comment> comments = CommentDao.findByOrder(Comment.getOrder());
+		if(!comments.isEmpty()&&comments.size()>0){
+			return comments.get(0);
+		}
+		System.out.println("sdfsdfsdfsdffs=========="+comments);
+		return null;
+	}
 }

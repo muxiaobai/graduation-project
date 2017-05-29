@@ -17,7 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import dao.GoodsDao;
 import dao.OrderDao;
+import domain.Goods;
 import domain.Order;
 import service.OrderService;
 
@@ -35,6 +37,8 @@ import service.OrderService;
 public class OrderServiceImpl implements OrderService{
     @Autowired
     private OrderDao orderDao;  
+    @Autowired
+    private GoodsDao goodsDao;  
     @Override
     public Order getById(Long id) {
          return orderDao.findOne(id);
@@ -51,6 +55,9 @@ public class OrderServiceImpl implements OrderService{
 	}
 	@Override
 	public void save(Order Order) {
+		Goods goods = goodsDao.findOne(Order.getGoods().getId());
+		goods.setGoodsStock(goods.getGoodsStock()-1);
+		goodsDao.save(goods);
 		orderDao.save(Order);
 		
 	}

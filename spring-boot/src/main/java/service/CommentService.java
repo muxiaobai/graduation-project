@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
@@ -21,9 +23,14 @@ public interface CommentService {
 	@Transactional
     public Page<Comment> FindList(Pageable pageable);
 	@Transactional
+	public List<Comment> findByGoods(Comment Comment);
+	@Transactional
 	public void save(Comment Comment);
 	@Transactional
 	public void delete(Long id);
 	@Transactional
 	public Comment update(Comment Comment);
+	@Transactional
+	public Comment findByOrder(Comment Comment);
+		
 }
