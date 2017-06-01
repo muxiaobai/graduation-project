@@ -1,7 +1,7 @@
 <template>
  <div id="app" :style="{height: '100%'}">
     <div class="main" :style="{height: '100%'}">
-      <router-view></router-view>
+      <router-view keep-alive = "false"></router-view>
     </div>
      <footer-nav :showNav="showNav"></footer-nav>
   </div>
@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     routeChange:function() {
+      console.log("route已经改变");
     //  let path = this.$route.path;
     //  console.log(path);
     //  if (path === '/' || path === '/front' || path === '/me' || path == '/goods/detail/') {
