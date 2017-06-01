@@ -1,7 +1,34 @@
 <template>
 	<section id="hot-evaluation">
-		<h1>sdfsdfsdf</h1>
-		asdaads
+		<header class="h-e-header">
+			<span>热门评价</span>
+			<span>(105707条)</span>
+		</header>
+		<ul>
+			<li class="border-1px-bottom evl-item" v-for="item in lists">
+				<figure class="he-u-icon fl">
+					<img src="https://gw.alicdn.com/tps/i3/TB1yeWeIFXXXXX5XFXXuAZJYXXX-210-210.png_100x100.jpg" alt="">
+				</figure>
+				<section class="he-u-content">
+					<div>
+						<div class="ib">
+							<span class="he-u-name">
+								{{ item.content }}
+							</span>
+							<div class="full-star pr">
+								<div class="score-start" :style="{width: `${item.createDate * 10}%`}"></div>
+							</div>
+						</div>
+						<span class="fr he-u-time">12-05 16:07</span>
+					</div>
+					<article class="he-u-say">
+						{{ item.content }}
+					</article>
+				</section>
+			</li>
+		</ul>
+		<p class="no-more">没有更多了～</p>
+		<div style="height: 60px"></div>
 	</section>
 </template>
 <script> 
@@ -29,6 +56,7 @@ export default{
 #hot-evaluation {
 	background-color: #fff;
 	padding-left: 15px;
+	box-sizing: border-box;
 }
 .h-e-header {
 	padding: 12px 0;

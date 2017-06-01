@@ -12,6 +12,7 @@ import Temp from 'components/Temp'
 //前台
 import Index from 'components/front/Index'
 import Hot from 'components/front/hot'
+import hotEvaluation  from 'components/front/hotEvaluation'
 
 import Myself from 'components/front/Myself'
 import NoData from 'components/front/NoData'
@@ -65,6 +66,13 @@ export default new Router({
       path : '/goods/detail/:id',
       name: 'detail',
       component : AgriculturalProductsDetail,
+      children:[
+      {
+        path: '/goods/detail/:id',
+        name: 'hotEvaluation',
+        component: hotEvaluation
+      }
+      ],
       hidden : true
     },
     {

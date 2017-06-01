@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base = 'http://f6cecace.ngrok.io/rest';
+let base = 'http://8188025b.ngrok.io/rest';
 
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
@@ -48,6 +48,7 @@ export const getMyCart = params => { return axios.get(`${base}/carts/mylist/`+pa
 //评论
 export const addComment = params => { return axios.post(`${base}/comments/add`, params);};
 export const getGoodsComment = params => { return axios.post(`${base}/comments/goodscomment`, params);};//根据商品选择所有的评论
+export const getOrderComment = params =>{return axios.post(`${base}/comments/ordercomment`,params);};
 //export const getCart = params => { return axios.get(`${base}/carts/`+params.id, params);};
 //export const getCartListPage = params => { return axios.get(`${base}/carts/list`, params);};
 //export const getMyCart = params => { return axios.get(`${base}/carts/mylist/`+params.id, params);};

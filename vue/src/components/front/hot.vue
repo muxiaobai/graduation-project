@@ -54,7 +54,7 @@ export default{
   props: {
   	'hotLists': {
   		type: Array,
-  		default: () => []
+  		default: () => [],
   	}
   },
   methods: {
