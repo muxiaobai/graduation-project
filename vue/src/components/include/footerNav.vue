@@ -97,7 +97,7 @@ export default{
 	content: "主页";
 }
 .nav-cinama::after {
-	content: "热卖";
+	content: "热门需求";
 }
 .nav-me::after {
 	content: "我的";

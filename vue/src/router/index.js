@@ -6,6 +6,7 @@ import Main from 'components/Main'
 import OrderList from 'components/center/OrderList'
 import GoodsList from 'components/center/GoodsList'
 import UserList from 'components/center/UserList'
+import MessageList from 'components/center/MessageList'
 
 import Login from 'components/login/Login'
 import Temp from 'components/Temp'
@@ -121,11 +122,11 @@ export default new Router({
     },
      {
       path: '/',
-      name: '订单管理',
+      name: '发布信息管理',
       component: Main,
       iconCls: "el-icon-menu",
       children: [
-        {path:'orderlist',name: '订单列表',component:Hello},
+        {path:'messagelist',name: '发布信息',component:MessageList},
         {path:'orderedit',name:'商品列表',component:GoodsList}
         ]
     },
