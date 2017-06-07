@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer" :class="{'go-back': !showNav}">
+  <footer :class="{showNav:footer,'go-back': !showNav}">
   	<section class="footer mint-1px-t" v-show="showNav">
 	  	<nav class="nav nav-movie" :class="{'cur-page': route === '/'}">
 	  		<router-link to="/">
@@ -9,11 +9,11 @@
 	  			</div> 
 	  		</router-link>
 	  	</nav>
-	  	<nav class="nav nav-cinama" :class="{'cur-page': route === '/cinema'}">
-			<router-link to="/cinema">
+	  	<nav class="nav nav-cinama" :class="{'cur-page': route === '/hotsecond'}">
+			<router-link to="/hotsecond">
 				<div class="nav-icon">
-					<img v-show="route !== '/cinema'" src="../../assets/images/mno.svg" alt="">
-					<img v-show="route === '/cinema'" src="../../assets/images/mok.svg" alt="">
+					<img v-show="route !== '/hotSecond'" src="../../assets/images/mno.svg" alt="">
+					<img v-show="route === '/hotSecond'" src="../../assets/images/mok.svg" alt="">
 				</div>
 			</router-link>
 	  	</nav>
@@ -27,7 +27,7 @@
 	  	</nav>
   	</section>
   	<section v-show="!showNav" @click="goBack" style="width: 100%">
-  		<p class="back"> < </p>
+  		<p :class="{showNav:back}"> < </p>
   	</section>
   </footer>
 </template>

@@ -29,13 +29,13 @@ export default {
   methods: {
     routeChange:function() {
       console.log("route已经改变");
-    //  let path = this.$route.path;
+      let path = this.$route.path;
     //  console.log(path);
-    //  if (path === '/' || path === '/front' || path === '/me' || path == '/goods/detail/') {
+      if (path === '/main' || path === '/login' || path === '/goodslist' || path == '/userlist'|| path == '/orderlist') {
+        this.showNav = false
+      } else {
         this.showNav = true
-    //  } else {
-     //   this.showNav = false
-    //  }
+      }
     }
   },
   created () {

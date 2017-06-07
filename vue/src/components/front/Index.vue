@@ -47,7 +47,7 @@ export default {
       moveDistance: '5%',
       imgs: [],
       comingLists: [],
-      loaingLists: [],
+      loadingLists: [],
       selnav: true,
       clickLoadStatus: 'start',
       offset: 0,
@@ -73,7 +73,8 @@ export default {
       'completeLoad',
       'showCityList',
       'storeUser',
-      'pushComingList'
+      'pushComingList',
+      'pushGoodsList'
     ]),
     moveTab (event) {
       event.target.getAttribute('hot') ? this.selectHotTab() : this.slectComingTab()
@@ -127,11 +128,14 @@ export default {
         page : this.page
       };
       getGoodsListPage(params).then(res =>{
-        this.loaingLists = res.data.data.content;
+        this.loadingLists = res.data.data.content;
         this.comingLists = res.data.data.content;
         this.total = res.data.data.totalElements;
         this.offset = this.offset + this.limit;
         this.page = this.page +1;
+        console.log(this.loadingLists);
+        this.pushGoodsList({lists:this.loadingLists});
+        this.pushComingList({lists: this.comingLists});
       });
      
     }
@@ -140,9 +144,9 @@ export default {
   },
   created:function(){ 
      this.getList();
+     this.pushGoodsList({lists:this.loadingLists});
      this.pushComingList({lists: this.comingLists})
      this.completeLoad();
-//     this.storeUser({id : 11,username : ""});
   }
 }
 </script>

@@ -13,7 +13,7 @@ import Temp from 'components/Temp'
 import Index from 'components/front/Index'
 import Hot from 'components/front/hot'
 import hotEvaluation  from 'components/front/hotEvaluation'
-
+import hotSecond from 'components/front/hotSecond'
 import Myself from 'components/front/Myself'
 import NoData from 'components/front/NoData'
 import AgriculturalProductsDetail from 'components/front/AgriculturalProductsDetail'
@@ -59,6 +59,13 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: Index,
+      hidden: true
+      
+    },
+      {
+      path: '/hotsecond',
+      name: 'hotsecond',
+      component: hotSecond,
       hidden: true
       
     },

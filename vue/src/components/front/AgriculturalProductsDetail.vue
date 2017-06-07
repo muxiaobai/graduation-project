@@ -6,8 +6,8 @@
 			</figure>
 			<article class="d-info"  style="float:left; margin-left:auto;">
 				<p class="d-name tddd">{{ detailObj.goodsName }}</p>
-				<p class="tddd">{{ detailObj.goodsName }}</p>
-				<span>{{ detailObj.goodsPrice}}元/份</span><span>&nbqs;仅剩{{detailObj.goodsStock}}份</span>
+				<p class="tddd">{{ detailObj.goodsIntro }}</p>
+				<span>{{ detailObj.goodsPrice}}元/份</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;仅剩{{detailObj.goodsStock}}份</span>
 				<p>{{ new Date(detailObj.goodsDate).toLocaleDateString() }}</p>
 				<div class="full-star pr">
 					<div class="score-start" :style="{width: `${detailObj.remark * 10}%`}"></div>
@@ -21,6 +21,9 @@
 		<section v-if="infoObj">
 			<section class="intro-block border-1px-bottom">
 				<article class="d-intro">
+					<p ref="dint" :class="{'hide-something': hideSomething}">
+						{{ detailObj.goodsIntro }}
+					</p>
 					<p ref="dint" :class="{'hide-something': hideSomething}">
 						{{ detailObj.detailIntro }}
 					</p>
@@ -107,7 +110,7 @@ export default{
 		  	  password : ''
 		  	},
 			loginVisible: false,
-			CartBtnStr : "请加入购物车",
+			CartBtnStr : "请加入收藏",
 			Cartdisabled: false,
 			hideSomething: true,
 			detailObj: {},
@@ -236,11 +239,11 @@ export default{
 				if(this.$store.state.user.login){
 					getCartOne(params).then(res=>{
 	    			if(res.data.data){
-			    		this.CartBtnStr = '该商品已加入购物车';
+			    		this.CartBtnStr = '该商品已加入收藏';
 			    		this.Cartdisabled = true;
 	    			}else{
 			    		this.Cartdisabled = false;
-			    		this.CartBtnStr = '请加入购物车';
+			    		this.CartBtnStr = '请加入收藏';
 	    			}
 	    		});
 				}
@@ -249,7 +252,7 @@ export default{
 	    	if(this.islogin){
 		    	MessageBox({
 				  title: '提示',
-				  message: '确定要加入购物车?',
+				  message: '确定要收藏?',
 				  showCancelButton: true
 				}).then(action=>{
 					let params = { 
@@ -262,13 +265,13 @@ export default{
 						number : 1
 						};
 					if(this.getOneCart(params)){
-						MessageBox('提示','此商品已经加入购物车');
+						MessageBox('提示','此商品已经收藏');
 						return;
 					}
 					addCart(params).then(res=>{
 					this.Cartdisabled = true;
 				//	this.btnEditText = '已添加';
-					this.CartBtnStr = '已添加到购物车';
+					this.CartBtnStr = '已收藏';
 					})
 				});
 	    	}else{

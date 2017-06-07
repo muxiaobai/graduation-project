@@ -77,11 +77,26 @@
 		<el-form-item label="生产日期">
 			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.goodsDate"></el-date-picker>
 		</el-form-item>
+		<el-form-item label="商品封面图片">
+			<el-input type="textarea" v-model="editForm.avatar"></el-input>
+		</el-form-item>
 		<el-form-item label="商品简介">
 			<el-input type="textarea" v-model="editForm.goodsIntro"></el-input>
 		</el-form-item>
 		<el-form-item label="详细介绍">
 			<el-input type="textarea" v-model="editForm.detailIntro"></el-input>
+		</el-form-item>
+		<el-form-item label="详细图片">
+			<el-input type="textarea" v-model="editForm.detailFile1"></el-input>
+		</el-form-item>
+		<el-form-item label="详细图片">
+			<el-input type="textarea" v-model="editForm.detailFile2"></el-input>
+		</el-form-item>
+			<el-form-item label="详细图片">
+			<el-input type="textarea" v-model="editForm.detailFile3"></el-input>
+		</el-form-item>
+			<el-form-item label="详细图片">
+			<el-input type="textarea" v-model="editForm.detailFile4"></el-input>
 		</el-form-item>
 	</el-form>
 	<div slot="footer" class="dialog-footer">
@@ -129,7 +144,13 @@ export default {
 					goodsPrefer: {
 						id : 1, 
 						intro: '请选择优惠活动'
-					}
+					},
+					avatar : '',
+					detailFile1 :'',
+					detailFile2 :'',
+					detailFile3 :'',
+					detailFile4 :'',
+					
 				},
 				editLoading: false,
 				btnEditText: '提 交',
@@ -224,6 +245,12 @@ export default {
 			this.editForm.detailIntro = edit.detailIntro;
 			this.editForm.goodsStock = edit.goodsStock;
 			this.editForm.goodsPrefer = edit.preferential;
+			this.editForm.avatar = edit.avatar;
+			this.editForm.detailFile1 = edit.detailFile1;
+			this.editForm.detailFile2 = edit.detailFile2;
+			this.editForm.detailFile3 = edit.detailFile3;
+			this.editForm.detailFile4 = edit.detailFile4;
+			
 		});
     },
     editSubmit: function(){
@@ -261,7 +288,12 @@ export default {
 									goodsIntro: _this.editForm.goodsIntro,
 									detailIntro:_this.editForm.detailIntro,
 									goodsStock :_this.editForm.goodsStock,
-									preferential :{ id : _this.editForm.goodsPrefer.id}
+									preferential :{ id : _this.editForm.goodsPrefer.id},
+									avatar :_this.editForm.avatar,
+									detailFile1 :_this.editForm.detailFile1,
+									detailFile2 :_this.editForm.detailFile2,
+									detailFile3 :_this.editForm.detailFile3,
+									detailFile4 :_this.editForm.detailFile4,
 								};
 								console.log(para);
 								editGoods(para).then((res) => {
