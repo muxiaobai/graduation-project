@@ -12,7 +12,7 @@
   			<el-col :span="4" class="top-right">
   				<el-dropdown trigger="click">
   					<span class="el-dropdown-link" style="color:#c0ccda;cursor: pointer;">
-  					<img :src="this.sysUserAvatar" class="head"> {{sysUserName}} </span>
+  					<img src="../../assets/img/user.png" class="head"> {{sysUserName}} </span>
   					<el-dropdown-menu slot="dropdown">
   						<el-dropdown-item>我的消息</el-dropdown-item>
   						<el-dropdown-item>设置</el-dropdown-item>

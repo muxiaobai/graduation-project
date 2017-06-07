@@ -50,7 +50,7 @@ export default {
           var loginParams = { username: this.ruleForm.account, password: this.ruleForm.password };
           requestLogin(loginParams).then(data => {
             this.logining = false;
-            let { msg, code, user } = data;
+            let { msg, code, user } = data.data;
             console.log(data);
             if (code !== 200) {
               this.$notify({
@@ -63,7 +63,8 @@ export default {
               if(this.capacity){
                   this.$router.push({ path: '/main' });
               }else{
-                  this.$router.push({ path: '/index' });
+              //    this.$router.push({ path: '/index' });
+                  this.$router.push({ path: '/main' });
               }
             }
           });

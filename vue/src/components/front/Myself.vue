@@ -2,7 +2,7 @@
   <section class="me">
 	   <section>
   		<mt-cell title="我的资料" is-link value="" @click.native="showMyDetail"></mt-cell>
-  		<mt-cell title="我的购物车"  is-link value="" @click.native="showMyCarts"></mt-cell>
+  		<mt-cell title="我的收藏"  is-link value="" @click.native="showMyCarts"></mt-cell>
   		<mt-cell title="我的订单"  is-link value="" @click.native="showMyOrders"></mt-cell>
   		<mt-cell title="我的优惠" to="/no" is-link value=""> </mt-cell>
   		<mt-cell title="帮助中心" to="/no" is-link value=""></mt-cell>

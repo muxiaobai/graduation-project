@@ -6,6 +6,7 @@ import Main from 'components/Main'
 import OrderList from 'components/center/OrderList'
 import GoodsList from 'components/center/GoodsList'
 import UserList from 'components/center/UserList'
+import MessageList from 'components/center/MessageList'
 
 import Login from 'components/login/Login'
 import Temp from 'components/Temp'
@@ -13,7 +14,7 @@ import Temp from 'components/Temp'
 import Index from 'components/front/Index'
 import Hot from 'components/front/hot'
 import hotEvaluation  from 'components/front/hotEvaluation'
-
+import hotSecond from 'components/front/hotSecond'
 import Myself from 'components/front/Myself'
 import NoData from 'components/front/NoData'
 import AgriculturalProductsDetail from 'components/front/AgriculturalProductsDetail'
@@ -59,6 +60,13 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: Index,
+      hidden: true
+      
+    },
+      {
+      path: '/hotsecond',
+      name: 'hotsecond',
+      component: hotSecond,
       hidden: true
       
     },
@@ -114,11 +122,11 @@ export default new Router({
     },
      {
       path: '/',
-      name: '订单管理',
+      name: '发布信息管理',
       component: Main,
       iconCls: "el-icon-menu",
       children: [
-        {path:'orderlist',name: '订单列表',component:Hello},
+        {path:'messagelist',name: '发布信息',component:MessageList},
         {path:'orderedit',name:'商品列表',component:GoodsList}
         ]
     },
