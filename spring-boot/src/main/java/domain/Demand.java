@@ -2,6 +2,12 @@ package domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 热门需求信息
  * domain Demand.java
@@ -9,7 +15,12 @@ import java.util.Date;
  * @time 2017年6月7日 下午3:05:36
  *
  */
+@Entity
+
+@XmlRootElement(name="user")
 public class Demand {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String type; //需求产品的类型
 	private String name;//需求人
