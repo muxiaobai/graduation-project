@@ -18,9 +18,9 @@ import domain.User;
  */
 @Repository
 public interface CartDao extends JpaRepository<Cart, Long> {
-	@Query(" from Cart t where t.goods = ?1 and t.user =?2 desc ")
+	@Query(" from Cart t where t.goods = ?1 and t.user =?2 order by t.id desc ")
 	public List<Cart> findByGoodsAndUser(Goods Goods,User User);
-	@Query(" from Cart t where t.user =?1 desc ")
+	@Query(" from Cart t where t.user =?1 order by t.id desc ")
 	public List<Cart> findByUser(User User);
 	
 }

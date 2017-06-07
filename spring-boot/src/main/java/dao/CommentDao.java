@@ -18,8 +18,8 @@ import domain.Order;
  */
 @Repository
 public interface CommentDao extends JpaRepository<Comment, Long> {
-	@Query(" from Comment  t where t.goods = ?1 desc")
+	@Query(" from Comment  t where t.goods = ?1 order by t.id desc")
 	public List<Comment> findByGoods(Goods Goods);
-	@Query(" from Comment t where t.order = ?1 desc " )
+	@Query(" from Comment t where t.order = ?1 order by t.id desc " )
 	public List<Comment> findByOrder(Order Order);
 }

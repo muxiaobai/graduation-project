@@ -14,6 +14,6 @@ import domain.User;
  *
  */
 public interface OrderDao extends JpaRepository<Order, Long> {
-	@Query(" from Order t where t.user =?1 desc")
+	@Query(" from Order t where t.user =?1 order by t.id  desc")
 	public List<Order> findByUser(User User);
 }
