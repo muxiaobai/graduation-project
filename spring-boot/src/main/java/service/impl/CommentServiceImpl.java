@@ -60,7 +60,6 @@ public class CommentServiceImpl implements CommentService{
 		if(!comments.isEmpty()&&comments.size()>0){
 			return comments.get(0);
 		}
-		System.out.println("sdfsdfsdfsdffs=========="+comments);
 		return null;
 	}
 }

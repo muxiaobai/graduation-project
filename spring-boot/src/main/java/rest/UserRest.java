@@ -57,6 +57,20 @@ public class UserRest {
         returnValue.put("data", user);
         return returnValue;
     }
+    
+    @POST
+    @Path("adminlogin")
+    @Consumes("application/json;charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> adminLogin(@RequestBody User user){
+        returnValue.clear();
+        userService.save(user);
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "add ");
+        returnValue.put("data", user);
+        return returnValue;
+    }
     @POST
     @Path("login")
     @Consumes("application/json;charset=UTF-8")
@@ -96,6 +110,19 @@ public class UserRest {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> put(@PathParam("id")Long id, @RequestBody User user) {
+        returnValue.clear();
+        user.setId(id);
+        System.out.println("==============="+user);
+        userService.update(user);
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "put update");
+        return returnValue;
+    }
+    @PUT
+    @Path("mydemands/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> putDemands(@PathParam("id")Long id, @RequestBody User user) {
         returnValue.clear();
         user.setId(id);
         System.out.println("==============="+user);

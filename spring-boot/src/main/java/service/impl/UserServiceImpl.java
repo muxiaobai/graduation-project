@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dao.UserDao;
+import domain.Demand;
 import domain.User;
 import service.UserService;
 
@@ -74,6 +75,15 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User isSign(String username) {
 		return userDao.findByUsername( username);
+	}
+	@Override
+	public User updateDemands(User user, Demand demand) {
+		User user2 =userDao.findOne(user.getId());
+		List<Demand>  demands = user2.getDemands();
+		demands.add(demand);
+		user2.setDemands(demands);
+		userDao.save(user2);
+		return userDao.findOne(user.getId());
 	}
 
 }
