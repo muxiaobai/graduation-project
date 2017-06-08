@@ -22,6 +22,7 @@ public class Demand {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	private String demand;//标题
 	private String type; //需求产品的类型
 	private String name;//需求人
 	private String tel;//需求人联系方式
@@ -35,6 +36,13 @@ public class Demand {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getDemand() {
+		return demand;
+	}
+	public void setDemand(String demand) {
+		this.demand = demand;
 	}
 	public String getType() {
 		return type;
@@ -86,8 +94,9 @@ public class Demand {
 	}
 	@Override
 	public String toString() {
-		return "Demand [id=" + id + ", type=" + type + ", name=" + name + ", tel=" + tel + ", deadline=" + deadline
-				+ ", addr=" + addr + ", num=" + num + ", price=" + price + ", detail=" + detail + "]";
+		return "Demand [id=" + id + ", demand=" + demand + ", type=" + type + ", name=" + name + ", tel=" + tel
+				+ ", deadline=" + deadline + ", addr=" + addr + ", num=" + num + ", price=" + price + ", detail="
+				+ detail + "]";
 	}
 	
 	

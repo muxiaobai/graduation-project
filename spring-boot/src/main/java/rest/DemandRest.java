@@ -42,7 +42,7 @@ import service.DemandService;
  *
  */
 
-@Path("/demand")  
+@Path("/demands")  
 @Component 
 public class DemandRest {
 
