@@ -17,14 +17,14 @@
 
 <!--列表-->
 <template>
-		<el-table :data="goods" highlight-current-row v-loading="listLoading" style="width: 100%;">
+		<el-table :data="demands" highlight-current-row v-loading="listLoading" style="width: 100%;">
 	
     <el-table-column type="index" width="60">    </el-table-column>
-    <el-table-column prop="goodsName" label="产品名称" width="120" >    </el-table-column>
-    <el-table-column prop="goodsType" label="类型" width="100" :formatter="formatSex" >    </el-table-column>
-    <el-table-column prop="goodsDate" label="生产日期" width="120" :formatter="formatDate"  sortable>    </el-table-column>
-    <el-table-column prop="goodsPrice" label="价格(单位：元)" width="120" sortable>   元 </el-table-column>
-    <el-table-column prop="goodsIntro" label="简介" min-width="180" >    </el-table-column>
+    <el-table-column prop="demand" label="需求名称" width="120" >    </el-table-column>
+    <el-table-column prop="type" label="需求类型" width="100" :formatter="formatSex" >    </el-table-column>
+    <el-table-column prop="deadline" label="截止日期" width="120" :formatter="formatDate"  sortable>    </el-table-column>
+    <el-table-column prop="price" label="价格(单位：元)" width="120" sortable>   元 </el-table-column>
+    <el-table-column prop="name" label="联系人" min-width="180" >    </el-table-column>
     <el-table-column inline-template :context="_self" label="操作" width="150">
     	<span>
       	<el-button size="small" @click="handleEdit(row)">编辑</el-button>
@@ -51,52 +51,36 @@
 <!--编辑界面-->
 <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 	<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-		<el-form-item label="商品名称" prop="name">
-			<el-input v-model="editForm.goodsName" auto-complete="off"></el-input>
+		<el-form-item label="需求名称" prop="demand">
+			<el-input v-model="editForm.demand" auto-complete="off"></el-input>
 		</el-form-item>
 		<el-form-item label="类别">
-			<el-radio-group v-model="editForm.goodsType">
+			<el-radio-group v-model="editForm.type">
 				<el-radio class="radio" :label="1">正常</el-radio>
 				<el-radio class="radio" :label="2">热卖</el-radio>
 				<el-radio class="radio" :label="3">即将上市</el-radio>
 			</el-radio-group>
 		</el-form-item>
 		<el-form-item label="商品价格">
-			<el-input-number v-model="editForm.goodsPrice" :min="0" :max="200"></el-input-number>
+			<el-input-number v-model="editForm.price" :min="1" :max="200"></el-input-number>
 		</el-form-item>
-		<el-form-item label="优惠活动">
-			<el-select v-model="editForm.goodsPrefer.id"  placeholder="editForm.goodsPrefer.intro" >
-       		 <span v-for = 'preferential in preferentials'>
-			     <el-option :label="preferential.intro" :value="preferential.id"></el-option>
-			</span>
-     	 	</el-select>
+		<el-form-item label="商品需求数量">
+			<el-input-number v-model="editForm.num" :min="1" :max="1100"></el-input-number>
 		</el-form-item>
-		<el-form-item label="商品库存">
-			<el-input-number v-model="editForm.goodsStock" :min="0" :max="200"></el-input-number>
+		<el-form-item label="截止日期">
+			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.deanline"></el-date-picker>
 		</el-form-item>
-		<el-form-item label="生产日期">
-			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.goodsDate"></el-date-picker>
+		<el-form-item label="联系人" prop="name">
+			<el-input v-model="editForm.name" auto-complete="off"></el-input>
 		</el-form-item>
-		<el-form-item label="商品封面图片">
-			<el-input type="textarea" v-model="editForm.avatar"></el-input>
+			<el-form-item label="联系电话" prop="tel">
+			<el-input v-model="editForm.tel" auto-complete="off"></el-input>
+		</el-form-item>
+		<el-form-item label="地址">
+			<el-input type="textarea" v-model="editForm.addr"></el-input>
 		</el-form-item>
 		<el-form-item label="商品简介">
-			<el-input type="textarea" v-model="editForm.goodsIntro"></el-input>
-		</el-form-item>
-		<el-form-item label="详细介绍">
-			<el-input type="textarea" v-model="editForm.detailIntro"></el-input>
-		</el-form-item>
-		<el-form-item label="详细图片">
-			<el-input type="textarea" v-model="editForm.detailFile1"></el-input>
-		</el-form-item>
-		<el-form-item label="详细图片">
-			<el-input type="textarea" v-model="editForm.detailFile2"></el-input>
-		</el-form-item>
-			<el-form-item label="详细图片">
-			<el-input type="textarea" v-model="editForm.detailFile3"></el-input>
-		</el-form-item>
-			<el-form-item label="详细图片">
-			<el-input type="textarea" v-model="editForm.detailFile4"></el-input>
+			<el-input type="textarea" v-model="editForm.detail"></el-input>
 		</el-form-item>
 	</el-form>
 	<div slot="footer" class="dialog-footer">
@@ -111,7 +95,7 @@
 
 <script>
 import Top from '../include/Top'
-import {getGoodsListPage,addGoods,removeGoods,editGoods,getGoods,getPreferentialList} from '../../services/api/api'
+import {addDemands,removeDemands,editDemands,getDemandsOne,getDemandsListPage} from '../../services/api/api'
 export default {
   name: 'goodsdetail',
   components: {
@@ -120,11 +104,9 @@ export default {
   data: function() {
     	return {
 				filters: {
-					goodsName: ''
+					demand: ''
 				},
-				goods: [],
-				preferentials:[],
-				preferentialintro:'请选择优惠活动',
+				demands: [],
 				total: 1,
 				page: 1,
 				currentPage: 1,
@@ -135,27 +117,20 @@ export default {
 				//编辑界面数据
 				editForm: {
 					id: 0,
-					goodsName: '',
-					goodsType: 1,
-					goodsPrice: 0,
-					goodsDate: '',
-					goodsIntro: '',
-					goodsStock: 100,
-					goodsPrefer: {
-						id : 1, 
-						intro: '请选择优惠活动'
-					},
-					avatar : '',
-					detailFile1 :'',
-					detailFile2 :'',
-					detailFile3 :'',
-					detailFile4 :'',
-					
+					demand:'',//简介
+					type: '', //需求产品的类型
+					name: '',//需求人
+					tel: '',//需求人联系方式
+					deadline:'',//截止时间
+					addr:'',//需求地址
+					num:'',//需求数量
+					price:'',//需求数量
+					detail:'',//需求的一些必备条件要求
 				},
 				editLoading: false,
 				btnEditText: '提 交',
 				editFormRules: {
-					goodsName: [
+					demand: [
 						{ required: true, message: '请输入姓名', trigger: 'blur' }
 					]
 				}
@@ -174,16 +149,7 @@ export default {
     formatDate: function(row,column){
     	return (new Date(row.goodsDate)).toLocaleDateString();
     },
-    handleCreatedPreferential:function(){
-    	let params ={
-			page: this.currentPage,
-			size: this.pageSize,
-    	};
-    	getPreferentialList(params).then(res=>{
-    		this.preferentials = res.data.data.content;
-    		console.log(this.preferentials);
-    	});
-    },
+
 
     //CRUD
     getList:function() {
@@ -193,9 +159,9 @@ export default {
 					goodsName: this.filters.goodsName
 				};
 				this.listLoading = true;
-				getGoodsListPage(para).then((res) => {
+				getDemandsListPage(para).then((res) => {
 					this.total = res.data.data.totalElements;
-					this.goods = res.data.data.content;
+					this.demands = res.data.data.content;
 					this.listLoading = false;
 				});
 		return
@@ -204,16 +170,15 @@ export default {
 		this.editFormVisible= true;
     	this.editFormTtile = '新增';
 		this.editForm.id = 0;//重置参数,0为新增，其他为修改
-		this.editForm.goodsName = '';
-		this.editForm.goodsType = 1;
-		this.editForm.goodsPrice = 0;
-		this.editForm.goodsDate = '';
-		this.editForm.goodsIntro = '';
-		this.editForm.detailIntro = '';
-		this.editForm.goodsStock = 100;
-		this.editForm.goodsPrefer.id = 1;
-		this.editForm.goodsPrefer.intro = "选择优惠活动";
-		
+		this.editForm.demand = '';
+		this.editForm.type = 1;
+		this.editForm.price = 0;
+		this.editForm.name = '';
+		this.editForm.tel = '';
+		this.editForm.addr = '';
+		this.editForm.num = 100;
+		this.editForm.detail = '';
+		this.editForm.deadline = new Date();
 	},
     handleDel: function(row) {
       	var _this = this;
@@ -222,7 +187,7 @@ export default {
 		}).then(() => {
 			_this.listLoading = true;
 			let para = { id: row.id };
-			removeGoods(para).then((res) => {
+			removeDemands(para).then((res) => {
 				this.closeEdit(_this,'成功','删除成功','success');
 			});
 			
@@ -235,22 +200,18 @@ export default {
         this.editFormTtile = '编辑';
 		this.editForm.id = row.id;
 		let para = { id: row.id };
-		getGoods(para).then((res) => {
+		getDemandsOne(para).then((res) => {
 			let edit = res.data.data;
-			this.editForm.goodsName = edit.goodsName;
-			this.editForm.goodsType = edit.goodsType;
-			this.editForm.goodsPrice = edit.goodsPrice;
-			this.editForm.goodsDate = edit.goodsDate;
-			this.editForm.goodsIntro = edit.goodsIntro;
-			this.editForm.detailIntro = edit.detailIntro;
-			this.editForm.goodsStock = edit.goodsStock;
-			this.editForm.goodsPrefer = edit.preferential;
-			this.editForm.avatar = edit.avatar;
-			this.editForm.detailFile1 = edit.detailFile1;
-			this.editForm.detailFile2 = edit.detailFile2;
-			this.editForm.detailFile3 = edit.detailFile3;
-			this.editForm.detailFile4 = edit.detailFile4;
-			
+				this.editForm.id = 0;//重置参数,0为新增，其他为修改
+		this.editForm.demand = edit.demand;
+		this.editForm.type = edit.type;
+		this.editForm.price = edit.price;
+		this.editForm.name = edit.name;
+		this.editForm.tel = edit.tel;
+		this.editForm.addr = edit.addr;
+		this.editForm.num = edit.num;
+		this.editForm.detail = edit.detail;
+		this.editForm.deadline = edit.deadline;
 		});
     },
     editSubmit: function(){
@@ -265,38 +226,37 @@ export default {
 							if (_this.editForm.id == 0) {
 								//新增
 								let para = {
-									goodsName: _this.editForm.goodsName,
-									goodsType: _this.editForm.goodsType,
-									goodsPrice: _this.editForm.goodsPrice,
-									goodsDate: _this.editForm.goodsDate,
-									goodsIntro: _this.editForm.goodsIntro,
-									detailIntro:_this.editForm.detailIntro,
-									goodsStock : _this.editForm.goodsStock,
-									preferential :{ id : _this.editForm.goodsPrefer.id}
+									demand:_this.editForm.demand,//简介
+									type: _this.editForm.type, //需求产品的类型
+									name: _this.editForm.name,//需求人
+									tel: _this.editForm.tel,//需求人联系方式
+									deadline:_this.editForm.deadline,//截止时间
+									addr:_this.editForm.addr,//需求地址
+									num:_this.editForm.num,//需求数量
+									price:_this.editForm.price,//需求数量
+									detail:_this.editForm.detail,//需求的一些必备条件要求
+								
 								};
-								addGoods(para).then((res) => {
+								addDemands(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
 								});
 							} else {
 								//编辑
 								let para = {
 									id : _this.editForm.id,
-									goodsName: _this.editForm.goodsName,
-									goodsType: _this.editForm.goodsType,
-									goodsPrice: _this.editForm.goodsPrice,
-									goodsDate: _this.editForm.goodsDate,
-									goodsIntro: _this.editForm.goodsIntro,
-									detailIntro:_this.editForm.detailIntro,
-									goodsStock :_this.editForm.goodsStock,
-									preferential :{ id : _this.editForm.goodsPrefer.id},
-									avatar :_this.editForm.avatar,
-									detailFile1 :_this.editForm.detailFile1,
-									detailFile2 :_this.editForm.detailFile2,
-									detailFile3 :_this.editForm.detailFile3,
-									detailFile4 :_this.editForm.detailFile4,
+									demand:_this.editForm.demand,//简介
+									type: _this.editForm.type, //需求产品的类型
+									name: _this.editForm.name,//需求人
+									tel: _this.editForm.tel,//需求人联系方式
+									deadline:_this.editForm.deadline,//截止时间
+									addr:_this.editForm.addr,//需求地址
+									num:_this.editForm.num,//需求数量
+									price:_this.editForm.price,//需求数量
+									detail:_this.editForm.detail,//需求的一些必备条件要求
+								
 								};
 								console.log(para);
-								editGoods(para).then((res) => {
+								editDemands(para).then((res) => {
 								  this.closeEdit(_this,'成功','提交成功','success');
 								});
 
@@ -334,7 +294,6 @@ export default {
   },
   created :function(){
   	this.getList();
-  	this.handleCreatedPreferential();
   },
 }
 
