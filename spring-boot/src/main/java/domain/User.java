@@ -10,12 +10,15 @@
 package domain;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -43,6 +46,8 @@ public class User {
     private Date birth;
     private Integer age;
     private String addr;//默认此地址为收货地址
+    @OneToMany(cascade = { CascadeType.REMOVE }, targetEntity = Demand.class)
+    private List<Demand> demands;//我关注的需求
     public User() {
     }
 	public Long getId() {
