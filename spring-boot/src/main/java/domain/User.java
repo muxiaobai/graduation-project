@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +47,7 @@ public class User {
     private Date birth;
     private Integer age;
     private String addr;//默认此地址为收货地址
-    @OneToMany(cascade = { CascadeType.REMOVE }, targetEntity = Demand.class)
+    @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE }, targetEntity = Demand.class)
     private List<Demand> demands;//我关注的需求
     public User() {
     }
@@ -105,6 +106,13 @@ public class User {
 	}
 	public void setPreferential(Preferential preferential) {
 		this.preferential = preferential;
+	}
+	
+	public List<Demand> getDemands() {
+		return demands;
+	}
+	public void setDemands(List<Demand> demands) {
+		this.demands = demands;
 	}
 	@Override
 	public String toString() {

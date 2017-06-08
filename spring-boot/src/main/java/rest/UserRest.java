@@ -119,6 +119,19 @@ public class UserRest {
         returnValue.put("action", "put update");
         return returnValue;
     }
+    @PUT
+    @Path("mydemands/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> putDemands(@PathParam("id")Long id, @RequestBody User user) {
+        returnValue.clear();
+        user.setId(id);
+        System.out.println("==============="+user);
+        userService.update(user);
+        returnValue.put("code", 200);
+        returnValue.put("msg", "success");
+        returnValue.put("action", "put update");
+        return returnValue;
+    }
 
     @GET
     @Path("{id}")

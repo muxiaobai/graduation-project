@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import domain.Demand;
 import domain.User;
 
 /**
@@ -47,6 +48,14 @@ public interface UserService {
 	public void delete(Long id);
 	@Transactional
 	public User update(User user);
+	/**
+	 * 增加我的需求关注
+	 * @param user
+	 * @param demand 关注的需求
+	 * @return
+	 */
+	@Transactional
+	public User updateDemands(User user,Demand demand);
 	@Transactional
 	public User isSign(String username);
 }
