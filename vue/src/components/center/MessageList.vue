@@ -201,16 +201,15 @@ export default {
 		let para = { id: row.id };
 		getDemandsOne(para).then((res) => {
 			let edit = res.data.data;
-				this.editForm.id = 0;//重置参数,0为新增，其他为修改
-		this.editForm.demand = edit.demand;
-		this.editForm.type = edit.type;
-		this.editForm.price = edit.price;
-		this.editForm.name = edit.name;
-		this.editForm.tel = edit.tel;
-		this.editForm.addr = edit.addr;
-		this.editForm.num = edit.num;
-		this.editForm.detail = edit.detail;
-		this.editForm.deadline = edit.deadline;
+			this.editForm.demand = edit.demand;
+			this.editForm.type = edit.type;
+			this.editForm.price = edit.price;
+			this.editForm.name = edit.name;
+			this.editForm.tel = edit.tel;
+			this.editForm.addr = edit.addr;
+			this.editForm.num = edit.num;
+			this.editForm.detail = edit.detail;
+			this.editForm.deadline = edit.deadline;
 		});
     },
     editSubmit: function(){

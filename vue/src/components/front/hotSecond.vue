@@ -1,31 +1,67 @@
 <template>
 	<section class="cinema-box" style="margin-top: 40px; background: #fff">
 		<ul class="cm-item">
-			<li v-for="item in $store.state.coming.goods">
-				<router-link :to="{ name: 'detail', params: { id: item.id }}">
+			<li v-for="item in demands">
+				<!--<router-link :to="{ name: 'detail', params: { id: item.id }}">	
+				</router-link>
+				-->
 					<div class="cm-name">
-						<span class="tddd vm">{{ item.goodsName }}</span>
-						<span class="k-mode vm" v-show="item.goodsType === '1'">1厅</span>
-						<span class="k-mode vm" v-show="item.goodsType === '2'">2厅</span>
-						<span class="k-mode vm" v-show="item.goodsType === '3'">3厅</span>
+						<span class="tddd vm">{{ item.demand }}</span>
+						<span class="k-mode vm" v-show="item.type === '1'">急需</span>
+						<span class="k-mode vm" v-show="item.type === '2'">常规</span>
+						<span class="k-mode vm" v-show="item.type === '3'">长久需求</span>
 					</div>
-					<p class="cm-address tddd">{{ item.goodsIntro }}</p>
+					<p class="cm-address tddd">截止时间：{{ new Date(item.deadline).toLocaleDateString()   }}</p>
+					<p class="cm-address tddd">{{ item.detail }}</p>
 					<div class="cm-welfare">
 						<span class="label-mod label-border-blue">货源充足</span>
 						<span class="label-mod label-orange">新人专享</span>
-						<span class="label-mod">{{item.goodsPrice}}元/份</span>
+						<span class="label-mod">{{item.price}}元/份</span>
+						<span class="label-mod label-orange" @click='addMyDemands'>关注该需求</span>
 					</div>
-				</router-link>	
+				
 			</li>
 		</ul>
 		<div style="height: 60px; background: #f5f5f5"></div>
+		<mt-popup  v-model="loginVisible" position="center" >
+          <el-form :model="loginForm" label-width="80px" ref="loginForm">
+          <mt-field label="用户名" placeholder="请输入用户名" v-model="loginForm.username"></mt-field>
+          <mt-field label="密码" placeholder="请输入密码" type="password" v-model="loginForm.password"></mt-field>
+            <el-button type="primary" @click.native="cancel">取消</el-button>
+            <el-button class='' type="primary" @click.native="login">登录</el-button>
+           <el-button class='fr' type="primary" @click.native="signin">注册</el-button>
+          </el-form>
+        </mt-popup>
 	</section>
 </template>
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+import {addDemands,removeDemands,editDemands,getDemandsOne,getDemandsListPage} from '../../services/api/api'
+
 export default {
     data () {
+        return {
+            demands:[],
+        }
+    },
+    methods: {
+        ...mapMutations([
+          'pushDemandsList',
+        ]),
+        pushStore: function(){
+            getDemandsListPage().then(res=>{
+                let data = res.data.data.content;
+                this.demands = data;
+                console.log(res.data.data.content);
+                this.pushDemandsList({lists:data});
+            })
+        },
+        addMyDemands: function(){
+            
+        },
     },
     created:function(){
+        this.pushStore();
        // console.log(this.$store.state.coming.goods);
     }
     
