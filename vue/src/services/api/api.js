@@ -57,6 +57,7 @@ export const getOrderComment = params =>{return axios.post(`${base}/comments/ord
 //发布需求，消息
 export const addDemands = params => { return axios.post(`${base}/demands/add`, params);};
 export const editDemands = params => { return axios.put(`${base}/demands/`+params.id, params);};
+export const removeDemands = params => { return axios.delete(`${base}/demands/`+params.id, params);};
 export const getDemandsOne = params => { return axios.post(`${base}/demands`, params);};//根据用户和商品判断是否购物车中是否有此商品
 export const getDemands = params => { return axios.get(`${base}/demands/`+params.id, params);};
 export const getDemandsListPage = params => { return axios.get(`${base}/demands/list`, params);};

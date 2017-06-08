@@ -4,7 +4,7 @@
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
-					<el-input v-model="filters.goodsName" placeholder="商品名称"></el-input>
+					<el-input v-model="filters.goodsName" placeholder="需求简称"></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="getList">查询</el-button>
@@ -20,11 +20,10 @@
 		<el-table :data="demands" highlight-current-row v-loading="listLoading" style="width: 100%;">
 	
     <el-table-column type="index" width="60">    </el-table-column>
-    <el-table-column prop="demand" label="需求名称" width="120" >    </el-table-column>
+    <el-table-column prop="demand" label="需求名称"  >    </el-table-column>
     <el-table-column prop="type" label="需求类型" width="100" :formatter="formatSex" >    </el-table-column>
-    <el-table-column prop="deadline" label="截止日期" width="120" :formatter="formatDate"  sortable>    </el-table-column>
-    <el-table-column prop="price" label="价格(单位：元)" width="120" sortable>   元 </el-table-column>
-    <el-table-column prop="name" label="联系人" min-width="180" >    </el-table-column>
+    <el-table-column prop="deadline" label="截止日期" width="120" :formatter="formatDate" sortable >    </el-table-column>
+    <el-table-column prop="price" label="价格(单位：元)"  >   元 </el-table-column>
     <el-table-column inline-template :context="_self" label="操作" width="150">
     	<span>
       	<el-button size="small" @click="handleEdit(row)">编辑</el-button>
@@ -131,7 +130,7 @@ export default {
 				btnEditText: '提 交',
 				editFormRules: {
 					demand: [
-						{ required: true, message: '请输入姓名', trigger: 'blur' }
+						{ required: true, message: '请输入简称', trigger: 'blur' }
 					]
 				}
 
@@ -147,7 +146,7 @@ export default {
       	return row.goodsType == 1 ? '正常' : row.goodsType == 2 ? '热卖' : row.goodsType == 3 ? '即将上市' : '未知';
     },
     formatDate: function(row,column){
-    	return (new Date(row.goodsDate)).toLocaleDateString();
+    	return (new Date(row.deadline)).toLocaleDateString();
     },
 
 
