@@ -55,7 +55,7 @@ public interface UserService {
 	 * @return
 	 */
 	@Transactional
-	public User updateDemands(User user,Demand demand);
+	public User updateDemands(User user,List<Demand> demand);
 	@Transactional
 	public User isSign(String username);
 }

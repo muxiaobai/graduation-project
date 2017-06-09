@@ -77,11 +77,12 @@ public class UserServiceImpl implements UserService{
 		return userDao.findByUsername( username);
 	}
 	@Override
-	public User updateDemands(User user, Demand demand) {
+	public User updateDemands(User user, List<Demand> demand) {
 		User user2 =userDao.findOne(user.getId());
 		List<Demand>  demands = user2.getDemands();
-		demands.add(demand);
+		demands.addAll(demand);
 		user2.setDemands(demands);
+		System.out.println(demands);
 		userDao.save(user2);
 		return userDao.findOne(user.getId());
 	}

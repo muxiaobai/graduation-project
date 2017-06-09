@@ -47,7 +47,7 @@ public class User {
     private Date birth;
     private Integer age;
     private String addr;//默认此地址为收货地址
-    @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE }, targetEntity = Demand.class)
+    @OneToMany(fetch = FetchType.EAGER,  targetEntity = Demand.class)
     private List<Demand> demands;//我关注的需求
     public User() {
     }
@@ -118,7 +118,8 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", type=" + type
 				+ ", preferential=" + preferential + ", sex=" + sex + ", birth=" + birth + ", age=" + age + ", addr="
-				+ addr + "]";
+				+ addr + ", demands=" + demands + "]";
 	}
+
 }
 
