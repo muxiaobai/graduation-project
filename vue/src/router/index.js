@@ -41,7 +41,7 @@ export default new Router({
      //下面的是前台 route
     {
       path: '/',
-      name: '首页',
+      name: 'index',
       component: Index,
       hidden: true,
       children:[

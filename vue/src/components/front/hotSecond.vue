@@ -17,7 +17,9 @@
 						<span class="label-mod label-border-blue">货源充足</span>
 						<span class="label-mod label-orange">新人专享</span>
 						<span class="label-mod">{{item.price}}元/份</span>
-						<button class="label-mod label-orange" @click.native='addMyDemandsClick(item.id)'>关注该需求</button>
+						<mt-button  class="label-mod label-orange" size='small' 
+						type="default" @click.native='addMyDemandsClick(item.id)'>
+							{{btnstr}}</mt-button>
 					</div>
 				
 			</li>
@@ -37,7 +39,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import {getDemandsOne,getDemandsListPage} from '../../services/api/api'
-import {userLogin,addUser,addMyDemands} from '../../services/api/api'
+import {userLogin,addUser,addMyDemands,getUser} from '../../services/api/api'
 import { MessageBox } from 'mint-ui';
 export default {
     data () {
@@ -48,7 +50,8 @@ export default {
             loginForm:{
             	username:'',
             	password:''
-            }
+            },
+            btnstr:'关注该需求'
         }
     },
     watch:{
@@ -68,28 +71,28 @@ export default {
                 this.pushDemandsList({lists:data});
             })
         },
+        as:function(){
+        	console.log("aaaa");
+        },
         addMyDemandsClick: function(id){
-        	console.log(id);
     		if(this.islogin){
+				if(this.haveDemands(id)){
+					MessageBox('提示','此需求已经关注');
+					return;
+				}
 		    	MessageBox({
 				  title: '提示',
 				  message: '确定关注?',
 				  showCancelButton: true
 				}).then(action=>{
 					let params = {
-	        			user:{id :this.$store.state.user.id,
-		        		demand:[{id:1}]
-	        			},
+	        			id :this.$store.state.user.id,
+		        		demands:[{id:id}]
 	    			 };
-		           
-					if(this.haveDemands(params)){
-						MessageBox('提示','此需求已经关注');
-						return;
-					}
 					 addMyDemands(params).then(res=>{
-		            	console.log(res);	
-		            	this.Cartdisabled = true;
-						this.CartBtnStr = '已收藏';
+						this.btnstr = '已关注';
+		            }).catch(e=>{
+		            	MessageBox('提示','此需求已经关注');
 		            });
 					
 				});
@@ -97,8 +100,16 @@ export default {
 				this.loginVisible = true;
 			}
         },
-        haveDemands : function(params){
-        	console.log(params);
+        haveDemands : function(id){
+			let params = {id :this.$store.state.user.id};
+        	getUser(params).then(res=>{
+        			let data = res.data.data.demands;
+        			for(let item in data){
+        				if(item.id == id){
+        					return true;
+        				}
+        			}
+        	});
         	return false;
         },
         login : function(){
