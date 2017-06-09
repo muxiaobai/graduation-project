@@ -74,7 +74,6 @@ export default {
       'showCityList',
       'storeUser',
       'pushComingList',
-      'pushGoodsList'
     ]),
     moveTab (event) {
       event.target.getAttribute('hot') ? this.selectHotTab() : this.slectComingTab()
@@ -134,7 +133,6 @@ export default {
         this.offset = this.offset + this.limit;
         this.page = this.page +1;
         console.log(this.loadingLists);
-        this.pushGoodsList({lists:this.loadingLists});
         this.pushComingList({lists: this.comingLists});
       });
      
@@ -144,7 +142,6 @@ export default {
   },
   created:function(){ 
      this.getList();
-     this.pushGoodsList({lists:this.loadingLists});
      this.pushComingList({lists: this.comingLists})
      this.completeLoad();
   }

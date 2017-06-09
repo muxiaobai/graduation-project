@@ -31,7 +31,8 @@ export default {
       console.log("route已经改变");
       let path = this.$route.path;
     //  console.log(path);
-      if (path === '/main' || path === '/login' || path === '/goodslist' || path == '/userlist'|| path == '/orderlist') {
+      if (path === '/main' || path === '/login' || path === '/goodslist'
+      || path == '/userlist'|| path == '/orderlist'|| path == '/messagelist') {
         this.showNav = false
       } else {
         this.showNav = true

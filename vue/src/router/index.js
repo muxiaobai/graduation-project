@@ -18,6 +18,7 @@ import hotSecond from 'components/front/hotSecond'
 import Myself from 'components/front/Myself'
 import NoData from 'components/front/NoData'
 import AgriculturalProductsDetail from 'components/front/AgriculturalProductsDetail'
+import DemandDetail from 'components/front/DemandDetail'
 //import {OrderList,GoodsList,UserList} from 'components/center'
 import Parent from 'components/ChildParent/Parent'
 Vue.use(Router)
@@ -40,12 +41,12 @@ export default new Router({
      //下面的是前台 route
     {
       path: '/',
-      name: '首页',
+      name: 'index',
       component: Index,
       hidden: true,
       children:[
       {
-        path: '/',
+        path: 'seco',
         name: 'hot',
         component: Hot
       },
@@ -60,10 +61,22 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: Index,
-      hidden: true
+      hidden: true,
+      children:[
+      {
+        path: 'seco',
+        name: 'hot',
+        component: Hot
+      },
+      {
+        path: 'first',
+        name: 'first',
+        component: Hot
+      }
+      ]
       
     },
-      {
+    {
       path: '/hotsecond',
       name: 'hotsecond',
       component: hotSecond,
@@ -74,6 +87,19 @@ export default new Router({
       path : '/goods/detail/:id',
       name: 'detail',
       component : AgriculturalProductsDetail,
+      children:[
+      {
+        path: '/goods/detail/:id',
+        name: 'hotEvaluation',
+        component: hotEvaluation
+      }
+      ],
+      hidden : true
+    },
+    {
+      path : '/demand/detail/:id',
+      name: 'demanddetail',
+      component : DemandDetail,
       children:[
       {
         path: '/goods/detail/:id',

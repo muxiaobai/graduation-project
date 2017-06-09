@@ -48,7 +48,7 @@ const city = {
 const coming = {
 	state: {
 		lists: [],
-		goods:[]
+		demands:[]
 	},
 	mutations: comingMutations
 }

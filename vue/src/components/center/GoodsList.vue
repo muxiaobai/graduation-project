@@ -23,8 +23,8 @@
     <el-table-column prop="goodsName" label="产品名称" width="120" >    </el-table-column>
     <el-table-column prop="goodsType" label="类型" width="100" :formatter="formatSex" >    </el-table-column>
     <el-table-column prop="goodsDate" label="生产日期" width="120" :formatter="formatDate"  sortable>    </el-table-column>
-    <el-table-column prop="goodsPrice" label="价格(单位：元)" width="120" sortable>   元 </el-table-column>
-    <el-table-column prop="goodsIntro" label="简介" min-width="180" >    </el-table-column>
+    <el-table-column prop="goodsPrice" label="价格(单位：元)" width="140" sortable>   元 </el-table-column>
+    <el-table-column prop="goodsIntro" label="简介" min-width="150" >    </el-table-column>
     <el-table-column inline-template :context="_self" label="操作" width="150">
     	<span>
       	<el-button size="small" @click="handleEdit(row)">编辑</el-button>

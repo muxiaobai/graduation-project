@@ -2,7 +2,7 @@
   <footer :class="{showNav:footer,'go-back': !showNav}">
   	<section class="footer mint-1px-t" v-show="showNav">
 	  	<nav class="nav nav-movie" :class="{'cur-page': route === '/'}">
-	  		<router-link to="/">
+	  		<router-link to="/index">
 	  			<div class="nav-icon">
 	  				<img v-show="route !== '/'" src="../../assets/images/hno.svg" alt="">
 	  				<img v-show="route === '/'" src="../../assets/images/hok.svg" alt="">
@@ -34,7 +34,9 @@
 <script>
 export default{
   data:function (){
-	return {}
+	return {
+		
+	}
   },
   props: {
   	'showNav': {

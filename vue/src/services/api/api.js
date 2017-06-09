@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base = 'http://8188025b.ngrok.io/rest';
+let base = 'http://3edc1907.ngrok.io/rest';
 
 //export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 export const requestLogin = params => { return axios.post(`${base}/users/adminlogin`, params);};
@@ -54,3 +54,11 @@ export const getOrderComment = params =>{return axios.post(`${base}/comments/ord
 //export const getCartListPage = params => { return axios.get(`${base}/carts/list`, params);};
 //export const getMyCart = params => { return axios.get(`${base}/carts/mylist/`+params.id, params);};
 
+//发布需求，消息
+export const addDemands = params => { return axios.post(`${base}/demands/add`, params);};
+
+export const editDemands = params => { return axios.put(`${base}/demands/`+params.id, params);};
+export const removeDemands = params => { return axios.delete(`${base}/demands/`+params.id, params);};
+export const getDemandsOne = params => { return axios.get(`${base}/demands/`+params.id, params);};
+export const getDemandsListPage = params => { return axios.get(`${base}/demands/list`, params);};
+export const addMyDemands = params => { return axios.put(`${base}/users/mydemands/`+params.id, params);};

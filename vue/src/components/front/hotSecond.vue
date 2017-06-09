@@ -1,31 +1,159 @@
 <template>
 	<section class="cinema-box" style="margin-top: 40px; background: #fff">
 		<ul class="cm-item">
-			<li v-for="item in $store.state.coming.goods">
-				<router-link :to="{ name: 'detail', params: { id: item.id }}">
+			<li v-for="item in demands">
+				<!--<router-link :to="{ name: 'demanddetail', params: { id: item.id }}">
+					</router-link>
+				-->	
 					<div class="cm-name">
-						<span class="tddd vm">{{ item.goodsName }}</span>
-						<span class="k-mode vm" v-show="item.goodsType === '1'">1厅</span>
-						<span class="k-mode vm" v-show="item.goodsType === '2'">2厅</span>
-						<span class="k-mode vm" v-show="item.goodsType === '3'">3厅</span>
+						<span class="tddd vm">{{ item.demand }}</span>
+						<span class="k-mode vm" v-show="item.type === '1'">急需</span>
+						<span class="k-mode vm" v-show="item.type === '2'">常规</span>
+						<span class="k-mode vm" v-show="item.type === '3'">长久需求</span>
 					</div>
-					<p class="cm-address tddd">{{ item.goodsIntro }}</p>
+					<p class="cm-address tddd">截止时间：{{ new Date(item.deadline).toLocaleDateString()   }}</p>
+					<p class="cm-address tddd">{{ item.detail }}</p>
 					<div class="cm-welfare">
 						<span class="label-mod label-border-blue">货源充足</span>
 						<span class="label-mod label-orange">新人专享</span>
-						<span class="label-mod">{{item.goodsPrice}}元/份</span>
+						<span class="label-mod">{{item.price}}元/份</span>
+						<mt-button  class="label-mod label-orange" size='small' 
+						type="default" @click.native='addMyDemandsClick(item.id)'>
+							{{btnstr}}</mt-button>
 					</div>
-				</router-link>	
+				
 			</li>
 		</ul>
 		<div style="height: 60px; background: #f5f5f5"></div>
+		<mt-popup  v-model="loginVisible" position="center" >
+          <el-form :model="loginForm" label-width="80px" ref="loginForm">
+          <mt-field label="用户名" placeholder="请输入用户名" v-model="loginForm.username"></mt-field>
+          <mt-field label="密码" placeholder="请输入密码" type="password" v-model="loginForm.password"></mt-field>
+            <el-button type="primary" @click.native="cancel">取消</el-button>
+            <el-button class='' type="primary" @click.native="login">登录</el-button>
+           <el-button class='fr' type="primary" @click.native="signin">注册</el-button>
+          </el-form>
+        </mt-popup>
 	</section>
 </template>
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+import {getDemandsOne,getDemandsListPage} from '../../services/api/api'
+import {userLogin,addUser,addMyDemands,getUser} from '../../services/api/api'
+import { MessageBox } from 'mint-ui';
 export default {
     data () {
+        return {
+        	islogin:this.$store.state.user.login,
+            demands:[],
+            loginVisible:false,
+            loginForm:{
+            	username:'',
+            	password:''
+            },
+            btnstr:'关注该需求'
+        }
+    },
+    watch:{
+	     '$store.state.user.login' :function(){
+    	  this.islogin = this.$store.state.user.login;
+		}
+    },
+    methods: {
+        ...mapMutations([
+          'pushDemandsList',
+		  'storeUser'
+        ]),
+        pushStore: function(){
+            getDemandsListPage().then(res=>{
+                let data = res.data.data.content;
+                this.demands = data;
+                this.pushDemandsList({lists:data});
+            })
+        },
+        as:function(){
+        	console.log("aaaa");
+        },
+        addMyDemandsClick: function(id){
+    		if(this.islogin){
+				if(this.haveDemands(id)){
+					MessageBox('提示','此需求已经关注');
+					return;
+				}
+		    	MessageBox({
+				  title: '提示',
+				  message: '确定关注?',
+				  showCancelButton: true
+				}).then(action=>{
+					let params = {
+	        			id :this.$store.state.user.id,
+		        		demands:[{id:id}]
+	    			 };
+					 addMyDemands(params).then(res=>{
+						this.btnstr = '已关注';
+		            }).catch(e=>{
+		            	MessageBox('提示','此需求已经关注');
+		            });
+					
+				});
+	    	}else{
+				this.loginVisible = true;
+			}
+        },
+        haveDemands : function(id){
+			let params = {id :this.$store.state.user.id};
+        	getUser(params).then(res=>{
+        			let data = res.data.data.demands;
+        			for(let item in data){
+        				if(item.id == id){
+        					return true;
+        				}
+        			}
+        	});
+        	return false;
+        },
+        login : function(){
+	        let params = {
+	          username : this.loginForm.username,
+	          password : this.loginForm.password,
+	        }
+	        userLogin(params).then(res =>{
+	          let data = res.data;
+	          if(data.islogin){
+	            this.storeUser({user:res.data.data});
+	            this.loginVisible =false;
+	            this.demands = data.data.demands;
+	          }else{
+	            MessageBox.alert("账号密码错误", "登录失败");
+	          }
+	        });
+    	 },
+    	 signin:function(){
+			let params = {
+			  username : this.loginForm.username,
+			  password : this.loginForm.password,
+			};
+			addUser(params).then(res =>{
+			  let data = res.data;
+			  console.log(data);
+			  this.storeUser({user:res.data.data});
+			  this.loginVisible =false;
+			  MessageBox.alert("您已注册成功", "注册成功");
+			});
+		},
+    	 cancel :function(){
+    	  this.loginVisible =false;
+    	 },
     },
     created:function(){
+        this.pushStore();
+        this.islogin = this.$store.state.user.login;
+	     if(this.islogin){
+	       this.loginVisible =false;
+	     }else{
+	       this.loginVisible =true;
+	       this.btnEditText = '登录';
+	     }
        // console.log(this.$store.state.coming.goods);
     }
     
