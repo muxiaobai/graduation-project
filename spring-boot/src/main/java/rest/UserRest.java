@@ -126,7 +126,7 @@ public class UserRest {
         returnValue.clear();
         user.setId(id);
         System.out.println("==============="+user);
-        userService.update(user);
+        userService.updateDemands(user, user.getDemands());
         returnValue.put("code", 200);
         returnValue.put("msg", "success");
         returnValue.put("action", "put update");
