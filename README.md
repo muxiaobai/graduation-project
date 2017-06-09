@@ -10,3 +10,5 @@
  git push origin master:vue
  
  因为分为两个项目，需要分别提交，功能完成后，再合并到主分支。
+ 
+ 运行步骤，安装gradle3.4，java1.8 node4.6, nginx 切入spring-boot 编译后端项目后，通过java -jar运行编译的jar包，切入到vue编译前端页面，之后把编译后的页面，放到nginx中，启动nginx，访问即可。
