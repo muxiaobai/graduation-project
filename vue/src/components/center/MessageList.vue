@@ -67,7 +67,7 @@
 			<el-input-number v-model="editForm.num" :min="1" :max="1100"></el-input-number>
 		</el-form-item>
 		<el-form-item label="截止日期">
-			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.deanline"></el-date-picker>
+			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.deadline"></el-date-picker>
 		</el-form-item>
 		<el-form-item label="联系人" prop="name">
 			<el-input v-model="editForm.name" auto-complete="off"></el-input>
@@ -177,7 +177,7 @@ export default {
 		this.editForm.addr = '';
 		this.editForm.num = 100;
 		this.editForm.detail = '';
-		this.editForm.deadline = new Date();
+		this.editForm.deadline = (new Date()).toLocaleDateString();
 	},
     handleDel: function(row) {
       	var _this = this;

@@ -4,7 +4,7 @@
   		<mt-cell title="我的资料" is-link value="" @click.native="showMyDetail"></mt-cell>
   		<mt-cell title="我的收藏"  is-link value="" @click.native="showMyCarts"></mt-cell>
   		<mt-cell title="我的订单"  is-link value="" @click.native="showMyOrders"></mt-cell>
-  		<mt-cell title="我的关注的需求"  is-link value="" @click.native="showMyDemands"></mt-cell>
+  		<mt-cell title="关注的需求"  is-link value="" @click.native="showMyDemands"></mt-cell>
   		<mt-cell title="我的优惠" to="/no" is-link value=""> </mt-cell>
   		<mt-cell title="帮助中心" to="/no" is-link value=""></mt-cell>
   	</section>
@@ -32,28 +32,24 @@
         <mt-popup  v-model="OrderVisible" position="center">
           <table>
               <tr>
-                <th>订单号</th>
-                <th>商品名</th>
-                <th>总额</th>
+                <th>订单号&nbsp;&nbsp; 商品名 &nbsp;&nbsp;总额 </th>
                 <th>操作</th>
               </tr>
             <tr  v-for='order in orders'>
               <router-link :to="{ name: 'detail', params: { id: order.goods.id }}">
-                <td>{{order.id}}</td>
-                <td>{{order.goods.goodsName}}</td>
-                <td>总额{{order.total}}元</td>
+                <td>&nbsp;&nbsp;{{order.id}}&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;{{order.goods.goodsName}}&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;总额{{order.total}}元</td>
                </router-link>
-              <td><mt-button @click.native="ClickComment(order.id,order.goods.id)"size="small" type = "primary">请评论</mt-button></td>
+              <td><mt-button  @click.native="ClickComment(order.id,order.goods.id)"size="small" type = "primary">评论</mt-button></td>
             </tr>
             </table>
         </mt-popup>
         <mt-popup  v-model="CartVisible" position="center">
             <mt-cell  v-for='cart in carts'>
               <router-link :to="{ name: 'detail', params: { id: cart.goods.id }}">
-              {{cart.id}}
-              {{cart.goods.goodsName}}
+              {{cart.goods.goodsName}}&nbsp;&nbsp;
               {{cart.goods.goodsIntro}}
-                
               </router-link>
             </mt-cell>
         </mt-popup>
@@ -63,6 +59,16 @@
             <el-button type="default" @click.native="CommentVisible=false">取消</el-button>
             <el-button type="primary" @click.native="addComment">提交</el-button>
             </el-form>
+        </mt-popup>
+        <mt-popup  v-model="DemandVisible" position="center">
+            <mt-cell  v-for='demand in $store.state.user.user.demands'>
+                <router-link :to="{ name: 'hotsecond' }">
+            <!--   <router-link :to="{ name: 'demanddetail', params: { id: demand.id }}"> --> 
+              {{demand.demand}}&nbsp;&nbsp;
+              {{demand.name}}&nbsp;&nbsp;
+              {{demand.tel}} 
+              </router-link>
+            </mt-cell>
         </mt-popup>
      </section>
 	</section>
@@ -95,6 +101,8 @@ export default {
       	  content:'',
       	  createDate:(new Date()).toLocaleDateString()
       	},
+      	DemandVisible:false,
+      	demands:[],
 				editForm: {
     			username: '',
           email:'',
@@ -116,7 +124,8 @@ export default {
   },
   watch:{
     '$store.state.user.login' :function(){
-      this.islogin = this.$store.state.user.login;
+       this.islogin = this.$store.state.user.login;
+       this.demands = this.$store.state.user.user.demands;
       }
   },
   methods:{
@@ -224,6 +233,14 @@ export default {
       cancel :function(){
         this.loginVisible =false;
       },
+      showMyDemands:function(){
+         if(this.islogin){
+          this.DemandVisible =true;
+        }else{
+          this.loginVisible =true;
+          this.btnEditText = '登录';
+        }
+      },
       login : function(){
         let params = {
           username : this.loginForm.username,
@@ -234,6 +251,7 @@ export default {
           if(data.islogin){
             this.storeUser({user:res.data.data});
             this.loginVisible =false;
+            this.demands = data.data.demands;
           }else{
             MessageBox.alert("账号密码错误", "登录失败");
           }
@@ -266,6 +284,7 @@ export default {
      this.islogin = this.$store.state.user.login;
      if(this.islogin){
        this.loginVisible =false;
+       this.demands = this.$store.state.user.user.demands;
      }else{
        this.loginVisible =true;
        this.btnEditText = '登录';
